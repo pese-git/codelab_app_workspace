@@ -126,7 +126,7 @@ context.go('/session/$newSessionId');
 | Navigate to session | ✅ | ✅ | Переход к сессии |
 | Navigate back home | ✅ | ✅ | Возврат на home |
 | Deep link | ❌ | ✅ | Прямая ссылка на сессию |
-| Back/forward history | ❌ | ✅ | История браузера |
+| Back/forward history | ✅ | ✅ | История через HistoryController |
 | Redirect on error | ❌ | ✅ | Редирект при ошибке |
 
 ---
@@ -160,12 +160,23 @@ class CodeLabAppController extends ChangeNotifier {
 - Session route с параметром
 - Reactive refresh
 - Базовая навигация
+- Back/forward история (HistoryController)
+
+### HistoryController API
+```dart
+class HistoryController {
+  bool get canBack;      // Можно ли вернуться назад
+  bool get canForward;   // Можно ли перейти вперёд
+  void back();           // Переход назад
+  void forward();        // Переход вперёд
+  Listenable get refreshListenable; // Для GoRouter refresh
+}
+```
 
 ### ❌ Не реализовано
 - Nested routes (project in URL)
 - New session route
 - Deep linking
-- Back/forward история
 - Redirect guards
 - Loading states во время навигации
 - Error boundaries
@@ -176,7 +187,7 @@ class CodeLabAppController extends ChangeNotifier {
 
 ### High Priority
 - [ ] New session route (`/session/new` или модальное создание)
-- [ ] Back/forward navigation с историей
+- [x] Back/forward navigation с историей (HistoryController)
 
 ### Medium Priority
 - [ ] Deep linking support

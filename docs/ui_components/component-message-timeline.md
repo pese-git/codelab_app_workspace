@@ -4,11 +4,13 @@
 
 Message Timeline — основная область отображения диалога между пользователем и AI:
 - Сообщения пользователя (user messages)
-- Ответы AI с markdown и инструментами
+- Ответы AI с markdown (рендерится через `flutter_markdown` / `MarkdownBody`)
 - Теги и метаданные
 - Скролл и навигация по истории
 
-**Расположение в Flutter:** [`apps/codelab_desktop/lib/app/screens/session_screen.dart`](../../apps/codelab_desktop/lib/app/screens/session_screen.dart) — секция `ListView` с `_MessageBubble`
+**Расположение в Flutter:**
+- [`apps/codelab_desktop/lib/app/widgets/message_timeline.dart`](../../apps/codelab_desktop/lib/app/widgets/message_timeline.dart) — виджет `MessageTimeline`
+- [`apps/codelab_desktop/lib/app/screens/session_screen.dart`](../../apps/codelab_desktop/lib/app/screens/session_screen.dart) — использование в `SessionScreen`
 
 **Референс OpenCode:** [`reference/opencode/packages/app/src/pages/session/message-timeline.tsx`](../../reference/opencode/packages/app/src/pages/session/message-timeline.tsx)
 
@@ -86,7 +88,7 @@ Column
 | AI message | ✅ | ✅ | Слева с текстом |
 | Streaming | ❌ | ✅ | AI печатает в реальном времени |
 | Loading history | ❌ | ✅ | Загрузка старых сообщений |
-| At bottom | ❌ | ✅ | Auto-scroll активен |
+| At bottom | ✅ | ✅ | Auto-scroll активен |
 | User scrolled | ❌ | ✅ | Auto-scroll выключен |
 | Jump to bottom | ❌ | ✅ | Кнопка перехода вниз |
 | Tool result | ❌ | ✅ | Результат инструмента |
@@ -102,12 +104,24 @@ Column
 |----------|-----|----------|
 | `message` | MessageModel | Модель сообщения |
 
-### MessageModel
+### MessageModel (workspace_models.dart)
 ```dart
 class MessageModel {
   final String role; // 'user' | 'assistant'
   final String body;
   final List<String> tags;
+}
+```
+
+### Message / MessageRole (message_timeline.dart)
+```dart
+enum MessageRole { user, assistant }
+
+class Message {
+  final String id;
+  final MessageRole role;
+  final String content;
+  final DateTime timestamp;
 }
 ```
 
@@ -194,7 +208,7 @@ font-mono
 | Действие | Flutter | OpenCode |
 |----------|---------|----------|
 | Scroll | ✅ ListView | ✅ Custom scroll |
-| Auto-scroll to bottom | ❌ | ✅ createAutoScroll |
+| Auto-scroll to bottom | ✅ | ✅ createAutoScroll |
 | Jump to bottom button | ❌ | ✅ When scrolled up |
 | Load more history | ❌ | ✅ Scroll to top |
 | Copy message | ❌ | ✅ Context menu |

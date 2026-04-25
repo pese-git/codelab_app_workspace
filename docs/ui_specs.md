@@ -71,10 +71,10 @@
 ---
 
 ## 4. Дизайн-токены (Reference)
-- **Цвета**:
-    - `Background`: `#1A1A1A`
-    - `Surface`: `#202020`
+- **Цвета (Dark Theme)**:
+    - `Background`: `#121212`
+    - `Surface`: `#1E1E1E`
     - `Accent`: `Fluent Accent Blue`
     - `TextPrimary`: `#FFFFFF`
-    - `TextSecondary`: `#8F8SSB` (исправлено на `#8F8F8B`)
+    - `TextSecondary`: `#9A9A9A` (dark) / `#8F8D88` (light)
 - **Отступы (Spacing)**: 4px, 8px, 12px, 16px, 24px.

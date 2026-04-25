@@ -2,12 +2,15 @@
 
 ## 1. Назначение и контекст
 
-Terminal Panel — область отображения терминального вывода в нижней панели сессии:
-- Текстовый вывод команд
-- История выполнения
-- (TODO) Интерактивный терминал
+Terminal Panel — полноценный PTY терминал на базе `flutter_pty` + `xterm`:
+- Интерактивный ввод/вывод команд
+- Множественные терминальные сессии
+- ANSI color support
+- Resize handling
 
-**Расположение в Flutter:** [`apps/codelab_desktop/lib/app/screens/session_screen.dart`](../../apps/codelab_desktop/lib/app/screens/session_screen.dart) — case `terminal` в `_BottomPanelBody`
+**Расположение в Flutter:**
+- [`apps/codelab_desktop/lib/app/widgets/terminal_panel.dart`](../../apps/codelab_desktop/lib/app/widgets/terminal_panel.dart) — виджет `TerminalPanel`
+- [`apps/codelab_desktop/lib/app/state/app_controller.dart`](../../apps/codelab_desktop/lib/app/state/app_controller.dart) — `TerminalSessionController` (управление сессиями)
 
 **Референс OpenCode:** [`reference/opencode/packages/app/src/pages/session/terminal-panel.tsx`](../../reference/opencode/packages/app/src/pages/session/terminal-panel.tsx)
 
@@ -40,11 +43,11 @@ Padding
 |-----------|---------|----------|----------|
 | Empty | ❌ | ✅ | Нет вывода |
 | With output | ✅ | ✅ | Есть текст |
-| Running | ❌ | ✅ | Команда выполняется |
-| Completed | ❌ | ✅ | Команда завершена |
-| Error | ❌ | ✅ | Ошибка выполнения |
-| Multiple tabs | ❌ | ✅ | Несколько терминалов |
-| Focused | ❌ | ✅ | Терминал в фокусе |
+| Running | ✅ | ✅ | Команда выполняется |
+| Completed | ✅ | ✅ | Команда завершена |
+| Error | ✅ | ✅ | Ошибка выполнения (с retry) |
+| Multiple tabs | ✅ | ✅ | Несколько терминалов (TerminalSessionController) |
+| Focused | ✅ | ✅ | Терминал в фокусе |
 | Scrolled | ❌ | ✅ | Прокручен вверх |
 
 ---
@@ -149,19 +152,18 @@ Terminal Panel не влияет на маршрутизацию.
 ## 9. Паритет с reference/opencode
 
 ### ✅ Реализовано
-- Отображение текстового вывода
+- Полноценный PTY терминал (flutter_pty + xterm)
+- Input handling
+- ANSI colors
+- Multiple terminals (TerminalSessionController)
+- Terminal tabs
+- Copy/paste
+- Resize handling
 - Monospace шрифт
 
 ### ❌ Не реализовано
-- Интерактивный терминал (xterm.js эквивалент)
-- Input handling
-- ANSI colors
-- Multiple terminals
-- Terminal tabs
-- Copy/paste
-- Clear
 - Search
-- Resize
+- Clear command
 
 ---
 

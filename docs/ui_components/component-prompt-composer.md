@@ -12,7 +12,8 @@ Prompt Composer — многофункциональная область вво
 Используется на Home Screen и Session Screen.
 
 **Расположение в Flutter:**
-- Home: [`apps/codelab_desktop/lib/app/screens/home_screen.dart`](../../apps/codelab_desktop/lib/app/screens/home_screen.dart) — `_PromptComposer`
+- [`apps/codelab_desktop/lib/app/widgets/prompt_composer.dart`](../../apps/codelab_desktop/lib/app/widgets/prompt_composer.dart) — основная реализация `PromptComposer`
+- Home: [`apps/codelab_desktop/lib/app/screens/home_screen.dart`](../../apps/codelab_desktop/lib/app/screens/home_screen.dart) — inline `_PromptComposer`
 - Session: [`apps/codelab_desktop/lib/app/screens/session_screen.dart`](../../apps/codelab_desktop/lib/app/screens/session_screen.dart) — `_ComposerPanel`
 
 **Референс OpenCode:** [`reference/opencode/packages/app/src/components/prompt-input/*.tsx`](../../reference/opencode/packages/app/src/components/prompt-input/)
@@ -73,11 +74,11 @@ Container
 | Состояние | Flutter | OpenCode | Описание |
 |-----------|---------|----------|----------|
 | Empty | ✅ | ✅ | Placeholder текст |
-| With text | ❌ (статичный) | ✅ | Введенный текст |
+| With text | ✅ | ✅ | Введенный текст (TextEditingController) |
 | With attachments | ❌ | ✅ | Chips файлов |
 | With context | ❌ | ✅ | Context chips |
-| Focused | ❌ | ✅ | Focus ring |
-| Sending | ❌ | ✅ | Loading state |
+| Focused | ✅ | ✅ | Focus ring (FocusNode) |
+| Sending | ✅ | ✅ | Loading state |
 | Disabled | ❌ | ✅ | Disabled UI |
 | Slash command open | ❌ | ✅ | Popover с командами |
 | Drag over | ❌ | ✅ | Drop zone highlight |
@@ -88,10 +89,11 @@ Container
 
 ## 4. Пропсы/параметры
 
-### Flutter (_PromptComposer)
+### Flutter (PromptComposer / _PromptComposer)
 | Параметр | Тип | Описание |
 |----------|-----|----------|
 | `placeholder` | String | Placeholder текст |
+| `onSend` | OnSendMessage | Колбэк отправки сообщения |
 
 ### Зависимости от контроллера
 | Поле/метод | Тип | Описание |
@@ -193,7 +195,7 @@ bg-surface-subtle
 
 | Действие | Flutter | OpenCode |
 |----------|---------|----------|
-| Type text | ❌ (статичный) | ✅ Controlled input |
+| Type text | ✅ TextEditingController | ✅ Controlled input |
 | Paste text | ❌ | ✅ |
 | Paste file | ❌ | ✅ Auto-attach |
 | Drop file | ❌ | ✅ Drag-drop |
@@ -205,7 +207,14 @@ bg-surface-subtle
 | @ mention | ❌ | ✅ File mention |
 | Remove attachment | ❌ | ✅ Chip X button |
 | Auto-resize | ❌ | ✅ |
-| Enter to send | ❌ | ✅ Mod+Enter |
+| Enter to send | ✅ | ✅ Mod+Enter |
+
+### Хоткеи (Flutter)
+| Keybind | Действие |
+|---------|----------|
+| `Cmd/Ctrl+Enter` | Отправить сообщение |
+| `Enter` | Отправить сообщение |
+| `Shift+Enter` | Перевод строки |
 
 ### Хоткеи (OpenCode)
 | Keybind | Действие |

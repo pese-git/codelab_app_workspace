@@ -52,10 +52,10 @@ FluentThemeData buildAppTheme() {
 ## 3. Цветовая палитра
 
 ### Backgrounds
-| Token | Flutter | OpenCode | Использование |
-|-------|---------|----------|---------------|
-| Background Base | `#F7F6F3` | `--background-base` | Основной фон |
-| Surface Base | `#FFFFFF` | `--surface-base` | Карточки, панели |
+| Token | Flutter Light | Flutter Dark | Использование |
+|-------|---------------|--------------|---------------|
+| Background Base | `#F7F6F3` | `#121212` | Основной фон |
+| Surface Base | `#FFFFFF` | `#1E1E1E` | Карточки, панели |
 | Surface Subtle | `#F5F4F1` | `--surface-subtle` | Search boxes |
 | Surface Accent | `#F4F3EF` | `--surface-accent` | Selected items |
 
@@ -71,7 +71,7 @@ FluentThemeData buildAppTheme() {
 |-------|---------|----------|---------------|
 | Text Strong | `#252522` | `--text-strong` | Заголовки |
 | Text Base | `#2E2D29` | `--text-base` | Основной текст |
-| Text Weak | `#8F8D88` | `--text-weak` | Вторичный текст |
+| Text Weak (secondary) | `#8F8D88` (light) / `#9A9A9A` (dark) | `--text-weak` | Вторичный текст |
 | Text Muted | `#9A9A96` | `--text-muted` | Placeholder |
 
 ### Accents

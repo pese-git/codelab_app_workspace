@@ -65,6 +65,7 @@ Center
 | Edit Project | `AppDialog.editProject` | Редактирование проекта |
 | Fork Session | `AppDialog.forkSession` | Форк сессии |
 | Command Palette | `AppDialog.commandPalette` | Палитра команд |
+| Release Notes | `AppDialog.releaseNotes` | Примечания к релизу |
 
 ---
 
@@ -116,6 +117,7 @@ enum AppDialog {
   forkSession,
   help,
   commandPalette,
+  releaseNotes,
 }
 ```
 

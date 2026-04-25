@@ -68,6 +68,8 @@ switch (sessionTab):
 - `review-tab.tsx` — review items с diff view
 - `terminal-panel.tsx` — полноценный терминал с xterm.js
 
+**Примечание:** Для вкладки terminal может использоваться полноценный `TerminalPanel` (PTY), управляемый `TerminalSessionController` из [`app_controller.dart`](../../apps/codelab_desktop/lib/app/state/app_controller.dart).
+
 ---
 
 ## 3. Состояния/варианты

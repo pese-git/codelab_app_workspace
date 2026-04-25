@@ -95,7 +95,8 @@ _WorkspaceNodeRow
 class WorkspaceNode {
   final String id;
   final String label;
-  final bool isFolder;
+  final String kind;  // Тип узла (file, folder, etc.)
+  bool get isFolder;  // Getter: вычисляется по наличию children
   final List<WorkspaceNode> children;
   final String? badge;
 }

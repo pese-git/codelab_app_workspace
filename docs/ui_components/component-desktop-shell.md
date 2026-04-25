@@ -198,6 +198,7 @@ Desktop Shell содержит `DialogHost` (в Flutter это в `app.dart`), �
 - Sidebar collapse/expand
 - Context panel toggle
 - Bottom panel toggle
+- История навигации через HistoryController (canBack, canForward, back, forward)
 
 ### ⚠️ Частично
 - Sidebar panel (базовая структура, без всех фич)
