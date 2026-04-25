@@ -40,7 +40,8 @@ class _CodeLabAppBootstrapState extends State<CodeLabAppBootstrap> {
       child: FluentApp.router(
         title: 'CodeLab Desktop',
         debugShowCheckedModeBanner: false,
-        themeMode: ThemeMode.dark,
+        themeMode: ThemeMode.light,
+        theme: buildAppTheme(),
         darkTheme: buildAppTheme(),
         routerConfig: _router,
         builder: (context, child) {

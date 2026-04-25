@@ -9,9 +9,9 @@ WorkspaceData buildMockWorkspace() {
     projects: [
       ProjectModel(
         id: 'project-codelab',
-        name: 'CodeLab Desktop',
-        path: '~/Projects/OpenIdeaLab/CodeLab',
-        initials: 'CL',
+        name: 'acp-protocol',
+        path: '~/Projects/OpenIdeaLab/CodeLab/acp-protocol',
+        initials: 'A',
         color: 0xFF4F8CFF,
         workspaceRoots: [
           WorkspaceNode(
@@ -44,8 +44,8 @@ WorkspaceData buildMockWorkspace() {
         sessions: [
           SessionModel(
             id: 'session-shell',
-            title: 'Desktop shell parity',
-            branchName: 'codex/desktop-shell',
+            title: 'Greeting in Russian conversation context',
+            branchName: 'local/master',
             updatedLabel: '2 min ago',
             status: 'In progress',
             messages: [
@@ -54,7 +54,7 @@ WorkspaceData buildMockWorkspace() {
                 author: 'You',
                 role: 'user',
                 timestamp: '19:54',
-                body: 'Изучи IMPLEMENTATION_PLAN и действуй по плану.',
+                body: 'Привет',
                 tags: const ['plan', 'flutter'],
               ),
               MessageModel(
@@ -62,8 +62,7 @@ WorkspaceData buildMockWorkspace() {
                 author: 'Codex',
                 role: 'assistant',
                 timestamp: '19:56',
-                body:
-                    'Собрал reference-карту UI: home, sidebar shell, session layout, dialogs и secondary panels. Дальше переношу shell и базовую навигацию во Flutter.',
+                body: 'Привет! Чем могу помочь?',
                 tags: const ['audit'],
               ),
               MessageModel(
@@ -72,25 +71,25 @@ WorkspaceData buildMockWorkspace() {
                 role: 'assistant',
                 timestamp: '20:03',
                 body:
-                    'Скелет готов: rail, workspace sidebar, session view, prompt composer, file/review/terminal regions и правая панель теперь живут на общем mock state.',
+                    'Прочитал. Это README проекта CodeLab — унифицированная реализация Agent Client Protocol (ACP). Включает сервер с AI-агентом, TUI-клиент и Web UI на Python 3.12+.\n\nДля запуска: cd codelab && uv sync, затем uv run codelab serve --port 8080.\n\nЧем могу помочь?',
                 tags: const ['state', 'ui'],
               ),
             ],
             fileItems: [
               FileItem(
-                path: 'lib/app/shell/desktop_shell.dart',
-                summary: 'Main multi-pane shell with custom title bar',
-                status: 'edited',
+                path: '.pytest_cache',
+                summary: 'cache',
+                status: '',
               ),
               FileItem(
-                path: 'lib/app/state/app_controller.dart',
-                summary: 'Selection, tabs, dialog routing and panel state',
-                status: 'new',
+                path: '.ruff_cache',
+                summary: 'cache',
+                status: '',
               ),
               FileItem(
-                path: 'test/widget_test.dart',
-                summary: 'Smoke test for home and session flow',
-                status: 'updated',
+                path: 'README.md',
+                summary: 'docs',
+                status: '',
               ),
             ],
             reviewItems: [

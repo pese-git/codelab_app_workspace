@@ -3,7 +3,8 @@ import 'package:flutter/foundation.dart';
 import '../models/workspace_models.dart';
 
 class CodeLabAppController extends ChangeNotifier {
-  CodeLabAppController({required WorkspaceData seedWorkspace}) : _workspace = seedWorkspace {
+  CodeLabAppController({required WorkspaceData seedWorkspace})
+    : _workspace = seedWorkspace {
     _selectedProjectId = seedWorkspace.projects.first.id;
     _selectedSessionId = seedWorkspace.projects.first.sessions.first.id;
     _selectedModel = seedWorkspace.models.first;
@@ -19,12 +20,14 @@ class CodeLabAppController extends ChangeNotifier {
 
   final WorkspaceData _workspace;
   final Set<String> _expandedNodes = <String>{};
+  final Set<String> _enabledSettings = <String>{'showProgress'};
   String _selectedProjectId = '';
   String? _selectedSessionId;
   SessionRegionTab _sessionTab = SessionRegionTab.files;
   ContextPanelTab _contextPanelTab = ContextPanelTab.details;
   bool _sidebarCollapsed = false;
   bool _contextPanelVisible = true;
+  bool _bottomPanelVisible = true;
   AppDialog? _activeDialog;
   String _selectedModel = '';
   String _selectedProvider = '';
@@ -43,11 +46,13 @@ class CodeLabAppController extends ChangeNotifier {
   ContextPanelTab get contextPanelTab => _contextPanelTab;
   bool get sidebarCollapsed => _sidebarCollapsed;
   bool get contextPanelVisible => _contextPanelVisible;
+  bool get bottomPanelVisible => _bottomPanelVisible;
   AppDialog? get activeDialog => _activeDialog;
   String get selectedModel => _selectedModel;
   String get selectedProvider => _selectedProvider;
   String get selectedMcp => _selectedMcp;
   String get selectedServer => _selectedServer;
+  bool isSettingEnabled(String key) => _enabledSettings.contains(key);
 
   ProjectModel get selectedProject =>
       projects.firstWhere((project) => project.id == _selectedProjectId);
@@ -89,7 +94,9 @@ class CodeLabAppController extends ChangeNotifier {
     if (_selectedProjectId == projectId) return;
     _selectedProjectId = projectId;
     final project = selectedProject;
-    _selectedSessionId = project.sessions.isNotEmpty ? project.sessions.first.id : null;
+    _selectedSessionId = project.sessions.isNotEmpty
+        ? project.sessions.first.id
+        : null;
     notifyListeners();
   }
 
@@ -97,7 +104,8 @@ class CodeLabAppController extends ChangeNotifier {
     if (_selectedSessionId == sessionId) return;
     _selectedSessionId = sessionId;
     final project = projects.firstWhere(
-      (candidate) => candidate.sessions.any((session) => session.id == sessionId),
+      (candidate) =>
+          candidate.sessions.any((session) => session.id == sessionId),
       orElse: () => selectedProject,
     );
     _selectedProjectId = project.id;
@@ -123,6 +131,11 @@ class CodeLabAppController extends ChangeNotifier {
 
   void toggleContextPanel() {
     _contextPanelVisible = !_contextPanelVisible;
+    notifyListeners();
+  }
+
+  void toggleBottomPanel() {
+    _bottomPanelVisible = !_bottomPanelVisible;
     notifyListeners();
   }
 
@@ -154,6 +167,15 @@ class CodeLabAppController extends ChangeNotifier {
 
   void chooseServer(String value) {
     _selectedServer = value;
+    notifyListeners();
+  }
+
+  void toggleSetting(String key) {
+    if (_enabledSettings.contains(key)) {
+      _enabledSettings.remove(key);
+    } else {
+      _enabledSettings.add(key);
+    }
     notifyListeners();
   }
 }

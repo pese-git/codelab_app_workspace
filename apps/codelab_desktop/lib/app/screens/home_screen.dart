@@ -1,9 +1,7 @@
 import 'package:fluent_ui/fluent_ui.dart';
-import 'package:go_router/go_router.dart';
 
 import '../models/workspace_models.dart';
 import '../shell/desktop_shell.dart';
-import '../state/app_controller.dart';
 import '../state/app_scope.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -12,75 +10,96 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = CodeLabAppScope.of(context);
-    final theme = FluentTheme.of(context);
+    final project = controller.selectedProject;
 
     return DesktopShell(
       title: 'Home',
       isHome: true,
-      child: Center(
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 760),
-          child: ListView(
-            padding: const EdgeInsets.all(28),
-            children: [
-              Text('OpenCode desktop replica', style: theme.typography.titleLarge),
-              const SizedBox(height: 10),
-              Text(
-                'Home view with recent projects, server controls and the same desktop chrome as the session screen.',
-                style: theme.typography.body,
-              ),
-              const SizedBox(height: 22),
-              _HomeHero(controller: controller),
-              const SizedBox(height: 22),
-              Text('Recent projects', style: theme.typography.subtitle),
-              const SizedBox(height: 12),
-              for (final project in controller.projects)
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 10),
-                  child: _RecentProjectRow(project: project),
-                ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _HomeHero extends StatelessWidget {
-  const _HomeHero({required this.controller});
-
-  final CodeLabAppController controller;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = FluentTheme.of(context);
-    return Container(
-      padding: const EdgeInsets.all(22),
-      decoration: BoxDecoration(
-        color: const Color(0xFF161C24),
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: const Color(0xFF253142)),
-      ),
-      child: Row(
+      child: Column(
         children: [
           Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('Server: ${controller.selectedServer}', style: theme.typography.bodyStrong),
-                const SizedBox(height: 8),
-                Text(
-                  'Prototype focuses on shell parity, reusable components, navigation and modal coverage before backend hookup.',
-                  style: theme.typography.body,
-                ),
-              ],
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    width: 68,
+                    height: 68,
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: const Color(0xFF2A2420),
+                        width: 8,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 34),
+                  const Text(
+                    'Создавайте что угодно',
+                    style: TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.w700,
+                      color: Color(0xFF252522),
+                    ),
+                  ),
+                  const SizedBox(height: 30),
+                  Text(
+                    '/Users/penkovsky_sa/Projects/OpenIdeaLab/CodeLab/${project.name.toLowerCase().replaceAll(' ', '_')}',
+                    style: const TextStyle(
+                      fontSize: 16,
+                      color: Color(0xFF94928D),
+                    ),
+                  ),
+                  const SizedBox(height: 22),
+                  const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        FluentIcons.branch_fork2,
+                        size: 14,
+                        color: Color(0xFFA2A09B),
+                      ),
+                      SizedBox(width: 10),
+                      Text(
+                        'Основная ветка (master)',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Color(0xFF9A9892),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 24),
+                  const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'Последнее изменение ',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Color(0xFF9D9B96),
+                        ),
+                      ),
+                      Text(
+                        '45 минут назад',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Color(0xFF2D2D29),
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
-          const SizedBox(width: 16),
-          FilledButton(
-            onPressed: () => controller.openDialog(AppDialog.selectServer),
-            child: const Text('Switch Server'),
+          const Padding(
+            padding: EdgeInsets.fromLTRB(16, 0, 16, 14),
+            child: _PromptComposer(
+              placeholder:
+                  'Спросите что угодно... "Рефакторить эту функцию для лучшей читаемости"',
+            ),
           ),
         ],
       ),
@@ -88,61 +107,101 @@ class _HomeHero extends StatelessWidget {
   }
 }
 
-class _RecentProjectRow extends StatelessWidget {
-  const _RecentProjectRow({required this.project});
+class _PromptComposer extends StatelessWidget {
+  const _PromptComposer({required this.placeholder});
 
-  final ProjectModel project;
+  final String placeholder;
 
   @override
   Widget build(BuildContext context) {
     final controller = CodeLabAppScope.of(context);
-    final theme = FluentTheme.of(context);
 
-    return Button(
-      style: ButtonStyle(
-        padding: WidgetStateProperty.all(const EdgeInsets.all(16)),
-        backgroundColor: WidgetStateProperty.all(const Color(0xFF14171A)),
-        shape: WidgetStateProperty.all(
-          RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-            side: const BorderSide(color: Color(0xFF252A31)),
-          ),
-        ),
+    return Container(
+      height: 184,
+      padding: const EdgeInsets.fromLTRB(18, 16, 18, 12),
+      decoration: BoxDecoration(
+        color: const Color(0xFFFBFAF7),
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: const Color(0xFFD8D6D0)),
       ),
-      onPressed: () {
-        controller.selectProject(project.id);
-        final sessionId = controller.selectedSessionId;
-        if (sessionId != null) {
-          context.go('/session/$sessionId');
-        }
-      },
-      child: Row(
+      child: Column(
         children: [
-          Container(
-            width: 40,
-            height: 40,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: Color(project.color),
-              borderRadius: BorderRadius.circular(9),
-            ),
-            child: Text(
-              project.initials,
-              style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
-            ),
-          ),
-          const SizedBox(width: 14),
           Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(project.name, style: theme.typography.bodyStrong),
-                const SizedBox(height: 4),
-                Text(project.path, style: theme.typography.caption),
-              ],
+            child: Align(
+              alignment: Alignment.topLeft,
+              child: Text(
+                placeholder,
+                style: const TextStyle(fontSize: 14, color: Color(0xFFA0A09A)),
+              ),
             ),
           ),
-          Text('${project.sessions.length} sessions', style: theme.typography.caption),
+          Row(
+            children: [
+              GestureDetector(
+                onTap: () => controller.openDialog(AppDialog.selectFile),
+                child: const Icon(
+                  FluentIcons.add,
+                  size: 17,
+                  color: Color(0xFF94918B),
+                ),
+              ),
+              const Spacer(),
+              GestureDetector(
+                onTap: () => controller.openDialog(AppDialog.commandPalette),
+                child: Container(
+                  width: 44,
+                  height: 44,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFB6B3AE),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: const Icon(
+                    FluentIcons.chevron_up,
+                    size: 18,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 18),
+          Row(
+            children: [
+              GestureDetector(
+                onTap: () => controller.openDialog(AppDialog.selectModel),
+                child: const Text(
+                  'Build',
+                  style: TextStyle(fontSize: 14, color: Color(0xFF66645F)),
+                ),
+              ),
+              const SizedBox(width: 6),
+              const Icon(
+                FluentIcons.chevron_down,
+                size: 10,
+                color: Color(0xFF8D8A85),
+              ),
+              const SizedBox(width: 24),
+              const Icon(
+                FluentIcons.switch_user,
+                size: 14,
+                color: Color(0xFF97948F),
+              ),
+              const SizedBox(width: 10),
+              GestureDetector(
+                onTap: () => controller.openDialog(AppDialog.selectProvider),
+                child: const Text(
+                  'Big Pickle',
+                  style: TextStyle(fontSize: 14, color: Color(0xFF66645F)),
+                ),
+              ),
+              const SizedBox(width: 6),
+              const Icon(
+                FluentIcons.chevron_down,
+                size: 10,
+                color: Color(0xFF8D8A85),
+              ),
+            ],
+          ),
         ],
       ),
     );
