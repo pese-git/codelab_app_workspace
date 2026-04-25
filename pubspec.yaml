@@ -1,0 +1,7 @@
+name: codelab_app_workspace
+publish_to: none
+environment:
+  sdk: ^3.9.0
+workspace:
+dev_dependencies:
+  melos: ^7.5.1
