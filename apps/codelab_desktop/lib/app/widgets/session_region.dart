@@ -1,54 +1,78 @@
 import 'package:fluent_ui/fluent_ui.dart';
 
 import '../models/workspace_models.dart';
+import '../state/app_controller.dart';
 import '../state/app_scope.dart';
+import '../theme/tokens.dart';
+import 'message_timeline.dart';
+import 'prompt_composer.dart';
+import 'terminal_panel.dart';
 
-class SessionRegion extends StatelessWidget {
+/// Main session region containing message timeline, prompt composer, and tabs.
+class SessionRegion extends StatefulWidget {
   const SessionRegion({required this.session, super.key});
 
   final SessionModel session;
 
   @override
+  State<SessionRegion> createState() => _SessionRegionState();
+}
+
+class _SessionRegionState extends State<SessionRegion> {
+  @override
   Widget build(BuildContext context) {
     final controller = CodeLabAppScope.of(context);
-    final theme = FluentTheme.of(context);
+    final colors = AppColors.dark;
 
     return Container(
       decoration: BoxDecoration(
-        color: const Color(0xFF14171A),
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: const Color(0xFF252A31)),
+        color: colors.backgroundSubtle,
+        borderRadius: AppRadius.mdAll,
+        border: Border.all(color: colors.borderBase),
       ),
       child: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: Row(
-              children: [
-                for (final tab in SessionRegionTab.values)
-                  Padding(
-                    padding: const EdgeInsets.only(right: 6),
-                    child: Button(
-                      style: ButtonStyle(
-                        backgroundColor: WidgetStateProperty.all(
-                          controller.sessionTab == tab
-                              ? const Color(0xFF202632)
-                              : const Color(0xFF111315),
-                        ),
-                      ),
-                      onPressed: () => controller.setSessionTab(tab),
-                      child: Text(_label(tab)),
-                    ),
-                  ),
-              ],
-            ),
-          ),
+          // Tab bar
+          _buildTabBar(controller, colors),
+          // Content area
           Expanded(
-            child: ListView(
-              padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
-              children: _buildContent(theme, controller.sessionTab),
-            ),
+            child: _buildContent(controller.sessionTab, colors),
           ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTabBar(CodeLabAppController controller, DarkColors colors) {
+    return Container(
+      padding: const EdgeInsets.all(AppSpacing.md2),
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(color: colors.borderWeak),
+        ),
+      ),
+      child: Row(
+        children: [
+          for (final tab in SessionRegionTab.values)
+            Padding(
+              padding: const EdgeInsets.only(right: AppSpacing.sm2),
+              child: Button(
+                style: ButtonStyle(
+                  backgroundColor: WidgetStateProperty.all(
+                    controller.sessionTab == tab
+                        ? colors.surfaceAccent
+                        : colors.surfaceBase,
+                  ),
+                  foregroundColor: WidgetStateProperty.all(
+                    controller.sessionTab == tab
+                        ? colors.textStrong
+                        : colors.textWeak,
+                  ),
+                ),
+                onPressed: () => controller.setSessionTab(tab),
+                child: Text(_label(tab)),
+              ),
+            ),
         ],
       ),
     );
@@ -65,39 +89,59 @@ class SessionRegion extends StatelessWidget {
     }
   }
 
-  List<Widget> _buildContent(FluentThemeData theme, SessionRegionTab tab) {
+  Widget _buildContent(SessionRegionTab tab, DarkColors colors) {
     switch (tab) {
       case SessionRegionTab.files:
-        return session.fileItems
-            .map(
-              (item) => _RegionCard(
-                title: item.path,
-                summary: item.summary,
-                trailing: item.status,
-              ),
-            )
-            .toList();
+        return _buildFilesTab(colors);
       case SessionRegionTab.review:
-        return session.reviewItems
-            .map(
-              (item) => _RegionCard(
-                title: item.title,
-                summary: item.summary,
-                trailing: item.severity,
-              ),
-            )
-            .toList();
+        return _buildReviewTab(colors);
       case SessionRegionTab.terminal:
-        return session.terminalEntries
-            .map(
-              (item) => _RegionCard(
-                title: item.label,
-                summary: item.command,
-                trailing: item.state,
-              ),
-            )
-            .toList();
+        return _buildTerminalTab();
     }
+  }
+
+  Widget _buildFilesTab(DarkColors colors) {
+    return ListView(
+      padding: const EdgeInsets.fromLTRB(
+        AppSpacing.md,
+        0,
+        AppSpacing.md,
+        AppSpacing.md,
+      ),
+      children: widget.session.fileItems
+          .map(
+            (item) => _RegionCard(
+              title: item.path,
+              summary: item.summary,
+              trailing: item.status,
+            ),
+          )
+          .toList(),
+    );
+  }
+
+  Widget _buildReviewTab(DarkColors colors) {
+    return ListView(
+      padding: const EdgeInsets.fromLTRB(
+        AppSpacing.md,
+        0,
+        AppSpacing.md,
+        AppSpacing.md,
+      ),
+      children: widget.session.reviewItems
+          .map(
+            (item) => _RegionCard(
+              title: item.title,
+              summary: item.summary,
+              trailing: item.severity,
+            ),
+          )
+          .toList(),
+    );
+  }
+
+  Widget _buildTerminalTab() {
+    return const TerminalPanel();
   }
 }
 
@@ -114,27 +158,174 @@ class _RegionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = FluentTheme.of(context);
+    final colors = AppColors.dark;
 
     return Container(
-      margin: const EdgeInsets.only(top: 10),
-      padding: const EdgeInsets.all(14),
+      margin: const EdgeInsets.only(top: AppSpacing.md2),
+      padding: const EdgeInsets.all(AppSpacing.lg2),
       decoration: BoxDecoration(
-        color: const Color(0xFF111315),
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: const Color(0xFF252A31)),
+        color: colors.surfaceBase,
+        borderRadius: AppRadius.smAll,
+        border: Border.all(color: colors.borderWeak),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              Expanded(child: Text(title, style: theme.typography.bodyStrong)),
-              Text(trailing, style: theme.typography.caption),
+              Expanded(
+                child: Text(
+                  title,
+                  style: AppTypography.bodyMedium(color: colors.textStrong),
+                ),
+              ),
+              Text(
+                trailing,
+                style: AppTypography.caption(color: colors.textMuted),
+              ),
             ],
           ),
-          const SizedBox(height: 8),
-          Text(summary, style: theme.typography.caption),
+          const SizedBox(height: AppSpacing.sm),
+          Text(
+            summary,
+            style: AppTypography.caption(color: colors.textWeak),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Chat panel with message timeline and prompt composer.
+/// Can be used alongside SessionRegion or independently.
+class ChatPanel extends StatefulWidget {
+  const ChatPanel({super.key});
+
+  @override
+  State<ChatPanel> createState() => _ChatPanelState();
+}
+
+class _ChatPanelState extends State<ChatPanel> {
+  final List<Message> _messages = [];
+  int _messageIdCounter = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _initMockMessages();
+  }
+
+  void _initMockMessages() {
+    _messages.addAll([
+      Message(
+        id: 'msg_${++_messageIdCounter}',
+        role: MessageRole.system,
+        content: 'Session started. Ready to assist you.',
+      ),
+      Message(
+        id: 'msg_${++_messageIdCounter}',
+        role: MessageRole.user,
+        content: 'Can you help me write a function to sort an array?',
+      ),
+      Message(
+        id: 'msg_${++_messageIdCounter}',
+        role: MessageRole.assistant,
+        content: '''Sure! Here's a simple quicksort implementation in Dart:
+
+```dart
+List<T> quickSort<T extends Comparable>(List<T> list) {
+  if (list.length <= 1) return list;
+  
+  final pivot = list[list.length ~/ 2];
+  final less = list.where((e) => e.compareTo(pivot) < 0).toList();
+  final equal = list.where((e) => e.compareTo(pivot) == 0).toList();
+  final greater = list.where((e) => e.compareTo(pivot) > 0).toList();
+  
+  return [...quickSort(less), ...equal, ...quickSort(greater)];
+}
+```
+
+This implementation:
+- Uses the **divide and conquer** approach
+- Has average time complexity of O(n log n)
+- Is easy to understand and modify
+
+Would you like me to explain any part in more detail?''',
+      ),
+    ]);
+  }
+
+  void _handleSendMessage(String content) {
+    setState(() {
+      _messages.add(Message(
+        id: 'msg_${++_messageIdCounter}',
+        role: MessageRole.user,
+        content: content,
+      ));
+
+      Future.delayed(const Duration(milliseconds: 500), () {
+        if (mounted) {
+          setState(() {
+            _messages.add(Message(
+              id: 'msg_${++_messageIdCounter}',
+              role: MessageRole.assistant,
+              content: _generateMockResponse(content),
+            ));
+          });
+        }
+      });
+    });
+  }
+
+  String _generateMockResponse(String userMessage) {
+    if (userMessage.toLowerCase().contains('hello') ||
+        userMessage.toLowerCase().contains('hi')) {
+      return 'Hello! How can I help you today?';
+    }
+    if (userMessage.toLowerCase().contains('help')) {
+      return '''I can help you with:
+- Writing and reviewing code
+- Debugging issues
+- Explaining concepts
+- Refactoring suggestions
+
+Just let me know what you need!''';
+    }
+    return 'I understand. Let me think about that...\n\nBased on your message, here\'s what I suggest:\n\n1. First, we should analyze the requirements\n2. Then, design the solution\n3. Finally, implement and test\n\nWould you like me to elaborate on any of these steps?';
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = AppColors.dark;
+
+    return Container(
+      decoration: BoxDecoration(
+        color: colors.backgroundSubtle,
+        borderRadius: AppRadius.mdAll,
+        border: Border.all(color: colors.borderBase),
+      ),
+      child: Column(
+        children: [
+          // Message timeline
+          Expanded(
+            child: MessageTimeline(
+              messages: _messages,
+              onCopyCode: (_) {},
+            ),
+          ),
+          // Prompt composer
+          Container(
+            padding: const EdgeInsets.all(AppSpacing.md),
+            decoration: BoxDecoration(
+              border: Border(
+                top: BorderSide(color: colors.borderWeak),
+              ),
+            ),
+            child: PromptComposer(
+              onSend: _handleSendMessage,
+              placeholder: 'Type a message... (Cmd/Ctrl+Enter to send)',
+            ),
+          ),
         ],
       ),
     );

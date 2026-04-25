@@ -38,6 +38,9 @@ dependencies:
   go_router: ^17.2.2
   cherrypick: ^3.0.2
   cherrypick_annotations: ^3.0.2
+  flutter_markdown: ^0.7.4
+  xterm: ^4.0.0
+  flutter_pty: ^0.4.2
 
 dev_dependencies:
   flutter_test:
