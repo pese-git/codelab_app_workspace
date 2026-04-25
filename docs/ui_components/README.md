@@ -71,15 +71,91 @@
 
 ---
 
+## Архитектура компонентов (Atomic Design)
+
+Компоненты организованы по принципу Atomic Design в `lib/components/`:
+
+```
+lib/components/
+├── theme/                    # Дизайн токены и темы
+│   ├── tokens.dart           # AppColors, AppSpacing, AppRadius, AppTypo, AppShadows
+│   ├── themes.dart           # AppTheme (Material 3 + Fluent UI)
+│   └── markdown_styles.dart  # MarkdownStyleSheet builder
+├── foundations/              # Базовые визуальные примитивы
+│   ├── surface.dart          # Surface containers
+│   ├── focus_ring.dart       # Focus indicators
+│   ├── icon.dart             # AppIcon wrapper
+│   ├── skeleton.dart         # Loading skeletons
+│   └── loaders.dart          # Progress indicators
+├── atoms/                    # Атомарные UI элементы
+│   ├── button.dart, icon_button.dart
+│   ├── text.dart, text_field.dart, text_area.dart, search_field.dart
+│   ├── badge.dart, tag.dart, avatar.dart
+│   ├── checkbox.dart, toggle.dart, segmented_control.dart
+│   ├── divider.dart, tooltip.dart, scrollbar.dart
+├── molecules/                # Составные компоненты
+│   ├── list_item.dart, menu_item.dart, toolbar.dart
+│   ├── tabs.dart, pill_tabs.dart, breadcrumbs.dart
+│   ├── toast.dart, snackbar.dart, dropdown.dart, select.dart
+│   ├── code_block.dart, markdown_view.dart
+│   ├── empty_state.dart, section_header.dart
+├── organisms/                # Сложные составные компоненты
+│   ├── session/              # Компоненты сессии
+│   │   ├── message_bubble.dart, message_timeline.dart
+│   │   ├── prompt_composer.dart, session_tabs.dart
+│   │   ├── file_list.dart, review_list.dart
+│   │   ├── terminal_panel_shell.dart, session_header.dart
+│   └── shell/                # Shell/layout компоненты
+│       ├── title_bar.dart, project_rail.dart
+│       ├── sidebar.dart, context_panel.dart
+│       └── desktop_shell.dart
+├── layout/                   # Layout утилиты
+│   ├── stack.dart, overlay_host.dart
+│   ├── split_view.dart, grid.dart
+└── icons/
+    └── icons.dart            # FluentIcons re-export
+```
+
+### Использование
+
+```dart
+import 'package:codelab_desktop/components.dart';
+
+// Все компоненты доступны через единый импорт
+final theme = AppTheme.dark();
+final colors = AppColors.dark;
+```
+
+### Миграция с app/widgets, app/theme, app/shell
+
+> ⚠️ **Deprecated Proxies**: Директории `lib/app/widgets/`, `lib/app/theme/`, `lib/app/shell/` помечены как `@Deprecated` и являются proxy-файлами, которые реэкспортируют компоненты из `lib/components/`.
+
+**Рекомендуемый импорт:**
+```dart
+// ✅ Правильно — единая точка входа
+import 'package:codelab_desktop/components.dart';
+
+// ❌ Deprecated — старые пути (работают, но будут удалены)
+import 'package:codelab_desktop/app/widgets/message_timeline.dart';
+import 'package:codelab_desktop/app/theme/app_theme.dart';
+```
+
+Подробнее о рефакторинге: [components_refactor.md](./components_refactor.md)
+
+---
+
 ## Источники
 
-### Flutter реализация
+### Flutter реализация (новая структура)
+- `apps/codelab_desktop/lib/components.dart` — единая точка входа
+- `apps/codelab_desktop/lib/components/` — компонентная библиотека
+
+### Flutter реализация (deprecated, app layer)
 - `apps/codelab_desktop/lib/app/screens/home_screen.dart`
 - `apps/codelab_desktop/lib/app/screens/session_screen.dart`
-- `apps/codelab_desktop/lib/app/shell/desktop_shell.dart`
-- `apps/codelab_desktop/lib/app/widgets/workspace_tree.dart`
-- `apps/codelab_desktop/lib/app/widgets/session_region.dart`
-- `apps/codelab_desktop/lib/app/theme/app_theme.dart`
+- `apps/codelab_desktop/lib/app/shell/desktop_shell.dart` *(deprecated)*
+- `apps/codelab_desktop/lib/app/widgets/` *(deprecated, proxies to components)*
+- `apps/codelab_desktop/lib/app/theme/` *(deprecated, proxies to components)*
 - `apps/codelab_desktop/lib/app/navigation/router.dart`
 - `apps/codelab_desktop/lib/app/state/app_controller.dart`
 
