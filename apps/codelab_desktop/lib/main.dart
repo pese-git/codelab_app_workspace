@@ -1,122 +1,241 @@
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const CodeLabApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class CodeLabApp extends StatelessWidget {
+  const CodeLabApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: .fromSeed(seedColor: Colors.deepPurple),
+    return FluentApp(
+      title: 'CodeLab',
+      debugShowCheckedModeBanner: false,
+      theme: FluentThemeData(
+        accentColor: Colors.blue,
+        brightness: Brightness.light,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const WorkspaceHomePage(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
+class WorkspaceHomePage extends StatelessWidget {
+  const WorkspaceHomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+    final theme = FluentTheme.of(context);
+
+    return NavigationView(
+      content: ScaffoldPage.scrollable(
+        padding: const EdgeInsets.all(24),
+        header: PageHeader(
+          title: const Text('CodeLab Workspace'),
+          commandBar: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Button(
+                onPressed: () {},
+                child: const Text('Open project'),
+              ),
+              const SizedBox(width: 12),
+              FilledButton(
+                onPressed: () {},
+                child: const Text('Create idea'),
+              ),
+            ],
+          ),
+        ),
+        children: [
+          _HeroPanel(theme: theme),
+          const SizedBox(height: 20),
+          Wrap(
+            spacing: 16,
+            runSpacing: 16,
+            children: const [
+              _StatCard(
+                title: 'Active notes',
+                value: '12',
+                subtitle: '3 updated today',
+              ),
+              _StatCard(
+                title: 'Open experiments',
+                value: '4',
+                subtitle: '1 ready for review',
+              ),
+              _StatCard(
+                title: 'Team focus',
+                value: 'Design system',
+                subtitle: 'Next sync at 16:00',
+              ),
+            ],
+          ),
+          const SizedBox(height: 20),
+          const _TaskPanel(),
+        ],
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: .center,
-          children: [
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+    );
+  }
+}
+
+class _HeroPanel extends StatelessWidget {
+  const _HeroPanel({required this.theme});
+
+  final FluentThemeData theme;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        color: theme.accentColor.withValues(alpha: 0.10),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: theme.accentColor.withValues(alpha: 0.25),
+        ),
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Build ideas faster',
+                  style: theme.typography.titleLarge,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  'A lightweight desktop screen for tracking concepts, tasks, and momentum in one place.',
+                  style: theme.typography.body,
+                ),
+              ],
             ),
+          ),
+          const SizedBox(width: 24),
+          const Icon(FluentIcons.lightbulb, size: 40),
+        ],
+      ),
+    );
+  }
+}
+
+class _StatCard extends StatelessWidget {
+  const _StatCard({
+    required this.title,
+    required this.value,
+    required this.subtitle,
+  });
+
+  final String title;
+  final String value;
+  final String subtitle;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = FluentTheme.of(context);
+
+    return SizedBox(
+      width: 240,
+      child: Container(
+        padding: const EdgeInsets.all(18),
+        decoration: BoxDecoration(
+          color: theme.resources.cardBackgroundFillColorDefault,
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(
+            color: theme.resources.controlStrokeColorSecondary,
+          ),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(title, style: theme.typography.caption),
+            const SizedBox(height: 10),
+            Text(value, style: theme.typography.title),
+            const SizedBox(height: 6),
+            Text(subtitle, style: theme.typography.body),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+    );
+  }
+}
+
+class _TaskPanel extends StatelessWidget {
+  const _TaskPanel();
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = FluentTheme.of(context);
+
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: theme.resources.cardBackgroundFillColorSecondary,
+        borderRadius: BorderRadius.circular(16),
       ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: const [
+          Text('Next steps'),
+          SizedBox(height: 16),
+          _TaskRow(
+            title: 'Prepare onboarding flow draft',
+            meta: 'Owner: product team',
+          ),
+          SizedBox(height: 12),
+          _TaskRow(
+            title: 'Review desktop layout spacing',
+            meta: 'Owner: design',
+          ),
+          SizedBox(height: 12),
+          _TaskRow(
+            title: 'Document package boundaries',
+            meta: 'Owner: engineering',
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _TaskRow extends StatelessWidget {
+  const _TaskRow({
+    required this.title,
+    required this.meta,
+  });
+
+  final String title;
+  final String meta;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = FluentTheme.of(context);
+
+    return Row(
+      children: [
+        Container(
+          width: 10,
+          height: 10,
+          decoration: BoxDecoration(
+            color: theme.accentColor,
+            shape: BoxShape.circle,
+          ),
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(title, style: theme.typography.bodyStrong),
+              const SizedBox(height: 2),
+              Text(meta, style: theme.typography.caption),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
