@@ -1,14 +1,18 @@
 import 'package:fluent_ui/fluent_ui.dart';
 
+import '../../components.dart' hide SessionRegionTab;
 import '../models/workspace_models.dart';
 import '../state/app_controller.dart';
 import '../state/app_scope.dart';
-import '../theme/tokens.dart';
-import 'message_timeline.dart';
-import 'prompt_composer.dart';
 import 'terminal_panel.dart';
 
 /// Main session region containing message timeline, prompt composer, and tabs.
+///
+/// {@template deprecated_widget}
+/// **Deprecated:** This widget is being migrated to the components library.
+/// Use widgets from `package:codelab_desktop/components.dart` directly.
+/// {@endtemplate}
+@Deprecated('Use components from lib/components instead')
 class SessionRegion extends StatefulWidget {
   const SessionRegion({required this.session, super.key});
 

@@ -1,11 +1,19 @@
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:go_router/go_router.dart';
 
+// Components available via: import '../../components.dart'
 import '../models/workspace_models.dart';
 import '../navigation/router.dart';
 import '../state/app_scope.dart';
 import '../widgets/workspace_tree.dart';
 
+/// Desktop shell layout providing the main application structure.
+///
+/// {@template deprecated_widget}
+/// **Deprecated:** This widget is being migrated to the components library.
+/// Use widgets from `package:codelab_desktop/components.dart` directly.
+/// {@endtemplate}
+@Deprecated('Use components from lib/components instead')
 class DesktopShell extends StatelessWidget {
   const DesktopShell({
     required this.child,

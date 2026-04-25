@@ -1,3 +1,15 @@
+/// @deprecated Use `package:codelab_desktop/components.dart` instead.
+/// This file is kept for backwards compatibility and will be removed in a future version.
+///
+/// The original terminal implementation remains here as it includes
+/// platform-specific PTY code that depends on external packages.
+///
+/// Migrate shell wrapper to:
+/// ```dart
+/// import 'package:codelab_desktop/components.dart';
+/// ```
+library;
+
 import 'dart:convert';
 import 'dart:io';
 
@@ -5,7 +17,7 @@ import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter_pty/flutter_pty.dart';
 import 'package:xterm/xterm.dart';
 
-import '../theme/tokens.dart';
+import '../../components/theme/tokens.dart';
 
 /// A terminal panel widget supporting interactive PTY sessions.
 class TerminalPanel extends StatefulWidget {

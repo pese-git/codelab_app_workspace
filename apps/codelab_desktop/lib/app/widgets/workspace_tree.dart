@@ -1,8 +1,19 @@
+/// @deprecated Use `package:codelab_desktop/components.dart` instead.
+/// This file is kept for backwards compatibility and will be removed in a future version.
+///
+/// Migrate to:
+/// ```dart
+/// import 'package:codelab_desktop/components.dart';
+/// ```
+@Deprecated('Use package:codelab_desktop/components.dart instead')
+library;
+
 import 'package:fluent_ui/fluent_ui.dart';
 
 import '../models/workspace_models.dart';
 import '../state/app_scope.dart';
 
+/// @deprecated Use FileList from components instead.
 class WorkspaceTree extends StatelessWidget {
   const WorkspaceTree({
     required this.nodes,
