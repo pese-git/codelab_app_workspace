@@ -18,16 +18,20 @@ class CodeLabAppBootstrap extends StatefulWidget {
 class _CodeLabAppBootstrapState extends State<CodeLabAppBootstrap> {
   late final CodeLabAppController _controller;
   late final GoRouter _router;
+  late final HistoryController _historyController;
 
   @override
   void initState() {
     super.initState();
     _controller = CodeLabAppController(seedWorkspace: buildMockWorkspace());
-    _router = buildRouter(_controller);
+    final result = buildRouter(_controller);
+    _router = result.router;
+    _historyController = result.history;
   }
 
   @override
   void dispose() {
+    _historyController.dispose();
     _router.dispose();
     _controller.dispose();
     super.dispose();

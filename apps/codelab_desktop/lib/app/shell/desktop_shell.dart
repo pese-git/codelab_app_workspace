@@ -2,6 +2,7 @@ import 'package:fluent_ui/fluent_ui.dart';
 import 'package:go_router/go_router.dart';
 
 import '../models/workspace_models.dart';
+import '../navigation/router.dart';
 import '../state/app_scope.dart';
 import '../widgets/workspace_tree.dart';
 
@@ -96,16 +97,22 @@ class _TitleBar extends StatelessWidget {
             onTap: controller.toggleSidebarCollapsed,
           ),
           const SizedBox(width: 10),
-          const Icon(
-            FluentIcons.chevron_left_small,
-            size: 15,
-            color: Color(0xFF8E8C86),
+          ListenableBuilder(
+            listenable: historyController,
+            builder: (context, _) => _NavigationButton(
+              icon: FluentIcons.chevron_left_small,
+              enabled: historyController.canBack,
+              onTap: historyController.back,
+            ),
           ),
-          const SizedBox(width: 14),
-          const Icon(
-            FluentIcons.chevron_right_small,
-            size: 15,
-            color: Color(0xFF8E8C86),
+          const SizedBox(width: 6),
+          ListenableBuilder(
+            listenable: historyController,
+            builder: (context, _) => _NavigationButton(
+              icon: FluentIcons.chevron_right_small,
+              enabled: historyController.canForward,
+              onTap: historyController.forward,
+            ),
           ),
           Expanded(
             child: Center(
@@ -237,6 +244,33 @@ class _HeaderBadge extends StatelessWidget {
           borderRadius: BorderRadius.circular(8),
         ),
         child: Icon(icon, size: 14, color: const Color(0xFF64615C)),
+      ),
+    );
+  }
+}
+
+class _NavigationButton extends StatelessWidget {
+  const _NavigationButton({
+    required this.icon,
+    required this.enabled,
+    required this.onTap,
+  });
+
+  final IconData icon;
+  final bool enabled;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: enabled ? onTap : null,
+      child: MouseRegion(
+        cursor: enabled ? SystemMouseCursors.click : SystemMouseCursors.basic,
+        child: Icon(
+          icon,
+          size: 15,
+          color: enabled ? const Color(0xFF5F5C56) : const Color(0xFFCAC8C3),
+        ),
       ),
     );
   }
