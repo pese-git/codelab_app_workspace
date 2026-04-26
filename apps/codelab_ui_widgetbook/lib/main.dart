@@ -1,6 +1,7 @@
 import 'package:codelab_ui_components/codelab_ui_components.dart';
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
 import 'package:flutter/material.dart' hide Badge, DropdownMenu;
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:widgetbook/widgetbook.dart';
 
 // Представительский Widgetbook для всех компонентов codelab_ui_components.
@@ -171,6 +172,13 @@ class _PreviewScaffold extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,
+      localizationsDelegates: const [
+        fluent.FluentLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [Locale('en', 'US')],
       home: Scaffold(
         backgroundColor: Theme.of(context).colorScheme.surface,
         body: Center(
@@ -181,6 +189,7 @@ class _PreviewScaffold extends StatelessWidget {
               child: fluent.FluentTheme(
                 data: fluentTheme,
                 child: SingleChildScrollView(
+                  primary: false,
                   padding: const EdgeInsets.only(bottom: AppSpacing.xxl),
                   child: child,
                 ),
