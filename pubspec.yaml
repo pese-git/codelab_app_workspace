@@ -1,7 +1,12 @@
 name: codelab_app_workspace
 publish_to: none
+
 environment:
-  sdk: ^3.9.0
+  sdk: ^3.11.5
+
 workspace:
+  - apps/codelab_desktop
+  - packages/codelab_ui_components
+  
 dev_dependencies:
   melos: ^7.5.1

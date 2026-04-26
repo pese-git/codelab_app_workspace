@@ -3,5 +3,8 @@
 .idea
 reference
 melos_codelab_app_workspace.iml
+# Melos artifacts
+.melos_tool
+.packages
 # FVM Version Cache
 .fvm/

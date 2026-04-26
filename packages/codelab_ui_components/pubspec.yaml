@@ -1,0 +1,20 @@
+name: codelab_ui_components
+description: "CodeLab shared UI components library"
+version: 0.0.1
+publish_to: none
+
+environment:
+  sdk: ^3.11.5
+resolution: workspace
+
+dependencies:
+  flutter:
+    sdk: flutter
+  fluent_ui: ^4.15.1
+  flutter_markdown: ^0.7.4
+
+dev_dependencies:
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
