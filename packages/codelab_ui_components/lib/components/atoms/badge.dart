@@ -94,8 +94,14 @@ class Badge extends fluent.StatelessWidget {
     }
 
     final padding = size == BadgeSize.sm
-        ? const fluent.EdgeInsets.symmetric(horizontal: AppSpacing.xs, vertical: 1)
-        : const fluent.EdgeInsets.symmetric(horizontal: AppSpacing.sm2, vertical: 2);
+        ? const fluent.EdgeInsets.symmetric(
+            horizontal: AppSpacing.xs,
+            vertical: 1,
+          )
+        : const fluent.EdgeInsets.symmetric(
+            horizontal: AppSpacing.sm2,
+            vertical: 2,
+          );
 
     final textStyle = size == BadgeSize.sm
         ? AppTypography.style(
@@ -207,7 +213,10 @@ class DotBadge extends fluent.StatelessWidget {
     return fluent.Container(
       width: size,
       height: size,
-      decoration: fluent.BoxDecoration(color: dotColor, shape: fluent.BoxShape.circle),
+      decoration: fluent.BoxDecoration(
+        color: dotColor,
+        shape: fluent.BoxShape.circle,
+      ),
     );
   }
 }

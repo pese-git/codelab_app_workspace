@@ -41,19 +41,19 @@ class AppIcon extends fluent.StatelessWidget {
 
   /// Small icon (16px)
   const AppIcon.sm(this.icon, {this.color, this.semanticLabel, super.key})
-      : size = AppIconSize.sm;
+    : size = AppIconSize.sm;
 
   /// Medium icon (20px) - default
   const AppIcon.md(this.icon, {this.color, this.semanticLabel, super.key})
-      : size = AppIconSize.md;
+    : size = AppIconSize.md;
 
   /// Large icon (24px)
   const AppIcon.lg(this.icon, {this.color, this.semanticLabel, super.key})
-      : size = AppIconSize.lg;
+    : size = AppIconSize.lg;
 
   /// Extra large icon (28px)
   const AppIcon.xl(this.icon, {this.color, this.semanticLabel, super.key})
-      : size = AppIconSize.xl;
+    : size = AppIconSize.xl;
 
   double get _pixelSize {
     switch (size) {

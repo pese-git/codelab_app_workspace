@@ -45,7 +45,10 @@ class InputGroup extends fluent.StatelessWidget {
       mainAxisSize: fluent.MainAxisSize.min,
       children: [
         if (label != null) ...[
-          fluent.Text(label!, style: AppTypography.bodyMedium(color: colors.textBase)),
+          fluent.Text(
+            label!,
+            style: AppTypography.bodyMedium(color: colors.textBase),
+          ),
           const fluent.SizedBox(height: AppSpacing.sm),
         ],
         if (direction == fluent.Axis.vertical)
@@ -57,11 +60,17 @@ class InputGroup extends fluent.StatelessWidget {
           fluent.Row(children: _buildChildren()),
         if (helper != null && !hasError) ...[
           const fluent.SizedBox(height: AppSpacing.xs),
-          fluent.Text(helper!, style: AppTypography.caption(color: colors.textWeak)),
+          fluent.Text(
+            helper!,
+            style: AppTypography.caption(color: colors.textWeak),
+          ),
         ],
         if (hasError) ...[
           const fluent.SizedBox(height: AppSpacing.xs),
-          fluent.Text(error!, style: AppTypography.caption(color: colors.errorText)),
+          fluent.Text(
+            error!,
+            style: AppTypography.caption(color: colors.errorText),
+          ),
         ],
       ],
     );
@@ -126,10 +135,16 @@ class FormSection extends fluent.StatelessWidget {
       crossAxisAlignment: fluent.CrossAxisAlignment.start,
       mainAxisSize: fluent.MainAxisSize.min,
       children: [
-        fluent.Text(title, style: AppTypography.subtitle(color: colors.textStrong)),
+        fluent.Text(
+          title,
+          style: AppTypography.subtitle(color: colors.textStrong),
+        ),
         if (description != null) ...[
           const fluent.SizedBox(height: AppSpacing.xs),
-          fluent.Text(description!, style: AppTypography.body(color: colors.textWeak)),
+          fluent.Text(
+            description!,
+            style: AppTypography.body(color: colors.textWeak),
+          ),
         ],
         const fluent.SizedBox(height: AppSpacing.lg),
         ...children.map((child) {

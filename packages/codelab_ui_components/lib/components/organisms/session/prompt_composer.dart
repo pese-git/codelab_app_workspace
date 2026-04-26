@@ -28,7 +28,8 @@ class PromptComposer extends fluent.StatefulWidget {
 }
 
 class _PromptComposerState extends fluent.State<PromptComposer> {
-  final fluent.TextEditingController _controller = fluent.TextEditingController();
+  final fluent.TextEditingController _controller =
+      fluent.TextEditingController();
   final fluent.FocusNode _focusNode = fluent.FocusNode();
 
   bool get _canSend => _controller.text.trim().isNotEmpty;
@@ -119,7 +120,9 @@ class _PromptComposerState extends fluent.State<PromptComposer> {
                     border: fluent.Border.all(color: fluent.Colors.transparent),
                   ),
                 ),
-                padding: const fluent.EdgeInsets.symmetric(vertical: AppSpacing.sm),
+                padding: const fluent.EdgeInsets.symmetric(
+                  vertical: AppSpacing.sm,
+                ),
               ),
             ),
           ),

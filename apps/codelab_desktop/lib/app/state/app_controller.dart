@@ -1,4 +1,5 @@
-import 'package:codelab_ui_components/codelab_ui_components.dart' show SessionRegionTab;
+import 'package:codelab_ui_components/codelab_ui_components.dart'
+    show SessionRegionTab;
 import 'package:codelab_ui_components/src.dart' show ContextPanelTab;
 import 'package:flutter/foundation.dart';
 

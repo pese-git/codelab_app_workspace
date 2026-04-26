@@ -32,7 +32,8 @@ class SectionHeader extends fluent.StatelessWidget {
         : AppColors.dark;
 
     return fluent.Padding(
-      padding: padding ?? const fluent.EdgeInsets.symmetric(vertical: AppSpacing.sm),
+      padding:
+          padding ?? const fluent.EdgeInsets.symmetric(vertical: AppSpacing.sm),
       child: fluent.Row(
         children: [
           fluent.Expanded(

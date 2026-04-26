@@ -82,11 +82,17 @@ class SelectField<T> extends fluent.StatelessWidget {
         ),
         if (helper != null && !hasError) ...[
           const fluent.SizedBox(height: AppSpacing.xs),
-          fluent.Text(helper!, style: AppTypography.caption(color: colors.textWeak)),
+          fluent.Text(
+            helper!,
+            style: AppTypography.caption(color: colors.textWeak),
+          ),
         ],
         if (hasError) ...[
           const fluent.SizedBox(height: AppSpacing.xs),
-          fluent.Text(error!, style: AppTypography.caption(color: colors.errorText)),
+          fluent.Text(
+            error!,
+            style: AppTypography.caption(color: colors.errorText),
+          ),
         ],
       ],
     );
@@ -150,7 +156,10 @@ class MultiSelect<T> extends fluent.StatelessWidget {
       mainAxisSize: fluent.MainAxisSize.min,
       children: [
         if (label != null) ...[
-          fluent.Text(label!, style: AppTypography.bodyMedium(color: colors.textBase)),
+          fluent.Text(
+            label!,
+            style: AppTypography.bodyMedium(color: colors.textBase),
+          ),
           const fluent.SizedBox(height: AppSpacing.xs),
         ],
         fluent.Container(
@@ -175,7 +184,11 @@ class MultiSelect<T> extends fluent.StatelessWidget {
                   ),
                 ),
               ),
-              fluent.Icon(fluent.FluentIcons.chevron_down, size: 20, color: colors.iconWeak),
+              fluent.Icon(
+                fluent.FluentIcons.chevron_down,
+                size: 20,
+                color: colors.iconWeak,
+              ),
             ],
           ),
         ),

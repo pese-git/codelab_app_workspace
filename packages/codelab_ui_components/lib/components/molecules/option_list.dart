@@ -110,7 +110,11 @@ class _OptionRowState<T> extends fluent.State<_OptionRow<T>> {
                     ),
                   ),
                   child: widget.isSelected
-                      ? fluent.Icon(fluent.FluentIcons.check_mark, size: 14, color: colors.iconOnAccent)
+                      ? fluent.Icon(
+                          fluent.FluentIcons.check_mark,
+                          size: 14,
+                          color: colors.iconOnAccent,
+                        )
                       : null,
                 ),
                 const fluent.SizedBox(width: AppSpacing.md),
@@ -142,7 +146,11 @@ class _OptionRowState<T> extends fluent.State<_OptionRow<T>> {
                 ),
               ),
               if (!widget.showCheckbox && widget.isSelected)
-                fluent.Icon(fluent.FluentIcons.check_mark, size: 16, color: colors.accentPrimary),
+                fluent.Icon(
+                  fluent.FluentIcons.check_mark,
+                  size: 16,
+                  color: colors.accentPrimary,
+                ),
             ],
           ),
         ),

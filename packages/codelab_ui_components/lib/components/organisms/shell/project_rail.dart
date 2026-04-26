@@ -49,7 +49,9 @@ class ProjectRail extends fluent.StatelessWidget {
       width: AppDimensions.projectRailWidth,
       decoration: fluent.BoxDecoration(
         color: colors.backgroundSubtle,
-        border: fluent.Border(right: fluent.BorderSide(color: colors.borderBase)),
+        border: fluent.Border(
+          right: fluent.BorderSide(color: colors.borderBase),
+        ),
       ),
       child: fluent.Column(
         children: [
@@ -83,13 +85,19 @@ class ProjectRail extends fluent.StatelessWidget {
           const fluent.Spacer(),
           if (onSettings != null)
             fluent.IconButton(
-              icon: fluent.Icon(fluent.FluentIcons.settings, color: colors.iconWeak),
+              icon: fluent.Icon(
+                fluent.FluentIcons.settings,
+                color: colors.iconWeak,
+              ),
               onPressed: onSettings,
             ),
           const fluent.SizedBox(height: 8),
           if (onHelp != null)
             fluent.IconButton(
-              icon: fluent.Icon(fluent.FluentIcons.help, color: colors.iconWeak),
+              icon: fluent.Icon(
+                fluent.FluentIcons.help,
+                color: colors.iconWeak,
+              ),
               onPressed: onHelp,
             ),
           const fluent.SizedBox(height: 12),

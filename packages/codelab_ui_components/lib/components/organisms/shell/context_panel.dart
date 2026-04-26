@@ -37,7 +37,9 @@ class ContextPanel extends fluent.StatelessWidget {
       width: AppDimensions.contextPanelWidth + 54,
       decoration: fluent.BoxDecoration(
         color: colors.surfaceBase,
-        border: fluent.Border(left: fluent.BorderSide(color: colors.borderBase)),
+        border: fluent.Border(
+          left: fluent.BorderSide(color: colors.borderBase),
+        ),
       ),
       child: fluent.Column(
         children: [
@@ -46,7 +48,9 @@ class ContextPanel extends fluent.StatelessWidget {
             height: 64,
             padding: const fluent.EdgeInsets.fromLTRB(16, 14, 16, 0),
             decoration: fluent.BoxDecoration(
-              border: fluent.Border(bottom: fluent.BorderSide(color: colors.borderWeak)),
+              border: fluent.Border(
+                bottom: fluent.BorderSide(color: colors.borderWeak),
+              ),
             ),
             child: fluent.Row(
               children: [
@@ -60,7 +64,10 @@ class ContextPanel extends fluent.StatelessWidget {
                   onTap: () {},
                   child: fluent.Text(
                     '+',
-                    style: fluent.TextStyle(fontSize: 20, color: colors.iconWeak),
+                    style: fluent.TextStyle(
+                      fontSize: 20,
+                      color: colors.iconWeak,
+                    ),
                   ),
                 ),
               ],

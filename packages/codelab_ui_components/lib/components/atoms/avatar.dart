@@ -111,18 +111,28 @@ class Avatar extends fluent.StatelessWidget {
     if (onTap != null) {
       content = fluent.GestureDetector(
         onTap: onTap,
-        child: fluent.MouseRegion(cursor: fluent.SystemMouseCursors.click, child: content),
+        child: fluent.MouseRegion(
+          cursor: fluent.SystemMouseCursors.click,
+          child: content,
+        ),
       );
     }
 
     return content;
   }
 
-  fluent.Widget _buildFallback(fluent.Color bgColor, fluent.Color fgColor, LightColors colors) {
+  fluent.Widget _buildFallback(
+    fluent.Color bgColor,
+    fluent.Color fgColor,
+    LightColors colors,
+  ) {
     return fluent.Container(
       width: _pixelSize,
       height: _pixelSize,
-      decoration: fluent.BoxDecoration(color: bgColor, shape: fluent.BoxShape.circle),
+      decoration: fluent.BoxDecoration(
+        color: bgColor,
+        shape: fluent.BoxShape.circle,
+      ),
       alignment: fluent.Alignment.center,
       child: initials != null
           ? fluent.Text(
@@ -136,7 +146,11 @@ class Avatar extends fluent.StatelessWidget {
                 color: fgColor,
               ),
             )
-          : fluent.Icon(icon ?? fluent.FluentIcons.contact, size: _iconSize, color: fgColor),
+          : fluent.Icon(
+              icon ?? fluent.FluentIcons.contact,
+              size: _iconSize,
+              color: fgColor,
+            ),
     );
   }
 }
@@ -194,7 +208,10 @@ class AvatarStack extends fluent.StatelessWidget {
               child: fluent.Container(
                 decoration: fluent.BoxDecoration(
                   shape: fluent.BoxShape.circle,
-                  border: fluent.Border.all(color: colors.surfaceBase, width: 2),
+                  border: fluent.Border.all(
+                    color: colors.surfaceBase,
+                    width: 2,
+                  ),
                 ),
                 child: Avatar(
                   imageUrl: displayAvatars[i].imageUrl,
@@ -212,7 +229,10 @@ class AvatarStack extends fluent.StatelessWidget {
                 decoration: fluent.BoxDecoration(
                   color: colors.surfaceSubtle,
                   shape: fluent.BoxShape.circle,
-                  border: fluent.Border.all(color: colors.surfaceBase, width: 2),
+                  border: fluent.Border.all(
+                    color: colors.surfaceBase,
+                    width: 2,
+                  ),
                 ),
                 alignment: fluent.Alignment.center,
                 child: fluent.Text(

@@ -45,7 +45,9 @@ class Sidebar extends fluent.StatelessWidget {
       width: AppDimensions.sidebarWidth,
       decoration: fluent.BoxDecoration(
         color: colors.surfaceBase,
-        border: fluent.Border(right: fluent.BorderSide(color: colors.borderBase)),
+        border: fluent.Border(
+          right: fluent.BorderSide(color: colors.borderBase),
+        ),
       ),
       child: fluent.Column(
         children: [
@@ -210,9 +212,14 @@ class _SessionTile extends fluent.StatelessWidget {
       child: fluent.GestureDetector(
         onTap: onTap,
         child: fluent.Container(
-          padding: const fluent.EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+          padding: const fluent.EdgeInsets.symmetric(
+            horizontal: 12,
+            vertical: 12,
+          ),
           decoration: fluent.BoxDecoration(
-            color: isSelected ? colors.surfaceSelected : fluent.Colors.transparent,
+            color: isSelected
+                ? colors.surfaceSelected
+                : fluent.Colors.transparent,
             borderRadius: fluent.BorderRadius.circular(10),
           ),
           child: fluent.Text(
@@ -223,7 +230,9 @@ class _SessionTile extends fluent.StatelessWidget {
                 AppTypography.body(
                   color: isSelected ? colors.textStrong : colors.textBase,
                 ).copyWith(
-                  fontWeight: isSelected ? fluent.FontWeight.w600 : fluent.FontWeight.w500,
+                  fontWeight: isSelected
+                      ? fluent.FontWeight.w600
+                      : fluent.FontWeight.w500,
                 ),
           ),
         ),

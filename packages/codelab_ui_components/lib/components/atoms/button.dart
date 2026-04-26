@@ -206,7 +206,9 @@ class AppButton extends fluent.StatelessWidget {
     } else {
       final children = <fluent.Widget>[];
       if (icon != null) {
-        children.add(fluent.Icon(icon, size: _iconSize, color: foregroundColor));
+        children.add(
+          fluent.Icon(icon, size: _iconSize, color: foregroundColor),
+        );
         if (label != null) {
           children.add(const fluent.SizedBox(width: AppSpacing.sm));
         }

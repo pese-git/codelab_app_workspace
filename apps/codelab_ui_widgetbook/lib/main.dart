@@ -37,10 +37,12 @@ class WidgetbookApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Widgetbook.material(
       addons: [
-        MaterialThemeAddon(themes: [
-          WidgetbookTheme(name: 'Light', data: _materialLight),
-          WidgetbookTheme(name: 'Dark', data: _materialDark),
-        ]),
+        MaterialThemeAddon(
+          themes: [
+            WidgetbookTheme(name: 'Light', data: _materialLight),
+            WidgetbookTheme(name: 'Dark', data: _materialDark),
+          ],
+        ),
         TextScaleAddon(min: 1, max: 1.5),
       ],
       directories: [
@@ -66,9 +68,18 @@ final _themeCategory = WidgetbookCategory(
     WidgetbookComponent(
       name: 'Tokens',
       useCases: [
-        WidgetbookUseCase(name: 'Colors', builder: (_) => _TokensPreview.colors()),
-        WidgetbookUseCase(name: 'Typography', builder: (_) => _TokensPreview.typography()),
-        WidgetbookUseCase(name: 'Spacing', builder: (_) => _TokensPreview.spacing()),
+        WidgetbookUseCase(
+          name: 'Colors',
+          builder: (_) => _TokensPreview.colors(),
+        ),
+        WidgetbookUseCase(
+          name: 'Typography',
+          builder: (_) => _TokensPreview.typography(),
+        ),
+        WidgetbookUseCase(
+          name: 'Spacing',
+          builder: (_) => _TokensPreview.spacing(),
+        ),
       ],
     ),
   ],
@@ -77,54 +88,249 @@ final _themeCategory = WidgetbookCategory(
 final _foundationsCategory = WidgetbookCategory(
   name: 'Foundations',
   children: [
-    WidgetbookComponent(name: 'Surface', useCases: [WidgetbookUseCase(name: 'Variants', builder: (_) => _SurfacePreview())]),
-    WidgetbookComponent(name: 'FocusRing', useCases: [WidgetbookUseCase(name: 'States', builder: (_) => _FocusRingPreview())]),
-    WidgetbookComponent(name: 'Icons', useCases: [WidgetbookUseCase(name: 'Sizes', builder: (_) => _IconPreview())]),
-    WidgetbookComponent(name: 'Skeleton', useCases: [WidgetbookUseCase(name: 'Loaders', builder: (_) => _SkeletonPreview())]),
-    WidgetbookComponent(name: 'Loaders', useCases: [WidgetbookUseCase(name: 'Progress', builder: (_) => _LoadersPreview())]),
+    WidgetbookComponent(
+      name: 'Surface',
+      useCases: [
+        WidgetbookUseCase(name: 'Variants', builder: (_) => _SurfacePreview()),
+      ],
+    ),
+    WidgetbookComponent(
+      name: 'FocusRing',
+      useCases: [
+        WidgetbookUseCase(name: 'States', builder: (_) => _FocusRingPreview()),
+      ],
+    ),
+    WidgetbookComponent(
+      name: 'Icons',
+      useCases: [
+        WidgetbookUseCase(name: 'Sizes', builder: (_) => _IconPreview()),
+      ],
+    ),
+    WidgetbookComponent(
+      name: 'Skeleton',
+      useCases: [
+        WidgetbookUseCase(name: 'Loaders', builder: (_) => _SkeletonPreview()),
+      ],
+    ),
+    WidgetbookComponent(
+      name: 'Loaders',
+      useCases: [
+        WidgetbookUseCase(name: 'Progress', builder: (_) => _LoadersPreview()),
+      ],
+    ),
   ],
 );
 
 final _atomsCategory = WidgetbookCategory(
   name: 'Atoms',
   children: [
-    WidgetbookComponent(name: 'Button', useCases: [WidgetbookUseCase(name: 'Variants', builder: (_) => _ButtonShowcase())]),
-    WidgetbookComponent(name: 'IconButton', useCases: [WidgetbookUseCase(name: 'Variants', builder: (_) => _IconButtonPreview())]),
-    WidgetbookComponent(name: 'Text', useCases: [WidgetbookUseCase(name: 'Variants', builder: (_) => _TextShowcase())]),
-    WidgetbookComponent(name: 'Badge', useCases: [WidgetbookUseCase(name: 'Statuses', builder: (_) => _BadgePreview())]),
-    WidgetbookComponent(name: 'Tag', useCases: [WidgetbookUseCase(name: 'States', builder: (_) => _TagShowcase())]),
-    WidgetbookComponent(name: 'Divider', useCases: [WidgetbookUseCase(name: 'Types', builder: (_) => _DividerPreview())]),
-    WidgetbookComponent(name: 'Avatar', useCases: [WidgetbookUseCase(name: 'Variants', builder: (_) => _AvatarPreview())]),
-    WidgetbookComponent(name: 'Tooltip', useCases: [WidgetbookUseCase(name: 'Variants', builder: (_) => _TooltipPreview())]),
-    WidgetbookComponent(name: 'Checkbox', useCases: [WidgetbookUseCase(name: 'States', builder: (_) => _CheckboxShowcase())]),
-    WidgetbookComponent(name: 'Toggle', useCases: [WidgetbookUseCase(name: 'States', builder: (_) => _TogglePreview())]),
-    WidgetbookComponent(name: 'SegmentedControl', useCases: [WidgetbookUseCase(name: 'Basic', builder: (_) => _SegmentedPreview())]),
-    WidgetbookComponent(name: 'TextField', useCases: [WidgetbookUseCase(name: 'Inputs', builder: (_) => _TextFieldPreview())]),
-    WidgetbookComponent(name: 'TextArea', useCases: [WidgetbookUseCase(name: 'Inputs', builder: (_) => _TextAreaPreview())]),
-    WidgetbookComponent(name: 'SearchField', useCases: [WidgetbookUseCase(name: 'Default', builder: (_) => _SearchFieldPreview())]),
-    WidgetbookComponent(name: 'Scrollbar', useCases: [WidgetbookUseCase(name: 'Variants', builder: (_) => _ScrollbarPreview())]),
+    WidgetbookComponent(
+      name: 'Button',
+      useCases: [
+        WidgetbookUseCase(name: 'Variants', builder: (_) => _ButtonShowcase()),
+      ],
+    ),
+    WidgetbookComponent(
+      name: 'IconButton',
+      useCases: [
+        WidgetbookUseCase(
+          name: 'Variants',
+          builder: (_) => _IconButtonPreview(),
+        ),
+      ],
+    ),
+    WidgetbookComponent(
+      name: 'Text',
+      useCases: [
+        WidgetbookUseCase(name: 'Variants', builder: (_) => _TextShowcase()),
+      ],
+    ),
+    WidgetbookComponent(
+      name: 'Badge',
+      useCases: [
+        WidgetbookUseCase(name: 'Statuses', builder: (_) => _BadgePreview()),
+      ],
+    ),
+    WidgetbookComponent(
+      name: 'Tag',
+      useCases: [
+        WidgetbookUseCase(name: 'States', builder: (_) => _TagShowcase()),
+      ],
+    ),
+    WidgetbookComponent(
+      name: 'Divider',
+      useCases: [
+        WidgetbookUseCase(name: 'Types', builder: (_) => _DividerPreview()),
+      ],
+    ),
+    WidgetbookComponent(
+      name: 'Avatar',
+      useCases: [
+        WidgetbookUseCase(name: 'Variants', builder: (_) => _AvatarPreview()),
+      ],
+    ),
+    WidgetbookComponent(
+      name: 'Tooltip',
+      useCases: [
+        WidgetbookUseCase(name: 'Variants', builder: (_) => _TooltipPreview()),
+      ],
+    ),
+    WidgetbookComponent(
+      name: 'Checkbox',
+      useCases: [
+        WidgetbookUseCase(name: 'States', builder: (_) => _CheckboxShowcase()),
+      ],
+    ),
+    WidgetbookComponent(
+      name: 'Toggle',
+      useCases: [
+        WidgetbookUseCase(name: 'States', builder: (_) => _TogglePreview()),
+      ],
+    ),
+    WidgetbookComponent(
+      name: 'SegmentedControl',
+      useCases: [
+        WidgetbookUseCase(name: 'Basic', builder: (_) => _SegmentedPreview()),
+      ],
+    ),
+    WidgetbookComponent(
+      name: 'TextField',
+      useCases: [
+        WidgetbookUseCase(name: 'Inputs', builder: (_) => _TextFieldPreview()),
+      ],
+    ),
+    WidgetbookComponent(
+      name: 'TextArea',
+      useCases: [
+        WidgetbookUseCase(name: 'Inputs', builder: (_) => _TextAreaPreview()),
+      ],
+    ),
+    WidgetbookComponent(
+      name: 'SearchField',
+      useCases: [
+        WidgetbookUseCase(
+          name: 'Default',
+          builder: (_) => _SearchFieldPreview(),
+        ),
+      ],
+    ),
+    WidgetbookComponent(
+      name: 'Scrollbar',
+      useCases: [
+        WidgetbookUseCase(
+          name: 'Variants',
+          builder: (_) => _ScrollbarPreview(),
+        ),
+      ],
+    ),
   ],
 );
 
 final _moleculesCategory = WidgetbookCategory(
   name: 'Molecules',
   children: [
-    WidgetbookComponent(name: 'ListItem', useCases: [WidgetbookUseCase(name: 'Variants', builder: (_) => _ListItemPreview())]),
-    WidgetbookComponent(name: 'MenuItem', useCases: [WidgetbookUseCase(name: 'Variants', builder: (_) => _MenuItemPreview())]),
-    WidgetbookComponent(name: 'Toolbar', useCases: [WidgetbookUseCase(name: 'Actions', builder: (_) => _ToolbarPreview())]),
-    WidgetbookComponent(name: 'Tabs', useCases: [WidgetbookUseCase(name: 'Tabs', builder: (_) => _TabsPreview())]),
-    WidgetbookComponent(name: 'PillTabs', useCases: [WidgetbookUseCase(name: 'Pills', builder: (_) => _PillTabsPreview())]),
-    WidgetbookComponent(name: 'Breadcrumbs', useCases: [WidgetbookUseCase(name: 'Trail', builder: (_) => _BreadcrumbsPreview())]),
-    WidgetbookComponent(name: 'Toast', useCases: [WidgetbookUseCase(name: 'Inline', builder: (_) => _ToastPreview())]),
-    WidgetbookComponent(name: 'Snackbar', useCases: [WidgetbookUseCase(name: 'Inline', builder: (_) => _SnackbarPreview())]),
-    WidgetbookComponent(name: 'Dropdown', useCases: [WidgetbookUseCase(name: 'Basic', builder: (_) => _DropdownPreview())]),
-    WidgetbookComponent(name: 'Select', useCases: [WidgetbookUseCase(name: 'Fields', builder: (_) => _SelectPreview())]),
-    WidgetbookComponent(name: 'OptionList', useCases: [WidgetbookUseCase(name: 'Options', builder: (_) => _OptionListPreview())]),
-    WidgetbookComponent(name: 'InputGroup', useCases: [WidgetbookUseCase(name: 'Form', builder: (_) => _InputGroupPreview())]),
-    WidgetbookComponent(name: 'CodeBlock', useCases: [WidgetbookUseCase(name: 'Code', builder: (_) => _CodeBlockPreview())]),
-    WidgetbookComponent(name: 'MarkdownView', useCases: [WidgetbookUseCase(name: 'Markdown', builder: (_) => _MarkdownPreview())]),
-    WidgetbookComponent(name: 'EmptyState', useCases: [WidgetbookUseCase(name: 'States', builder: (_) => _EmptyStatePreview())]),
-    WidgetbookComponent(name: 'SectionHeader', useCases: [WidgetbookUseCase(name: 'Headers', builder: (_) => _SectionHeaderPreview())]),
+    WidgetbookComponent(
+      name: 'ListItem',
+      useCases: [
+        WidgetbookUseCase(name: 'Variants', builder: (_) => _ListItemPreview()),
+      ],
+    ),
+    WidgetbookComponent(
+      name: 'MenuItem',
+      useCases: [
+        WidgetbookUseCase(name: 'Variants', builder: (_) => _MenuItemPreview()),
+      ],
+    ),
+    WidgetbookComponent(
+      name: 'Toolbar',
+      useCases: [
+        WidgetbookUseCase(name: 'Actions', builder: (_) => _ToolbarPreview()),
+      ],
+    ),
+    WidgetbookComponent(
+      name: 'Tabs',
+      useCases: [
+        WidgetbookUseCase(name: 'Tabs', builder: (_) => _TabsPreview()),
+      ],
+    ),
+    WidgetbookComponent(
+      name: 'PillTabs',
+      useCases: [
+        WidgetbookUseCase(name: 'Pills', builder: (_) => _PillTabsPreview()),
+      ],
+    ),
+    WidgetbookComponent(
+      name: 'Breadcrumbs',
+      useCases: [
+        WidgetbookUseCase(name: 'Trail', builder: (_) => _BreadcrumbsPreview()),
+      ],
+    ),
+    WidgetbookComponent(
+      name: 'Toast',
+      useCases: [
+        WidgetbookUseCase(name: 'Inline', builder: (_) => _ToastPreview()),
+      ],
+    ),
+    WidgetbookComponent(
+      name: 'Snackbar',
+      useCases: [
+        WidgetbookUseCase(name: 'Inline', builder: (_) => _SnackbarPreview()),
+      ],
+    ),
+    WidgetbookComponent(
+      name: 'Dropdown',
+      useCases: [
+        WidgetbookUseCase(name: 'Basic', builder: (_) => _DropdownPreview()),
+      ],
+    ),
+    WidgetbookComponent(
+      name: 'Select',
+      useCases: [
+        WidgetbookUseCase(name: 'Fields', builder: (_) => _SelectPreview()),
+      ],
+    ),
+    WidgetbookComponent(
+      name: 'OptionList',
+      useCases: [
+        WidgetbookUseCase(
+          name: 'Options',
+          builder: (_) => _OptionListPreview(),
+        ),
+      ],
+    ),
+    WidgetbookComponent(
+      name: 'InputGroup',
+      useCases: [
+        WidgetbookUseCase(name: 'Form', builder: (_) => _InputGroupPreview()),
+      ],
+    ),
+    WidgetbookComponent(
+      name: 'CodeBlock',
+      useCases: [
+        WidgetbookUseCase(name: 'Code', builder: (_) => _CodeBlockPreview()),
+      ],
+    ),
+    WidgetbookComponent(
+      name: 'MarkdownView',
+      useCases: [
+        WidgetbookUseCase(name: 'Markdown', builder: (_) => _MarkdownPreview()),
+      ],
+    ),
+    WidgetbookComponent(
+      name: 'EmptyState',
+      useCases: [
+        WidgetbookUseCase(name: 'States', builder: (_) => _EmptyStatePreview()),
+      ],
+    ),
+    WidgetbookComponent(
+      name: 'SectionHeader',
+      useCases: [
+        WidgetbookUseCase(
+          name: 'Headers',
+          builder: (_) => _SectionHeaderPreview(),
+        ),
+      ],
+    ),
   ],
 );
 
@@ -134,24 +340,125 @@ final _organismsCategory = WidgetbookCategory(
     WidgetbookFolder(
       name: 'Session',
       children: [
-        WidgetbookComponent(name: 'MessageBubble', useCases: [WidgetbookUseCase(name: 'Variants', builder: (_) => _MessageBubblePreview())]),
-        WidgetbookComponent(name: 'MessageTimeline', useCases: [WidgetbookUseCase(name: 'Timeline', builder: (_) => _MessageTimelinePreview())]),
-        WidgetbookComponent(name: 'PromptComposer', useCases: [WidgetbookUseCase(name: 'Composer', builder: (_) => _PromptComposerPreview())]),
-        WidgetbookComponent(name: 'SessionTabs', useCases: [WidgetbookUseCase(name: 'Tabs', builder: (_) => _SessionTabsPreview())]),
-        WidgetbookComponent(name: 'FileList', useCases: [WidgetbookUseCase(name: 'Tree', builder: (_) => _FileListPreview())]),
-        WidgetbookComponent(name: 'ReviewList', useCases: [WidgetbookUseCase(name: 'Cards', builder: (_) => _ReviewListPreview())]),
-        WidgetbookComponent(name: 'TerminalPanelShell', useCases: [WidgetbookUseCase(name: 'Shell', builder: (_) => _TerminalShellPreview())]),
-        WidgetbookComponent(name: 'SessionHeader', useCases: [WidgetbookUseCase(name: 'Header', builder: (_) => _SessionHeaderPreview())]),
+        WidgetbookComponent(
+          name: 'MessageBubble',
+          useCases: [
+            WidgetbookUseCase(
+              name: 'Variants',
+              builder: (_) => _MessageBubblePreview(),
+            ),
+          ],
+        ),
+        WidgetbookComponent(
+          name: 'MessageTimeline',
+          useCases: [
+            WidgetbookUseCase(
+              name: 'Timeline',
+              builder: (_) => _MessageTimelinePreview(),
+            ),
+          ],
+        ),
+        WidgetbookComponent(
+          name: 'PromptComposer',
+          useCases: [
+            WidgetbookUseCase(
+              name: 'Composer',
+              builder: (_) => _PromptComposerPreview(),
+            ),
+          ],
+        ),
+        WidgetbookComponent(
+          name: 'SessionTabs',
+          useCases: [
+            WidgetbookUseCase(
+              name: 'Tabs',
+              builder: (_) => _SessionTabsPreview(),
+            ),
+          ],
+        ),
+        WidgetbookComponent(
+          name: 'FileList',
+          useCases: [
+            WidgetbookUseCase(name: 'Tree', builder: (_) => _FileListPreview()),
+          ],
+        ),
+        WidgetbookComponent(
+          name: 'ReviewList',
+          useCases: [
+            WidgetbookUseCase(
+              name: 'Cards',
+              builder: (_) => _ReviewListPreview(),
+            ),
+          ],
+        ),
+        WidgetbookComponent(
+          name: 'TerminalPanelShell',
+          useCases: [
+            WidgetbookUseCase(
+              name: 'Shell',
+              builder: (_) => _TerminalShellPreview(),
+            ),
+          ],
+        ),
+        WidgetbookComponent(
+          name: 'SessionHeader',
+          useCases: [
+            WidgetbookUseCase(
+              name: 'Header',
+              builder: (_) => _SessionHeaderPreview(),
+            ),
+          ],
+        ),
       ],
     ),
     WidgetbookFolder(
       name: 'Shell',
       children: [
-        WidgetbookComponent(name: 'TitleBar', useCases: [WidgetbookUseCase(name: 'Title', builder: (_) => _TitleBarPreview())]),
-        WidgetbookComponent(name: 'ProjectRail', useCases: [WidgetbookUseCase(name: 'Rail', builder: (_) => _ProjectRailPreview())]),
-        WidgetbookComponent(name: 'Sidebar', useCases: [WidgetbookUseCase(name: 'Sidebar', builder: (_) => _SidebarPreview())]),
-        WidgetbookComponent(name: 'ContextPanel', useCases: [WidgetbookUseCase(name: 'Context', builder: (_) => _ContextPanelPreview())]),
-        WidgetbookComponent(name: 'DesktopShell', useCases: [WidgetbookUseCase(name: 'Shell', builder: (_) => _DesktopShellPreview())]),
+        WidgetbookComponent(
+          name: 'TitleBar',
+          useCases: [
+            WidgetbookUseCase(
+              name: 'Title',
+              builder: (_) => _TitleBarPreview(),
+            ),
+          ],
+        ),
+        WidgetbookComponent(
+          name: 'ProjectRail',
+          useCases: [
+            WidgetbookUseCase(
+              name: 'Rail',
+              builder: (_) => _ProjectRailPreview(),
+            ),
+          ],
+        ),
+        WidgetbookComponent(
+          name: 'Sidebar',
+          useCases: [
+            WidgetbookUseCase(
+              name: 'Sidebar',
+              builder: (_) => _SidebarPreview(),
+            ),
+          ],
+        ),
+        WidgetbookComponent(
+          name: 'ContextPanel',
+          useCases: [
+            WidgetbookUseCase(
+              name: 'Context',
+              builder: (_) => _ContextPanelPreview(),
+            ),
+          ],
+        ),
+        WidgetbookComponent(
+          name: 'DesktopShell',
+          useCases: [
+            WidgetbookUseCase(
+              name: 'Shell',
+              builder: (_) => _DesktopShellPreview(),
+            ),
+          ],
+        ),
       ],
     ),
   ],
@@ -160,17 +467,48 @@ final _organismsCategory = WidgetbookCategory(
 final _layoutCategory = WidgetbookCategory(
   name: 'Layout',
   children: [
-    WidgetbookComponent(name: 'Stack', useCases: [WidgetbookUseCase(name: 'Layers', builder: (_) => _StackPreview())]),
-    WidgetbookComponent(name: 'OverlayHost', useCases: [WidgetbookUseCase(name: 'Overlays', builder: (_) => _OverlayHostPreview())]),
-    WidgetbookComponent(name: 'SplitView', useCases: [WidgetbookUseCase(name: 'Resizable', builder: (_) => _SplitViewPreview())]),
-    WidgetbookComponent(name: 'Grid', useCases: [WidgetbookUseCase(name: 'Responsive', builder: (_) => _GridPreview())]),
+    WidgetbookComponent(
+      name: 'Stack',
+      useCases: [
+        WidgetbookUseCase(name: 'Layers', builder: (_) => _StackPreview()),
+      ],
+    ),
+    WidgetbookComponent(
+      name: 'OverlayHost',
+      useCases: [
+        WidgetbookUseCase(
+          name: 'Overlays',
+          builder: (_) => _OverlayHostPreview(),
+        ),
+      ],
+    ),
+    WidgetbookComponent(
+      name: 'SplitView',
+      useCases: [
+        WidgetbookUseCase(
+          name: 'Resizable',
+          builder: (_) => _SplitViewPreview(),
+        ),
+      ],
+    ),
+    WidgetbookComponent(
+      name: 'Grid',
+      useCases: [
+        WidgetbookUseCase(name: 'Responsive', builder: (_) => _GridPreview()),
+      ],
+    ),
   ],
 );
 
 final _iconsCategory = WidgetbookCategory(
   name: 'Icons',
   children: [
-    WidgetbookComponent(name: 'AppIcons', useCases: [WidgetbookUseCase(name: 'Catalog', builder: (_) => _IconsShowcase())]),
+    WidgetbookComponent(
+      name: 'AppIcons',
+      useCases: [
+        WidgetbookUseCase(name: 'Catalog', builder: (_) => _IconsShowcase()),
+      ],
+    ),
   ],
 );
 
@@ -479,7 +817,11 @@ class _IconButtonPreview extends StatelessWidget {
         spacing: AppSpacing.sm,
         children: [
           const AppIconButton(icon: AppIcons.add, onPressed: _noop),
-          const AppIconButton(icon: AppIcons.delete, onPressed: _noop, isDisabled: true),
+          const AppIconButton(
+            icon: AppIcons.delete,
+            onPressed: _noop,
+            isDisabled: true,
+          ),
           AppToggleIconButton(
             icon: AppIcons.success,
             selectedIcon: AppIcons.success,
@@ -558,11 +900,7 @@ class _DividerPreview extends StatelessWidget {
   Widget build(BuildContext context) {
     return _PreviewScaffold(
       child: Column(
-        children: const [
-          AppText('Above'),
-          Divider(),
-          AppText('Below'),
-        ],
+        children: const [AppText('Above'), Divider(), AppText('Below')],
       ),
     );
   }
@@ -577,12 +915,14 @@ class _AvatarPreview extends StatelessWidget {
         children: const [
           Avatar(initials: 'AB'),
           Avatar(size: AvatarSize.lg, initials: 'CD'),
-          AvatarStack(avatars: [
-            AvatarData(initials: 'AB'),
-            AvatarData(initials: 'CD'),
-            AvatarData(initials: 'EF'),
-            AvatarData(initials: 'GH'),
-          ]),
+          AvatarStack(
+            avatars: [
+              AvatarData(initials: 'AB'),
+              AvatarData(initials: 'CD'),
+              AvatarData(initials: 'EF'),
+              AvatarData(initials: 'GH'),
+            ],
+          ),
         ],
       ),
     );
@@ -692,9 +1032,7 @@ class _TextAreaPreview extends StatelessWidget {
 class _SearchFieldPreview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return _PreviewScaffold(
-      child: const SearchField(placeholder: 'Search...'),
-    );
+    return _PreviewScaffold(child: const SearchField(placeholder: 'Search...'));
   }
 }
 
@@ -730,7 +1068,11 @@ class _ListItemPreview extends StatelessWidget {
         children: const [
           ListItem(title: 'Item title', subtitle: 'Subtitle'),
           ListItem(title: 'Selected', isSelected: true),
-          CheckableListItem(title: 'Checkable', isChecked: true, onChanged: _noopBool),
+          CheckableListItem(
+            title: 'Checkable',
+            isChecked: true,
+            onChanged: _noopBool,
+          ),
         ],
       ),
     );
@@ -814,11 +1156,13 @@ class _BreadcrumbsPreview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _PreviewScaffold(
-      child: Breadcrumbs(items: const [
-        BreadcrumbItem(label: 'Home'),
-        BreadcrumbItem(label: 'Projects'),
-        BreadcrumbItem(label: 'CodeLab'),
-      ]),
+      child: Breadcrumbs(
+        items: const [
+          BreadcrumbItem(label: 'Home'),
+          BreadcrumbItem(label: 'Projects'),
+          BreadcrumbItem(label: 'CodeLab'),
+        ],
+      ),
     );
   }
 }
@@ -826,9 +1170,7 @@ class _BreadcrumbsPreview extends StatelessWidget {
 class _ToastPreview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return _PreviewScaffold(
-      child: const Toast(message: 'Saved successfully'),
-    );
+    return _PreviewScaffold(child: const Toast(message: 'Saved successfully'));
   }
 }
 
@@ -836,7 +1178,10 @@ class _SnackbarPreview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _PreviewScaffold(
-      child: const AppSnackbar(message: 'Connection lost', actionLabel: 'Retry'),
+      child: const AppSnackbar(
+        message: 'Connection lost',
+        actionLabel: 'Retry',
+      ),
     );
   }
 }
@@ -949,9 +1294,7 @@ class _MarkdownPreview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _PreviewScaffold(
-      child: const MarkdownView(
-        data: '# Heading\n\n* Bullet 1\n* Bullet 2',
-      ),
+      child: const MarkdownView(data: '# Heading\n\n* Bullet 1\n* Bullet 2'),
     );
   }
 }
@@ -992,11 +1335,19 @@ class _MessageBubblePreview extends StatelessWidget {
           ),
           const SizedBox(height: AppSpacing.sm),
           MessageBubble(
-            message: Message(id: '2', role: MessageRole.assistant, content: 'Hi there!'),
+            message: Message(
+              id: '2',
+              role: MessageRole.assistant,
+              content: 'Hi there!',
+            ),
           ),
           const SizedBox(height: AppSpacing.sm),
           MessageBubble(
-            message: Message(id: '3', role: MessageRole.system, content: 'System message'),
+            message: Message(
+              id: '3',
+              role: MessageRole.system,
+              content: 'System message',
+            ),
           ),
         ],
       ),
@@ -1013,8 +1364,16 @@ class _MessageTimelinePreview extends StatelessWidget {
         child: MessageTimeline(
           messages: [
             Message(id: '1', role: MessageRole.user, content: 'Hello!'),
-            Message(id: '2', role: MessageRole.assistant, content: 'How can I help?'),
-            Message(id: '3', role: MessageRole.user, content: 'Show me a list.'),
+            Message(
+              id: '2',
+              role: MessageRole.assistant,
+              content: 'How can I help?',
+            ),
+            Message(
+              id: '3',
+              role: MessageRole.user,
+              content: 'Show me a list.',
+            ),
           ],
           onCopyCode: _noopString,
         ),
@@ -1026,9 +1385,7 @@ class _MessageTimelinePreview extends StatelessWidget {
 class _PromptComposerPreview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return _PreviewScaffold(
-      child: PromptComposer(onSend: _noopString),
-    );
+    return _PreviewScaffold(child: PromptComposer(onSend: _noopString));
   }
 }
 
@@ -1060,19 +1417,29 @@ class _FileListPreview extends StatefulWidget {
 class _FileListPreviewState extends State<_FileListPreview> {
   final _expanded = <String>{'root', 'lib'};
   List<FileNode> get _nodes => const [
+    FileNode(
+      id: 'root',
+      label: 'workspace',
+      isFolder: true,
+      children: [
         FileNode(
-          id: 'root',
-          label: 'workspace',
+          id: 'lib',
+          label: 'lib',
           isFolder: true,
           children: [
-            FileNode(id: 'lib', label: 'lib', isFolder: true, children: [
-              FileNode(id: 'file1', label: 'main.dart', isFolder: false),
-              FileNode(id: 'file2', label: 'app.dart', isFolder: false),
-            ]),
-            FileNode(id: 'readme', label: 'README.md', isFolder: false, badge: 'new'),
+            FileNode(id: 'file1', label: 'main.dart', isFolder: false),
+            FileNode(id: 'file2', label: 'app.dart', isFolder: false),
           ],
         ),
-      ];
+        FileNode(
+          id: 'readme',
+          label: 'README.md',
+          isFolder: false,
+          badge: 'new',
+        ),
+      ],
+    ),
+  ];
   @override
   Widget build(BuildContext context) {
     return _PreviewScaffold(
@@ -1099,8 +1466,18 @@ class _ReviewListPreview extends StatelessWidget {
         height: 260,
         child: ReviewList(
           items: const [
-            ReviewItem(id: '1', title: 'Sidebar density', summary: 'Tighten hover affordance.', severity: 'P2'),
-            ReviewItem(id: '2', title: 'Dialog coverage', summary: 'Ensure shared presentation logic.', severity: 'P3'),
+            ReviewItem(
+              id: '1',
+              title: 'Sidebar density',
+              summary: 'Tighten hover affordance.',
+              severity: 'P2',
+            ),
+            ReviewItem(
+              id: '2',
+              title: 'Dialog coverage',
+              summary: 'Ensure shared presentation logic.',
+              severity: 'P3',
+            ),
           ],
         ),
       ),
@@ -1113,7 +1490,8 @@ class _TerminalShellPreview extends StatelessWidget {
   Widget build(BuildContext context) {
     return _PreviewScaffold(
       child: TerminalPanelShell(
-         title: 'Terminal', child: const SizedBox.shrink(),
+        title: 'Terminal',
+        child: const SizedBox.shrink(),
       ),
     );
   }
@@ -1123,10 +1501,7 @@ class _SessionHeaderPreview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _PreviewScaffold(
-      child: SessionHeader(
-        title: 'Greeting in Russian',
-        branchName: 'main',
-      ),
+      child: SessionHeader(title: 'Greeting in Russian', branchName: 'main'),
     );
   }
 }
@@ -1138,10 +1513,7 @@ class _SessionHeaderPreview extends StatelessWidget {
 class _TitleBarPreview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return _PreviewScaffold(
-      child: TitleBar(
-      ),
-    );
+    return _PreviewScaffold(child: TitleBar());
   }
 }
 
@@ -1150,11 +1522,22 @@ class _ProjectRailPreview extends StatelessWidget {
   Widget build(BuildContext context) {
     return _PreviewScaffold(
       child: ProjectRail(
-        projects:  [
-          ProjectRailItem(id: '1', name: 'codelab_desktop', initials: 'CD', color: const Color(0xFF4F8CFF)),
-          ProjectRailItem(id: '2', name: 'idea_archive', initials: 'IA', color: const Color(0xFF58C27D)),
+        projects: [
+          ProjectRailItem(
+            id: '1',
+            name: 'codelab_desktop',
+            initials: 'CD',
+            color: const Color(0xFF4F8CFF),
+          ),
+          ProjectRailItem(
+            id: '2',
+            name: 'idea_archive',
+            initials: 'IA',
+            color: const Color(0xFF58C27D),
+          ),
         ],
-        selectedProjectId: '1', onProjectSelected: (String value) {  },
+        selectedProjectId: '1',
+        onProjectSelected: (String value) {},
       ),
     );
   }
@@ -1164,9 +1547,7 @@ class _SidebarPreview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _PreviewScaffold(
-      child: Sidebar(
-      projectName: '', projectPath: '',
-      ),
+      child: Sidebar(projectName: '', projectPath: ''),
     );
   }
 }
@@ -1195,19 +1576,23 @@ class _DesktopShellPreview extends StatelessWidget {
         child: DesktopShell(
           titleBar: TitleBar(),
           projectRail: ProjectRail(
-            projects:  [ProjectRailItem(id: '1', name: 'app', initials: 'A', color: const Color(0xFF4F8CFF))],
-            selectedProjectId: '1', onProjectSelected: (String value) {  },
+            projects: [
+              ProjectRailItem(
+                id: '1',
+                name: 'app',
+                initials: 'A',
+                color: const Color(0xFF4F8CFF),
+              ),
+            ],
+            selectedProjectId: '1',
+            onProjectSelected: (String value) {},
           ),
-          sidebar: Sidebar(
-           projectName: '', projectPath: '',
-          ),
+          sidebar: Sidebar(projectName: '', projectPath: ''),
           contextPanel: ContextPanel(
             activeTab: ContextPanelTab.details,
             onTabChanged: _noopContextTab,
           ),
-          bottomPanel: TerminalPanelShell(child: const SizedBox.shrink(),
-   
-          ),
+          bottomPanel: TerminalPanelShell(child: const SizedBox.shrink()),
           showBottomPanel: true,
           content: const Center(child: AppText('Main content area')),
         ),
@@ -1229,7 +1614,15 @@ class _StackPreview extends StatelessWidget {
         child: AppStack(
           children: [
             Container(color: Colors.blue.withOpacity(0.2)),
-            Align(alignment: Alignment.center, child: ElevatedSurface(child: Padding(padding: const EdgeInsets.all(AppSpacing.md), child: AppText('Center')))),
+            Align(
+              alignment: Alignment.center,
+              child: ElevatedSurface(
+                child: Padding(
+                  padding: const EdgeInsets.all(AppSpacing.md),
+                  child: AppText('Center'),
+                ),
+              ),
+            ),
           ],
         ),
       ),
@@ -1264,8 +1657,14 @@ class _SplitViewPreview extends StatelessWidget {
         height: 260,
         child: SplitView(
           initialRatio: 0.3,
-          first: Container(color: Colors.blue.withOpacity(0.1), child: const Center(child: AppText('Left'))),
-          second: Container(color: Colors.green.withOpacity(0.1), child: const Center(child: AppText('Right'))), 
+          first: Container(
+            color: Colors.blue.withOpacity(0.1),
+            child: const Center(child: AppText('Left')),
+          ),
+          second: Container(
+            color: Colors.green.withOpacity(0.1),
+            child: const Center(child: AppText('Right')),
+          ),
         ),
       ),
     );

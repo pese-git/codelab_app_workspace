@@ -96,7 +96,9 @@ class Surface extends fluent.StatelessWidget {
       decoration: fluent.BoxDecoration(
         color: effectiveColor,
         borderRadius: effectiveBorderRadius,
-        border: borderColor != null ? fluent.Border.all(color: borderColor!) : null,
+        border: borderColor != null
+            ? fluent.Border.all(color: borderColor!)
+            : null,
         boxShadow: boxShadow,
       ),
       clipBehavior: clipBehavior,

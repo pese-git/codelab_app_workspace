@@ -20,7 +20,11 @@ class OverlayHostState extends fluent.State<OverlayHost> {
   final List<_OverlayEntry> _entries = [];
 
   /// Show an overlay widget.
-  void showOverlay(fluent.Widget overlay, {String? id, bool dismissible = true}) {
+  void showOverlay(
+    fluent.Widget overlay, {
+    String? id,
+    bool dismissible = true,
+  }) {
     setState(() {
       _entries.add(
         _OverlayEntry(

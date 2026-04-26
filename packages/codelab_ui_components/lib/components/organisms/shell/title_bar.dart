@@ -43,7 +43,9 @@ class TitleBar extends fluent.StatelessWidget {
       padding: const fluent.EdgeInsets.symmetric(horizontal: 14),
       decoration: fluent.BoxDecoration(
         color: colors.backgroundElevated,
-        border: fluent.Border(bottom: fluent.BorderSide(color: colors.borderBase)),
+        border: fluent.Border(
+          bottom: fluent.BorderSide(color: colors.borderBase),
+        ),
       ),
       child: fluent.Row(
         children: <fluent.Widget>[
@@ -69,32 +71,32 @@ class TitleBar extends fluent.StatelessWidget {
           fluent.Center(
             child: fluent.GestureDetector(
               onTap: onSearch,
-                child: fluent.Container(
-                  width: 360,
-                  height: 32,
-                  padding: const fluent.EdgeInsets.symmetric(horizontal: 12),
-                  decoration: fluent.BoxDecoration(
-                    color: colors.surfaceSubtle,
-                    borderRadius: fluent.BorderRadius.circular(10),
-                    border: fluent.Border.all(color: colors.borderWeak),
-                  ),
-                    child: fluent.Row(
-                    children: [
-                      fluent.Expanded(
-                        child: fluent.Text(
-                          searchPlaceholder,
-                          style: AppTypography.small(color: colors.textMuted),
-                        ),
+              child: fluent.Container(
+                width: 360,
+                height: 32,
+                padding: const fluent.EdgeInsets.symmetric(horizontal: 12),
+                decoration: fluent.BoxDecoration(
+                  color: colors.surfaceSubtle,
+                  borderRadius: fluent.BorderRadius.circular(10),
+                  border: fluent.Border.all(color: colors.borderWeak),
+                ),
+                child: fluent.Row(
+                  children: [
+                    fluent.Expanded(
+                      child: fluent.Text(
+                        searchPlaceholder,
+                        style: AppTypography.small(color: colors.textMuted),
                       ),
-                      fluent.Text(
-                        '⌘K',
-                        style: AppTypography.caption(color: colors.textMuted),
-                      ),
-                    ],
-                  ),
+                    ),
+                    fluent.Text(
+                      '⌘K',
+                      style: AppTypography.caption(color: colors.textMuted),
+                    ),
+                  ],
                 ),
               ),
             ),
+          ),
           const fluent.Spacer(),
           _HeaderBadge(icon: fluent.FluentIcons.server_processes, onTap: () {}),
           const fluent.SizedBox(width: 10),
@@ -126,7 +128,10 @@ class _TrafficLights extends fluent.StatelessWidget {
       return fluent.Container(
         width: 14,
         height: 14,
-        decoration: fluent.BoxDecoration(color: color, shape: fluent.BoxShape.circle),
+        decoration: fluent.BoxDecoration(
+          color: color,
+          shape: fluent.BoxShape.circle,
+        ),
       );
     }
 

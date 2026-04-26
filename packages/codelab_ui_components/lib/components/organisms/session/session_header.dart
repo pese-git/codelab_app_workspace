@@ -36,7 +36,9 @@ class SessionHeader extends fluent.StatelessWidget {
       padding: const fluent.EdgeInsets.symmetric(horizontal: AppSpacing.xl),
       decoration: fluent.BoxDecoration(
         color: colors.surfaceBase,
-        border: fluent.Border(bottom: fluent.BorderSide(color: colors.borderWeak)),
+        border: fluent.Border(
+          bottom: fluent.BorderSide(color: colors.borderWeak),
+        ),
       ),
       child: fluent.Row(
         children: [

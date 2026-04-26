@@ -1,5 +1,6 @@
 import 'package:codelab_ui_components/codelab_ui_components.dart' as ui;
-import 'package:codelab_ui_components/codelab_ui_components.dart' show SessionRegionTab;
+import 'package:codelab_ui_components/codelab_ui_components.dart'
+    show SessionRegionTab;
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
 import 'package:go_router/go_router.dart';
 
@@ -54,12 +55,14 @@ class _SessionScreenState extends fluent.State<SessionScreen> {
       ),
       projectRail: ui.ProjectRail(
         projects: controller.projects
-            .map((p) => ui.ProjectRailItem(
-                  id: p.id,
-                  name: p.name,
-                  color: fluent.Color(p.color),
-                  initials: p.initials,
-                ))
+            .map(
+              (p) => ui.ProjectRailItem(
+                id: p.id,
+                name: p.name,
+                color: fluent.Color(p.color),
+                initials: p.initials,
+              ),
+            )
             .toList(),
         selectedProjectId: project.id,
         onProjectSelected: (id) {
@@ -84,18 +87,22 @@ class _SessionScreenState extends fluent.State<SessionScreen> {
         },
         onNewWorkspace: () => controller.openDialog(AppDialog.settings),
         onEditProject: () => controller.openDialog(AppDialog.editProject),
-        onConnectProvider: () => controller.openDialog(AppDialog.selectProvider),
+        onConnectProvider: () =>
+            controller.openDialog(AppDialog.selectProvider),
       ),
       contextPanel: ui.ContextPanel(
         activeTab: ui.ContextPanelTab.details,
         onTabChanged: (tab) {},
         title: 'Изменения',
-        items: session?.fileItems
-                .map((f) => ui.ContextPanelItem(
-                      title: f.path.split('/').last,
-                      subtitle: f.summary,
-                      trailing: f.status,
-                    ))
+        items:
+            session?.fileItems
+                .map(
+                  (f) => ui.ContextPanelItem(
+                    title: f.path.split('/').last,
+                    subtitle: f.summary,
+                    trailing: f.status,
+                  ),
+                )
                 .toList() ??
             [],
         isEmpty: session?.fileItems.isEmpty ?? true,
@@ -120,10 +127,7 @@ class _SessionScreenState extends fluent.State<SessionScreen> {
 }
 
 class _SessionContent extends fluent.StatelessWidget {
-  const _SessionContent({
-    required this.session,
-    required this.colors,
-  });
+  const _SessionContent({required this.session, required this.colors});
 
   final SessionModel session;
   final ui.LightColors colors;
@@ -143,11 +147,7 @@ class _SessionContent extends fluent.StatelessWidget {
         default:
           role = ui.MessageRole.assistant;
       }
-      return ui.Message(
-        id: m.id,
-        role: role,
-        content: m.body,
-      );
+      return ui.Message(id: m.id, role: role, content: m.body);
     }).toList();
 
     return fluent.Column(
@@ -190,10 +190,7 @@ class _SessionContent extends fluent.StatelessWidget {
 }
 
 class _BottomTerminalPanel extends fluent.StatelessWidget {
-  const _BottomTerminalPanel({
-    required this.session,
-    required this.colors,
-  });
+  const _BottomTerminalPanel({required this.session, required this.colors});
 
   final SessionModel session;
   final ui.LightColors colors;
@@ -235,7 +232,8 @@ class _BottomTerminalPanel extends fluent.StatelessWidget {
               _TabButton(
                 label: 'Терминал',
                 isSelected: currentTab == SessionRegionTab.terminal,
-                onTap: () => controller.setSessionTab(SessionRegionTab.terminal),
+                onTap: () =>
+                    controller.setSessionTab(SessionRegionTab.terminal),
                 colors: colors,
               ),
               const fluent.Spacer(),
@@ -248,11 +246,9 @@ class _BottomTerminalPanel extends fluent.StatelessWidget {
               ),
               const fluent.SizedBox(width: ui.AppSpacing.md),
               fluent.GestureDetector(
-                onTap: () => controller.setSessionTab(SessionRegionTab.terminal),
-                child: ui.AppIcon.sm(
-                  ui.AppIcons.add,
-                  color: colors.iconMuted,
-                ),
+                onTap: () =>
+                    controller.setSessionTab(SessionRegionTab.terminal),
+                child: ui.AppIcon.sm(ui.AppIcons.add, color: colors.iconMuted),
               ),
             ],
           ),
@@ -299,7 +295,9 @@ class _TabButton extends fluent.StatelessWidget {
           fluent.Container(
             height: 2,
             width: 72,
-            color: isSelected ? colors.accentPrimary : fluent.Colors.transparent,
+            color: isSelected
+                ? colors.accentPrimary
+                : fluent.Colors.transparent,
           ),
         ],
       ),
@@ -324,12 +322,14 @@ class _BottomPanelContent extends fluent.StatelessWidget {
       case SessionRegionTab.files:
         return ui.FileList(
           nodes: session.fileItems
-              .map((f) => ui.FileNode(
-                    id: f.path,
-                    label: f.path.split('/').last,
-                    badge: f.path,
-                    isFolder: false,
-                  ))
+              .map(
+                (f) => ui.FileNode(
+                  id: f.path,
+                  label: f.path.split('/').last,
+                  badge: f.path,
+                  isFolder: false,
+                ),
+              )
               .toList(),
           expandedNodes: const {},
           onNodeToggle: (id) {},
@@ -337,12 +337,14 @@ class _BottomPanelContent extends fluent.StatelessWidget {
       case SessionRegionTab.review:
         return ui.ReviewList(
           items: session.reviewItems
-              .map((r) => ui.ReviewItem(
-                    id: r.title,
-                    title: r.title,
-                    summary: r.summary,
-                    severity: r.severity//_parseSeverity(r.severity),
-                  ))
+              .map(
+                (r) => ui.ReviewItem(
+                  id: r.title,
+                  title: r.title,
+                  summary: r.summary,
+                  severity: r.severity, //_parseSeverity(r.severity),
+                ),
+              )
               .toList(),
           onItemTap: (item) {},
         );
@@ -364,7 +366,8 @@ class _BottomPanelContent extends fluent.StatelessWidget {
         );
     }
   }
-/*
+
+  /*
   ui.ReviewSeverity _parseSeverity(String severity) {
     switch (severity.toLowerCase()) {
       case 'critical':

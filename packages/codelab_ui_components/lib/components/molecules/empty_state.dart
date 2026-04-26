@@ -55,7 +55,9 @@ class EmptyState extends fluent.StatelessWidget {
 
     return fluent.Center(
       child: fluent.Padding(
-        padding: fluent.EdgeInsets.all(compact ? AppSpacing.lg : AppSpacing.xxl),
+        padding: fluent.EdgeInsets.all(
+          compact ? AppSpacing.lg : AppSpacing.xxl,
+        ),
         child: fluent.Column(
           mainAxisSize: fluent.MainAxisSize.min,
           children: [
@@ -75,7 +77,11 @@ class EmptyState extends fluent.StatelessWidget {
               ),
               fluent.SizedBox(height: compact ? AppSpacing.md : AppSpacing.lg),
             ],
-            fluent.Text(title, style: titleStyle, textAlign: fluent.TextAlign.center),
+            fluent.Text(
+              title,
+              style: titleStyle,
+              textAlign: fluent.TextAlign.center,
+            ),
             if (message != null) ...[
               fluent.SizedBox(height: compact ? AppSpacing.xs : AppSpacing.sm),
               fluent.Text(

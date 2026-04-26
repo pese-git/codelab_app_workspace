@@ -33,12 +33,14 @@ class HomeScreen extends fluent.StatelessWidget {
       ),
       projectRail: ProjectRail(
         projects: controller.projects
-            .map((p) => ProjectRailItem(
-                  id: p.id,
-                  name: p.name,
-                  color: fluent.Color(p.color),
-                  initials: p.initials,
-                ))
+            .map(
+              (p) => ProjectRailItem(
+                id: p.id,
+                name: p.name,
+                color: fluent.Color(p.color),
+                initials: p.initials,
+              ),
+            )
             .toList(),
         selectedProjectId: project.id,
         onProjectSelected: (id) {
@@ -51,13 +53,11 @@ class HomeScreen extends fluent.StatelessWidget {
       ),
       sidebar: Sidebar(
         projectName: project.name,
-        projectPath: '/Users/.../CodeLab/${project.name.toLowerCase().replaceAll(' ', '_')}',
+        projectPath:
+            '/Users/.../CodeLab/${project.name.toLowerCase().replaceAll(' ', '_')}',
         branchName: 'master',
         sessions: project.sessions
-            .map((s) => SidebarSession(
-                  id: s.id,
-                  title: s.title,
-                ))
+            .map((s) => SidebarSession(id: s.id, title: s.title))
             .toList(),
         selectedSessionId: controller.selectedSession?.id,
         onSessionSelected: (id) {
@@ -66,7 +66,8 @@ class HomeScreen extends fluent.StatelessWidget {
         },
         onNewWorkspace: () => controller.openDialog(AppDialog.settings),
         onEditProject: () => controller.openDialog(AppDialog.editProject),
-        onConnectProvider: () => controller.openDialog(AppDialog.selectProvider),
+        onConnectProvider: () =>
+            controller.openDialog(AppDialog.selectProvider),
       ),
       contextPanel: ContextPanel(
         activeTab: ContextPanelTab.details,
@@ -83,10 +84,7 @@ class HomeScreen extends fluent.StatelessWidget {
 }
 
 class _HomeContent extends fluent.StatelessWidget {
-  const _HomeContent({
-    required this.project,
-    required this.colors,
-  });
+  const _HomeContent({required this.project, required this.colors});
 
   final ProjectModel project;
   final LightColors colors;
@@ -128,10 +126,7 @@ class _HomeContent extends fluent.StatelessWidget {
                 fluent.Row(
                   mainAxisAlignment: fluent.MainAxisAlignment.center,
                   children: [
-                    AppIcon.sm(
-                      AppIcons.branch,
-                      color: colors.iconMuted,
-                    ),
+                    AppIcon.sm(AppIcons.branch, color: colors.iconMuted),
                     const fluent.SizedBox(width: AppSpacing.sm),
                     AppText.body(
                       'Основная ветка (master)',
@@ -228,20 +223,14 @@ class _HomePromptComposer extends fluent.StatelessWidget {
           fluent.Expanded(
             child: fluent.Align(
               alignment: fluent.Alignment.topLeft,
-              child: AppText.body(
-                placeholder,
-                color: colors.textMuted,
-              ),
+              child: AppText.body(placeholder, color: colors.textMuted),
             ),
           ),
           fluent.Row(
             children: [
               fluent.GestureDetector(
                 onTap: onAddFile,
-                child: AppIcon.md(
-                  AppIcons.add,
-                  color: colors.iconMuted,
-                ),
+                child: AppIcon.md(AppIcons.add, color: colors.iconMuted),
               ),
               const fluent.Spacer(),
               fluent.GestureDetector(
@@ -266,34 +255,19 @@ class _HomePromptComposer extends fluent.StatelessWidget {
             children: [
               fluent.GestureDetector(
                 onTap: onSelectModel,
-                child: AppText.body(
-                  'Build',
-                  color: colors.textWeak,
-                ),
+                child: AppText.body('Build', color: colors.textWeak),
               ),
               const fluent.SizedBox(width: AppSpacing.xs),
-              AppIcon.sm(
-                AppIcons.chevronDown,
-                color: colors.iconMuted,
-              ),
+              AppIcon.sm(AppIcons.chevronDown, color: colors.iconMuted),
               const fluent.SizedBox(width: AppSpacing.lg),
-              AppIcon.sm(
-                fluent.FluentIcons.contact,
-                color: colors.iconMuted,
-              ),
+              AppIcon.sm(fluent.FluentIcons.contact, color: colors.iconMuted),
               const fluent.SizedBox(width: AppSpacing.sm),
               fluent.GestureDetector(
                 onTap: onSelectProvider,
-                child: AppText.body(
-                  'Big Pickle',
-                  color: colors.textWeak,
-                ),
+                child: AppText.body('Big Pickle', color: colors.textWeak),
               ),
               const fluent.SizedBox(width: AppSpacing.xs),
-              AppIcon.sm(
-                AppIcons.chevronDown,
-                color: colors.iconMuted,
-              ),
+              AppIcon.sm(AppIcons.chevronDown, color: colors.iconMuted),
             ],
           ),
         ],

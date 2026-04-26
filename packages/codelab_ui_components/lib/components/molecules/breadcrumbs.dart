@@ -31,7 +31,11 @@ class Breadcrumbs extends fluent.StatelessWidget {
         separator ??
         fluent.Padding(
           padding: const fluent.EdgeInsets.symmetric(horizontal: AppSpacing.xs),
-          child: fluent.Icon(fluent.FluentIcons.chevron_right, size: 16, color: colors.iconMuted),
+          child: fluent.Icon(
+            fluent.FluentIcons.chevron_right,
+            size: 16,
+            color: colors.iconMuted,
+          ),
         );
 
     List<BreadcrumbItem> displayItems = items;
@@ -50,7 +54,10 @@ class Breadcrumbs extends fluent.StatelessWidget {
       children: [
         for (var i = 0; i < displayItems.length; i++) ...[
           if (i == 1 && showEllipsis) ...[
-            fluent.Text('...', style: AppTypography.body(color: colors.textMuted)),
+            fluent.Text(
+              '...',
+              style: AppTypography.body(color: colors.textMuted),
+            ),
             effectiveSeparator,
           ],
           _BreadcrumbButton(

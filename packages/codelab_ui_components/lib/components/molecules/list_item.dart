@@ -51,12 +51,16 @@ class ListItem extends fluent.StatelessWidget {
     return fluent.GestureDetector(
       onTap: isEnabled ? onTap : null,
       child: fluent.MouseRegion(
-        cursor: isEnabled ? fluent.SystemMouseCursors.click : fluent.SystemMouseCursors.basic,
+        cursor: isEnabled
+            ? fluent.SystemMouseCursors.click
+            : fluent.SystemMouseCursors.basic,
         child: fluent.AnimatedContainer(
           duration: AppDurations.fast,
           padding: padding ?? const fluent.EdgeInsets.all(AppSpacing.md),
           decoration: fluent.BoxDecoration(
-            color: isSelected ? colors.surfaceSelected : fluent.Colors.transparent,
+            color: isSelected
+                ? colors.surfaceSelected
+                : fluent.Colors.transparent,
             borderRadius: AppRadius.smAll,
           ),
           child: fluent.Row(
@@ -140,7 +144,11 @@ class CheckableListItem extends fluent.StatelessWidget {
           ),
         ),
         child: isChecked
-            ? fluent.Icon(fluent.FluentIcons.check_mark, size: 14, color: colors.iconOnAccent)
+            ? fluent.Icon(
+                fluent.FluentIcons.check_mark,
+                size: 14,
+                color: colors.iconOnAccent,
+              )
             : null,
       ),
     );

@@ -116,7 +116,11 @@ class Toast extends fluent.StatelessWidget {
             const fluent.SizedBox(width: AppSpacing.sm),
             fluent.GestureDetector(
               onTap: onDismiss,
-              child: fluent.Icon(fluent.FluentIcons.chrome_close, size: 18, color: colors.iconWeak),
+              child: fluent.Icon(
+                fluent.FluentIcons.chrome_close,
+                size: 18,
+                color: colors.iconWeak,
+              ),
             ),
           ],
         ],

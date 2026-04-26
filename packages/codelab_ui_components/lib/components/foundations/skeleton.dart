@@ -66,11 +66,12 @@ class _SkeletonState extends fluent.State<Skeleton>
       vsync: this,
       duration: const Duration(milliseconds: 1500),
     );
-    _animation = fluent.Tween<double>(
-      begin: -2,
-      end: 2,
-    ).animate(fluent.CurvedAnimation(
-        parent: _controller, curve: fluent.Curves.easeInOut));
+    _animation = fluent.Tween<double>(begin: -2, end: 2).animate(
+      fluent.CurvedAnimation(
+        parent: _controller,
+        curve: fluent.Curves.easeInOut,
+      ),
+    );
     if (widget.animate) {
       _controller.repeat();
     }
@@ -138,7 +139,7 @@ class _SkeletonState extends fluent.State<Skeleton>
 
 class _CircleSkeleton extends Skeleton {
   const _CircleSkeleton({required this.size, super.animate, super.key})
-      : super(width: size, height: size);
+    : super(width: size, height: size);
 
   final double size;
 
@@ -163,7 +164,9 @@ class _CircleSkeletonState extends _SkeletonState {
         width: circleWidget.size,
         height: circleWidget.size,
         decoration: fluent.BoxDecoration(
-            color: baseColor, shape: fluent.BoxShape.circle),
+          color: baseColor,
+          shape: fluent.BoxShape.circle,
+        ),
       );
     }
 

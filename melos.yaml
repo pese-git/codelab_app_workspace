@@ -1,5 +1,7 @@
 name: codelab_app_workspace
 
+sdkPath: .fvm/flutter_sdk
+
 packages:
   - apps/**
   - packages/**
@@ -29,3 +31,13 @@ scripts:
     description: Run tests for all packages
     run: |
       melos exec -c 2 -- fvm flutter test
+
+  build:
+    description: Build all packages
+    run: |
+      melos exec -c 4 -- fvm flutter build
+
+  run:
+    description: Run all packages
+    run: |
+      melos exec -c 4 -- fvm flutter run

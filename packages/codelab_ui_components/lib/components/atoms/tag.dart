@@ -72,7 +72,11 @@ class Tag extends fluent.StatelessWidget {
                 const fluent.SizedBox(width: AppSpacing.xs),
                 fluent.GestureDetector(
                   onTap: onRemove,
-                  child: fluent.Icon(fluent.FluentIcons.chrome_close, size: 12, color: colors.iconWeak),
+                  child: fluent.Icon(
+                    fluent.FluentIcons.chrome_close,
+                    size: 12,
+                    color: colors.iconWeak,
+                  ),
                 ),
               ],
             ],
@@ -120,7 +124,11 @@ class TagGroup extends fluent.StatelessWidget {
     });
 
     if (wrap) {
-      return fluent.Wrap(spacing: spacing, runSpacing: spacing, children: children);
+      return fluent.Wrap(
+        spacing: spacing,
+        runSpacing: spacing,
+        children: children,
+      );
     }
 
     return fluent.Row(

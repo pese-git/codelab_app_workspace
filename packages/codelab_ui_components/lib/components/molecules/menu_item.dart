@@ -62,7 +62,9 @@ class _MenuItemState extends fluent.State<MenuItem> {
     return fluent.GestureDetector(
       onTap: isEnabled ? widget.onTap : null,
       child: fluent.MouseRegion(
-        cursor: isEnabled ? fluent.SystemMouseCursors.click : fluent.SystemMouseCursors.basic,
+        cursor: isEnabled
+            ? fluent.SystemMouseCursors.click
+            : fluent.SystemMouseCursors.basic,
         onEnter: (_) => setState(() => _isHovered = true),
         onExit: (_) => setState(() => _isHovered = false),
         child: fluent.AnimatedContainer(

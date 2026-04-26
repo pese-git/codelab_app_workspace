@@ -71,7 +71,11 @@ class CodeBlock extends fluent.StatelessWidget {
                   child: fluent.Row(
                     mainAxisSize: fluent.MainAxisSize.min,
                     children: [
-                      fluent.Icon(fluent.FluentIcons.copy, size: 14, color: colors.iconWeak),
+                      fluent.Icon(
+                        fluent.FluentIcons.copy,
+                        size: 14,
+                        color: colors.iconWeak,
+                      ),
                       const fluent.SizedBox(width: AppSpacing.xs),
                       fluent.Text(
                         'Copy',

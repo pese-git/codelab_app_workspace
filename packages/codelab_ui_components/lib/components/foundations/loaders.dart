@@ -122,8 +122,10 @@ class LoadingIndicator extends fluent.StatelessWidget {
         ),
         if (message != null) ...[
           const fluent.SizedBox(height: AppSpacing.md),
-          fluent.Text(message!,
-              style: AppTypography.body(color: colors.textMuted)),
+          fluent.Text(
+            message!,
+            style: AppTypography.body(color: colors.textMuted),
+          ),
         ],
       ],
     );
@@ -222,11 +224,12 @@ class _DotsLoaderState extends fluent.State<DotsLoader>
     });
 
     _animations = _controllers.map((controller) {
-      return fluent.Tween<double>(
-        begin: 0,
-        end: 1,
-      ).animate(fluent.CurvedAnimation(
-          parent: controller, curve: fluent.Curves.easeInOut));
+      return fluent.Tween<double>(begin: 0, end: 1).animate(
+        fluent.CurvedAnimation(
+          parent: controller,
+          curve: fluent.Curves.easeInOut,
+        ),
+      );
     }).toList();
 
     for (var i = 0; i < 3; i++) {
@@ -261,8 +264,9 @@ class _DotsLoaderState extends fluent.State<DotsLoader>
           animation: _animations[index],
           builder: (context, child) {
             return fluent.Container(
-              margin:
-                  fluent.EdgeInsets.only(right: index < 2 ? widget.spacing : 0),
+              margin: fluent.EdgeInsets.only(
+                right: index < 2 ? widget.spacing : 0,
+              ),
               width: widget.size,
               height: widget.size,
               decoration: fluent.BoxDecoration(

@@ -112,7 +112,11 @@ class CheckboxGroup extends fluent.StatelessWidget {
     });
 
     if (direction == fluent.Axis.horizontal) {
-      return fluent.Wrap(spacing: spacing, runSpacing: spacing, children: children);
+      return fluent.Wrap(
+        spacing: spacing,
+        runSpacing: spacing,
+        children: children,
+      );
     }
 
     return fluent.Column(

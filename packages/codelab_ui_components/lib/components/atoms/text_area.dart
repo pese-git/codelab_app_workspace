@@ -115,11 +115,17 @@ class AppTextArea extends fluent.StatelessWidget {
           textArea,
           if (helper != null && !hasError) ...[
             const fluent.SizedBox(height: AppSpacing.xs),
-            fluent.Text(helper!, style: AppTypography.caption(color: colors.textWeak)),
+            fluent.Text(
+              helper!,
+              style: AppTypography.caption(color: colors.textWeak),
+            ),
           ],
           if (hasError) ...[
             const fluent.SizedBox(height: AppSpacing.xs),
-            fluent.Text(error!, style: AppTypography.caption(color: colors.errorText)),
+            fluent.Text(
+              error!,
+              style: AppTypography.caption(color: colors.errorText),
+            ),
           ],
         ],
       );

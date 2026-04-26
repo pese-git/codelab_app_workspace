@@ -49,7 +49,9 @@ class AppTabs<T> extends fluent.StatelessWidget {
 
     return fluent.Container(
       decoration: fluent.BoxDecoration(
-        border: fluent.Border(bottom: fluent.BorderSide(color: colors.borderWeak)),
+        border: fluent.Border(
+          bottom: fluent.BorderSide(color: colors.borderWeak),
+        ),
       ),
       child: fluent.Row(children: tabWidgets),
     );
@@ -161,7 +163,9 @@ class _CloseableTabState extends fluent.State<CloseableTab> {
             vertical: AppSpacing.sm,
           ),
           decoration: fluent.BoxDecoration(
-            color: widget.isSelected ? colors.surfaceBase : fluent.Colors.transparent,
+            color: widget.isSelected
+                ? colors.surfaceBase
+                : fluent.Colors.transparent,
             border: fluent.Border(
               bottom: fluent.BorderSide(
                 color: widget.isSelected
@@ -190,7 +194,11 @@ class _CloseableTabState extends fluent.State<CloseableTab> {
                 const fluent.SizedBox(width: AppSpacing.sm),
                 fluent.GestureDetector(
                   onTap: widget.onClose,
-                  child: fluent.Icon(fluent.FluentIcons.chrome_close, size: 14, color: colors.iconWeak),
+                  child: fluent.Icon(
+                    fluent.FluentIcons.chrome_close,
+                    size: 14,
+                    color: colors.iconWeak,
+                  ),
                 ),
               ],
             ],

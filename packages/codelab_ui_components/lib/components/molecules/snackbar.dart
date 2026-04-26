@@ -93,7 +93,11 @@ class AppSnackbar extends fluent.StatelessWidget {
             const fluent.SizedBox(width: AppSpacing.md),
             fluent.GestureDetector(
               onTap: onDismiss,
-              child: fluent.Icon(fluent.FluentIcons.chrome_close, size: 18, color: colors.iconOnAccent),
+              child: fluent.Icon(
+                fluent.FluentIcons.chrome_close,
+                size: 18,
+                color: colors.iconOnAccent,
+              ),
             ),
           ],
         ],

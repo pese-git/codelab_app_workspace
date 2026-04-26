@@ -57,7 +57,11 @@ class ReviewList extends fluent.StatelessWidget {
       child: fluent.Column(
         mainAxisSize: fluent.MainAxisSize.min,
         children: [
-          fluent.Icon(fluent.FluentIcons.check_mark, size: 48, color: colors.successBase),
+          fluent.Icon(
+            fluent.FluentIcons.check_mark,
+            size: 48,
+            color: colors.successBase,
+          ),
           const fluent.SizedBox(height: AppSpacing.md),
           fluent.Text(
             'No issues found',

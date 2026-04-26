@@ -26,7 +26,9 @@ class SessionTabs extends fluent.StatelessWidget {
     return fluent.Container(
       padding: const fluent.EdgeInsets.all(AppSpacing.md2),
       decoration: fluent.BoxDecoration(
-        border: fluent.Border(bottom: fluent.BorderSide(color: colors.borderWeak)),
+        border: fluent.Border(
+          bottom: fluent.BorderSide(color: colors.borderWeak),
+        ),
       ),
       child: fluent.Row(
         children: [

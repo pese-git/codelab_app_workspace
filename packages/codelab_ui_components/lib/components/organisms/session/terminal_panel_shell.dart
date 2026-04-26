@@ -48,23 +48,43 @@ class TerminalPanelShell extends fluent.StatelessWidget {
           // Header bar
           fluent.Container(
             height: 32,
-            padding: const fluent.EdgeInsets.symmetric(horizontal: AppSpacing.md),
+            padding: const fluent.EdgeInsets.symmetric(
+              horizontal: AppSpacing.md,
+            ),
             decoration: fluent.BoxDecoration(
               color: colors.surfaceSubtle,
-              border: fluent.Border(bottom: fluent.BorderSide(color: colors.borderWeak)),
+              border: fluent.Border(
+                bottom: fluent.BorderSide(color: colors.borderWeak),
+              ),
             ),
             child: fluent.Row(
               children: [
-                fluent.Icon(fluent.FluentIcons.command_prompt, size: 14, color: colors.iconWeak),
+                fluent.Icon(
+                  fluent.FluentIcons.command_prompt,
+                  size: 14,
+                  color: colors.iconWeak,
+                ),
                 const fluent.SizedBox(width: AppSpacing.sm),
-                fluent.Text(title, style: AppTypography.small(color: colors.textBase)),
+                fluent.Text(
+                  title,
+                  style: AppTypography.small(color: colors.textBase),
+                ),
                 const fluent.Spacer(),
                 if (onMinimize != null)
-                  _TerminalButton(icon: fluent.FluentIcons.chrome_minimize, onTap: onMinimize!),
+                  _TerminalButton(
+                    icon: fluent.FluentIcons.chrome_minimize,
+                    onTap: onMinimize!,
+                  ),
                 if (onMaximize != null)
-                  _TerminalButton(icon: fluent.FluentIcons.full_screen, onTap: onMaximize!),
+                  _TerminalButton(
+                    icon: fluent.FluentIcons.full_screen,
+                    onTap: onMaximize!,
+                  ),
                 if (onClose != null)
-                  _TerminalButton(icon: fluent.FluentIcons.chrome_close, onTap: onClose!),
+                  _TerminalButton(
+                    icon: fluent.FluentIcons.chrome_close,
+                    onTap: onClose!,
+                  ),
               ],
             ),
           ),
@@ -150,7 +170,11 @@ class TerminalError extends fluent.StatelessWidget {
         child: fluent.Column(
           mainAxisSize: fluent.MainAxisSize.min,
           children: [
-            fluent.Icon(fluent.FluentIcons.error_badge, size: 32, color: colors.errorBase),
+            fluent.Icon(
+              fluent.FluentIcons.error_badge,
+              size: 32,
+              color: colors.errorBase,
+            ),
             const fluent.SizedBox(height: AppSpacing.md),
             fluent.Text(
               error,
@@ -159,7 +183,10 @@ class TerminalError extends fluent.StatelessWidget {
             ),
             if (onRetry != null) ...[
               const fluent.SizedBox(height: AppSpacing.lg),
-              fluent.Button(onPressed: onRetry, child: const fluent.Text('Retry')),
+              fluent.Button(
+                onPressed: onRetry,
+                child: const fluent.Text('Retry'),
+              ),
             ],
           ],
         ),
