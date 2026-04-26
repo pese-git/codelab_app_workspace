@@ -1,6 +1,7 @@
 import 'package:fluent_ui/fluent_ui.dart';
 
-import '../../components.dart' hide SessionRegionTab;
+import 'package:codelab_ui_components/codelab_ui_components.dart'
+    hide SessionRegionTab;
 import '../models/workspace_models.dart';
 import '../state/app_controller.dart';
 import '../state/app_scope.dart';
@@ -39,9 +40,7 @@ class _SessionRegionState extends State<SessionRegion> {
           // Tab bar
           _buildTabBar(controller, colors),
           // Content area
-          Expanded(
-            child: _buildContent(controller.sessionTab, colors),
-          ),
+          Expanded(child: _buildContent(controller.sessionTab, colors)),
         ],
       ),
     );
@@ -51,9 +50,7 @@ class _SessionRegionState extends State<SessionRegion> {
     return Container(
       padding: const EdgeInsets.all(AppSpacing.md2),
       decoration: BoxDecoration(
-        border: Border(
-          bottom: BorderSide(color: colors.borderWeak),
-        ),
+        border: Border(bottom: BorderSide(color: colors.borderWeak)),
       ),
       child: Row(
         children: [
@@ -190,10 +187,7 @@ class _RegionCard extends StatelessWidget {
             ],
           ),
           const SizedBox(height: AppSpacing.sm),
-          Text(
-            summary,
-            style: AppTypography.caption(color: colors.textWeak),
-          ),
+          Text(summary, style: AppTypography.caption(color: colors.textWeak)),
         ],
       ),
     );
@@ -261,20 +255,24 @@ Would you like me to explain any part in more detail?''',
 
   void _handleSendMessage(String content) {
     setState(() {
-      _messages.add(Message(
-        id: 'msg_${++_messageIdCounter}',
-        role: MessageRole.user,
-        content: content,
-      ));
+      _messages.add(
+        Message(
+          id: 'msg_${++_messageIdCounter}',
+          role: MessageRole.user,
+          content: content,
+        ),
+      );
 
       Future.delayed(const Duration(milliseconds: 500), () {
         if (mounted) {
           setState(() {
-            _messages.add(Message(
-              id: 'msg_${++_messageIdCounter}',
-              role: MessageRole.assistant,
-              content: _generateMockResponse(content),
-            ));
+            _messages.add(
+              Message(
+                id: 'msg_${++_messageIdCounter}',
+                role: MessageRole.assistant,
+                content: _generateMockResponse(content),
+              ),
+            );
           });
         }
       });
@@ -312,18 +310,13 @@ Just let me know what you need!''';
         children: [
           // Message timeline
           Expanded(
-            child: MessageTimeline(
-              messages: _messages,
-              onCopyCode: (_) {},
-            ),
+            child: MessageTimeline(messages: _messages, onCopyCode: (_) {}),
           ),
           // Prompt composer
           Container(
             padding: const EdgeInsets.all(AppSpacing.md),
             decoration: BoxDecoration(
-              border: Border(
-                top: BorderSide(color: colors.borderWeak),
-              ),
+              border: Border(top: BorderSide(color: colors.borderWeak)),
             ),
             child: PromptComposer(
               onSend: _handleSendMessage,

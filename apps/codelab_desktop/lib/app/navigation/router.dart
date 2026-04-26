@@ -104,10 +104,7 @@ HistoryController get historyController {
     initialLocation: '/',
     refreshListenable: controller,
     routes: [
-      GoRoute(
-        path: '/',
-        builder: (context, state) => const HomeScreen(),
-      ),
+      GoRoute(path: '/', builder: (context, state) => const HomeScreen()),
       GoRoute(
         path: '/session/:sessionId',
         builder: (context, state) {

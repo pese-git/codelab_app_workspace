@@ -17,15 +17,11 @@ import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter_pty/flutter_pty.dart';
 import 'package:xterm/xterm.dart';
 
-import '../../components/theme/tokens.dart';
+import 'package:codelab_ui_components/codelab_ui_components.dart';
 
 /// A terminal panel widget supporting interactive PTY sessions.
 class TerminalPanel extends StatefulWidget {
-  const TerminalPanel({
-    this.workingDirectory,
-    this.onExit,
-    super.key,
-  });
+  const TerminalPanel({this.workingDirectory, this.onExit, super.key});
 
   /// Working directory for the terminal session.
   final String? workingDirectory;
@@ -50,9 +46,7 @@ class _TerminalPanelState extends State<TerminalPanel> {
   }
 
   void _initTerminal() {
-    _terminal = Terminal(
-      maxLines: 10000,
-    );
+    _terminal = Terminal(maxLines: 10000);
 
     try {
       _startPty();
@@ -123,11 +117,7 @@ class _TerminalPanelState extends State<TerminalPanel> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(
-                FluentIcons.error_badge,
-                size: 32,
-                color: colors.errorBase,
-              ),
+              Icon(FluentIcons.error_badge, size: 32, color: colors.errorBase),
               const SizedBox(height: AppSpacing.md),
               Text(
                 _error!,

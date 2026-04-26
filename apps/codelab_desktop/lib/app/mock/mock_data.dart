@@ -25,9 +25,21 @@ WorkspaceData buildMockWorkspace() {
                 kind: 'folder',
                 badge: 'active',
                 children: [
-                  WorkspaceNode(id: 'workspace-lib', label: 'lib', kind: 'folder'),
-                  WorkspaceNode(id: 'workspace-test', label: 'test', kind: 'folder'),
-                  WorkspaceNode(id: 'workspace-plan', label: 'IMPLEMENTATION_PLAN.md', kind: 'file'),
+                  WorkspaceNode(
+                    id: 'workspace-lib',
+                    label: 'lib',
+                    kind: 'folder',
+                  ),
+                  WorkspaceNode(
+                    id: 'workspace-test',
+                    label: 'test',
+                    kind: 'folder',
+                  ),
+                  WorkspaceNode(
+                    id: 'workspace-plan',
+                    label: 'IMPLEMENTATION_PLAN.md',
+                    kind: 'file',
+                  ),
                 ],
               ),
             ],
@@ -37,7 +49,11 @@ WorkspaceData buildMockWorkspace() {
             label: 'reference',
             kind: 'folder',
             children: [
-              WorkspaceNode(id: 'workspace-opencode', label: 'opencode', kind: 'folder'),
+              WorkspaceNode(
+                id: 'workspace-opencode',
+                label: 'opencode',
+                kind: 'folder',
+              ),
             ],
           ),
         ],
@@ -76,31 +92,21 @@ WorkspaceData buildMockWorkspace() {
               ),
             ],
             fileItems: [
-              FileItem(
-                path: '.pytest_cache',
-                summary: 'cache',
-                status: '',
-              ),
-              FileItem(
-                path: '.ruff_cache',
-                summary: 'cache',
-                status: '',
-              ),
-              FileItem(
-                path: 'README.md',
-                summary: 'docs',
-                status: '',
-              ),
+              FileItem(path: '.pytest_cache', summary: 'cache', status: ''),
+              FileItem(path: '.ruff_cache', summary: 'cache', status: ''),
+              FileItem(path: 'README.md', summary: 'docs', status: ''),
             ],
             reviewItems: [
               ReviewItem(
                 title: 'Sidebar density',
-                summary: 'Project rail and workspace tree now align with desktop layout, but the collapsed state still needs a tighter hover affordance.',
+                summary:
+                    'Project rail and workspace tree now align with desktop layout, but the collapsed state still needs a tighter hover affordance.',
                 severity: 'P2',
               ),
               ReviewItem(
                 title: 'Dialog coverage',
-                summary: 'All major modal surfaces are represented as mock overlays with shared presentation logic.',
+                summary:
+                    'All major modal surfaces are represented as mock overlays with shared presentation logic.',
                 severity: 'P3',
               ),
             ],
@@ -134,13 +140,15 @@ WorkspaceData buildMockWorkspace() {
                 author: 'Design',
                 role: 'user',
                 timestamp: '18:32',
-                body: 'Нужно воспроизвести home view с recent projects и open project actions.',
+                body:
+                    'Нужно воспроизвести home view с recent projects и open project actions.',
               ),
             ],
             fileItems: [
               FileItem(
                 path: 'lib/app/screens/home_screen.dart',
-                summary: 'Home view with recent projects and server quick action',
+                summary:
+                    'Home view with recent projects and server quick action',
                 status: 'planned',
               ),
             ],
@@ -161,7 +169,11 @@ WorkspaceData buildMockWorkspace() {
         color: 0xFF58C27D,
         workspaceRoots: [
           WorkspaceNode(id: 'ideas-src', label: 'notes', kind: 'folder'),
-          WorkspaceNode(id: 'ideas-assets', label: 'screenshots', kind: 'folder'),
+          WorkspaceNode(
+            id: 'ideas-assets',
+            label: 'screenshots',
+            kind: 'folder',
+          ),
         ],
         sessions: [
           SessionModel(
@@ -176,7 +188,8 @@ WorkspaceData buildMockWorkspace() {
                 author: 'Codex',
                 role: 'assistant',
                 timestamp: '17:42',
-                body: 'Каталогизировал страницы, overlays и reusable UI primitives из `packages/app` и `packages/ui`.',
+                body:
+                    'Каталогизировал страницы, overlays и reusable UI primitives из `packages/app` и `packages/ui`.',
               ),
             ],
             fileItems: [

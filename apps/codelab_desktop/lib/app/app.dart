@@ -6,6 +6,7 @@ import 'mock/mock_data.dart';
 import 'navigation/router.dart';
 import 'state/app_controller.dart';
 import 'state/app_scope.dart';
+import 'package:codelab_ui_components/codelab_ui_components.dart';
 import 'theme/app_theme.dart';
 
 class CodeLabAppBootstrap extends StatefulWidget {
@@ -45,13 +46,11 @@ class _CodeLabAppBootstrapState extends State<CodeLabAppBootstrap> {
         title: 'CodeLab Desktop',
         debugShowCheckedModeBanner: false,
         themeMode: ThemeMode.light,
-        theme: buildAppTheme(),
-        darkTheme: buildAppTheme(),
+        theme: AppTheme.fluentLight,
+        darkTheme: AppTheme.fluentDark,
         routerConfig: _router,
         builder: (context, child) {
-          return DialogHost(
-            child: child ?? const SizedBox.shrink(),
-          );
+          return DialogHost(child: child ?? const SizedBox.shrink());
         },
       ),
     );

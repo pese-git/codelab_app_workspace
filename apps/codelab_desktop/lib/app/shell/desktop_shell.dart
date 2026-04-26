@@ -1,7 +1,7 @@
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:go_router/go_router.dart';
 
-// Components available via: import '../../components.dart'
+// Components available via: import 'package:codelab_ui_components/codelab_ui_components.dart'
 import '../models/workspace_models.dart';
 import '../navigation/router.dart';
 import '../state/app_scope.dart';

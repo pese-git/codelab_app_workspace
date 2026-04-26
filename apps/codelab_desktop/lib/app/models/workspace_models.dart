@@ -116,11 +116,7 @@ class MessageModel {
 }
 
 class FileItem {
-  FileItem({
-    required this.path,
-    required this.summary,
-    required this.status,
-  });
+  FileItem({required this.path, required this.summary, required this.status});
 
   final String path;
   final String summary;
@@ -152,10 +148,7 @@ class TerminalEntry {
 }
 
 class MetricItem {
-  MetricItem({
-    required this.label,
-    required this.value,
-  });
+  MetricItem({required this.label, required this.value});
 
   final String label;
   final String value;

@@ -3,10 +3,10 @@
 ///
 /// Migrate to:
 /// ```dart
-/// import 'package:codelab_desktop/components.dart';
+/// import 'package:codelab_ui_components/codelab_ui_components.dart';
 /// ```
 @Deprecated('Use package:codelab_desktop/components.dart instead')
 library;
 
-export '../../components/organisms/session/message_timeline.dart';
-export '../../components/organisms/session/message_bubble.dart';
+export 'package:codelab_ui_components/codelab_ui_components.dart'
+    show MessageTimeline, MessageBubble;

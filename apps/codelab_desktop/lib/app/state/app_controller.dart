@@ -33,9 +33,7 @@ class SessionTab {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is SessionTab &&
-          runtimeType == other.runtimeType &&
-          id == other.id;
+      other is SessionTab && runtimeType == other.runtimeType && id == other.id;
 
   @override
   int get hashCode => id.hashCode;
@@ -241,9 +239,10 @@ class CodeLabAppController extends ChangeNotifier {
     required WorkspaceData seedWorkspace,
     SessionTabsController? sessionTabsController,
     TerminalController? terminalController,
-  })  : _workspace = seedWorkspace,
-        _sessionTabsController = sessionTabsController ?? SessionTabsController(),
-        _terminalController = terminalController ?? TerminalController() {
+  }) : _workspace = seedWorkspace,
+       _sessionTabsController =
+           sessionTabsController ?? SessionTabsController(),
+       _terminalController = terminalController ?? TerminalController() {
     _selectedProjectId = seedWorkspace.projects.first.id;
     _selectedSessionId = seedWorkspace.projects.first.sessions.first.id;
     _selectedModel = seedWorkspace.models.first;

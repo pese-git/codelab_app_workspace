@@ -15,11 +15,7 @@ import '../state/app_scope.dart';
 
 /// @deprecated Use FileList from components instead.
 class WorkspaceTree extends StatelessWidget {
-  const WorkspaceTree({
-    required this.nodes,
-    this.depth = 0,
-    super.key,
-  });
+  const WorkspaceTree({required this.nodes, this.depth = 0, super.key});
 
   final List<WorkspaceNode> nodes;
   final int depth;
@@ -29,21 +25,14 @@ class WorkspaceTree extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        for (final node in nodes)
-          _WorkspaceNodeRow(
-            node: node,
-            depth: depth,
-          ),
+        for (final node in nodes) _WorkspaceNodeRow(node: node, depth: depth),
       ],
     );
   }
 }
 
 class _WorkspaceNodeRow extends StatelessWidget {
-  const _WorkspaceNodeRow({
-    required this.node,
-    required this.depth,
-  });
+  const _WorkspaceNodeRow({required this.node, required this.depth});
 
   final WorkspaceNode node;
   final int depth;
@@ -69,14 +58,18 @@ class _WorkspaceNodeRow extends StatelessWidget {
               children: [
                 Icon(
                   node.isFolder
-                      ? (expanded ? FluentIcons.chevron_down : FluentIcons.chevron_right)
+                      ? (expanded
+                            ? FluentIcons.chevron_down
+                            : FluentIcons.chevron_right)
                       : FluentIcons.page,
                   size: 10,
                   color: const Color(0xFF8F8F8B),
                 ),
                 const SizedBox(width: 8),
                 Icon(
-                  node.isFolder ? FluentIcons.fabric_folder : FluentIcons.page_add,
+                  node.isFolder
+                      ? FluentIcons.fabric_folder
+                      : FluentIcons.page_add,
                   size: 13,
                   color: const Color(0xFF787874),
                 ),
@@ -93,7 +86,10 @@ class _WorkspaceNodeRow extends StatelessWidget {
                 ),
                 if (node.badge != null)
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 6,
+                      vertical: 2,
+                    ),
                     decoration: BoxDecoration(
                       color: const Color(0xFFE9E8E4),
                       borderRadius: BorderRadius.circular(999),
@@ -113,10 +109,7 @@ class _WorkspaceNodeRow extends StatelessWidget {
         if (node.isFolder && expanded)
           Padding(
             padding: const EdgeInsets.only(left: 4),
-            child: WorkspaceTree(
-              nodes: node.children,
-              depth: depth + 1,
-            ),
+            child: WorkspaceTree(nodes: node.children, depth: depth + 1),
           ),
       ],
     );

@@ -41,6 +41,8 @@ dependencies:
   flutter_markdown: ^0.7.4
   xterm: ^4.0.0
   flutter_pty: ^0.4.2
+  codelab_ui_components:
+    path: ../../packages/codelab_ui_components
 
 dev_dependencies:
   flutter_test:
