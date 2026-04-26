@@ -1,4 +1,5 @@
 import 'package:codelab_ui_components/codelab_ui_components.dart';
+import 'package:fluent_ui/fluent_ui.dart' as fluent;
 import 'package:flutter/material.dart';
 import 'package:widgetbook/widgetbook.dart';
 
@@ -94,6 +95,10 @@ class _PreviewScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final brightness = MediaQuery.of(context).platformBrightness;
+    final fluentTheme =
+        brightness == Brightness.light ? AppTheme.fluentLight : AppTheme.fluentDark;
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light,
@@ -102,10 +107,16 @@ class _PreviewScaffold extends StatelessWidget {
         backgroundColor: Theme.of(context).colorScheme.surface,
         body: Center(
           child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 800),
+            constraints: const BoxConstraints(maxWidth: 900),
             child: Padding(
               padding: const EdgeInsets.all(AppSpacing.xxl),
-              child: child,
+              child: fluent.FluentTheme(
+                data: fluentTheme,
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.only(bottom: AppSpacing.xxl),
+                  child: child,
+                ),
+              ),
             ),
           ),
         ),
