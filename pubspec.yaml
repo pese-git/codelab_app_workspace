@@ -6,6 +6,7 @@ environment:
 
 workspace:
   - apps/codelab_desktop
+  - apps/codelab_ui_widgetbook
   - packages/codelab_ui_components
   
 dev_dependencies:
