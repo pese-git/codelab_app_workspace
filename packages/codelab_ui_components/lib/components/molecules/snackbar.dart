@@ -10,11 +10,6 @@ void showAppSnackbar(
   fluent.VoidCallback? onAction,
   Duration duration = const Duration(seconds: 4),
 }) {
-  final brightness = fluent.FluentTheme.of(context).brightness;
-  final colors = brightness == fluent.Brightness.light
-      ? AppColors.light
-      : AppColors.dark;
-
   fluent.displayInfoBar(
     context,
     builder: (context, close) {

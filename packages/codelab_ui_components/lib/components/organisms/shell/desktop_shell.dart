@@ -67,6 +67,7 @@ class DesktopShell extends fluent.StatelessWidget {
             child: fluent.Row(
               children: [
                 // Project rail
+                // ignore: use_null_aware_elements
                 if (projectRail != null) projectRail!,
                 // Sidebar
                 if (sidebar != null && showSidebar) sidebar!,
@@ -131,6 +132,7 @@ class SimpleShell extends fluent.StatelessWidget {
       color: backgroundColor ?? colors.backgroundBase,
       child: fluent.Column(
         children: [
+          // ignore: use_null_aware_elements
           if (titleBar != null) titleBar!,
           fluent.Expanded(child: child),
         ],

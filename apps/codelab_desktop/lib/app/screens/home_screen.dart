@@ -96,62 +96,67 @@ class _HomeContent extends fluent.StatelessWidget {
     return fluent.Column(
       children: [
         fluent.Expanded(
-          child: fluent.Center(
-            child: fluent.Column(
-              mainAxisAlignment: fluent.MainAxisAlignment.center,
-              children: [
-                // Logo container
-                Surface(
-                  width: 68,
-                  height: 68,
-                  borderColor: colors.accentPrimary,
-                  borderRadius: fluent.BorderRadius.zero,
-                  color: fluent.Colors.transparent,
-                  child: const fluent.SizedBox.shrink(),
-                ),
-                const fluent.SizedBox(height: AppSpacing.xl),
-                // Title
-                AppText.display(
-                  'Создавайте что угодно',
-                  color: colors.textStrong,
-                ),
-                const fluent.SizedBox(height: AppSpacing.xl),
-                // Project path
-                AppText.subtitle(
-                  '/Users/penkovsky_sa/Projects/OpenIdeaLab/CodeLab/${project.name.toLowerCase().replaceAll(' ', '_')}',
-                  color: colors.textMuted,
-                ),
-                const fluent.SizedBox(height: AppSpacing.lg),
-                // Branch info
-                fluent.Row(
-                  mainAxisAlignment: fluent.MainAxisAlignment.center,
-                  children: [
-                    AppIcon.sm(AppIcons.branch, color: colors.iconMuted),
-                    const fluent.SizedBox(width: AppSpacing.sm),
-                    AppText.body(
-                      'Основная ветка (master)',
-                      color: colors.textMuted,
-                    ),
-                  ],
-                ),
-                const fluent.SizedBox(height: AppSpacing.lg),
-                // Last modified info
-                fluent.Row(
-                  mainAxisAlignment: fluent.MainAxisAlignment.center,
-                  mainAxisSize: fluent.MainAxisSize.min,
-                  children: [
-                    AppText.subtitle(
-                      'Последнее изменение ',
-                      color: colors.textMuted,
-                    ),
-                    AppText(
-                      '45 минут назад',
-                      variant: TextVariant.subtitle,
-                      color: colors.textStrong,
-                    ),
-                  ],
-                ),
-              ],
+          child: fluent.SingleChildScrollView(
+            child: fluent.Center(
+              child: fluent.Column(
+                mainAxisAlignment: fluent.MainAxisAlignment.center,
+                children: [
+                  // Logo container
+                  Surface(
+                    width: 68,
+                    height: 68,
+                    borderColor: colors.accentPrimary,
+                    borderRadius: fluent.BorderRadius.zero,
+                    color: fluent.Colors.transparent,
+                    child: const fluent.SizedBox.shrink(),
+                  ),
+                  const fluent.SizedBox(height: AppSpacing.xl),
+                  // Title
+                  AppText.display(
+                    'Создавайте что угодно',
+                    color: colors.textStrong,
+                  ),
+                  const fluent.SizedBox(height: AppSpacing.xl),
+                  // Project path
+                  AppText.subtitle(
+                    '/Users/CodeLab/${project.name.toLowerCase().replaceAll(' ', '_')}',
+                    color: colors.textMuted,
+                  ),
+                  const fluent.SizedBox(height: AppSpacing.lg),
+                  // Branch info
+                  fluent.Row(
+                    mainAxisAlignment: fluent.MainAxisAlignment.center,
+                    children: [
+                      AppIcon.sm(AppIcons.branch, color: colors.iconMuted),
+                      const fluent.SizedBox(width: AppSpacing.sm),
+                      AppText.body(
+                        'Основная ветка (master)',
+                        color: colors.textMuted,
+                      ),
+                    ],
+                  ),
+                  const fluent.SizedBox(height: AppSpacing.lg),
+                  // Last modified info
+                  fluent.Row(
+                    mainAxisAlignment: fluent.MainAxisAlignment.center,
+                    children: [
+                      fluent.Flexible(
+                        child: AppText.subtitle(
+                          'Последнее изменение ',
+                          color: colors.textMuted,
+                        ),
+                      ),
+                      fluent.Flexible(
+                        child: AppText(
+                          '45 минут назад',
+                          variant: TextVariant.subtitle,
+                          color: colors.textStrong,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),

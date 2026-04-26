@@ -599,8 +599,6 @@ class _ColoredBox extends StatelessWidget {
 
 void _noop() {}
 void _noopBool([bool _ = false]) {}
-void _noopNullable([dynamic _]) {}
-void _noopSet([Set<dynamic>? _]) {}
 void _noopString([String _ = '']) {}
 void _noopContextTab([ContextPanelTab _ = ContextPanelTab.details]) {}
 
@@ -1613,7 +1611,7 @@ class _StackPreview extends StatelessWidget {
         height: 200,
         child: AppStack(
           children: [
-            Container(color: Colors.blue.withOpacity(0.2)),
+            Container(color: Colors.blue.withValues(alpha: 0.2)),
             Align(
               alignment: Alignment.center,
               child: ElevatedSurface(
@@ -1658,11 +1656,11 @@ class _SplitViewPreview extends StatelessWidget {
         child: SplitView(
           initialRatio: 0.3,
           first: Container(
-            color: Colors.blue.withOpacity(0.1),
+            color: Colors.blue.withValues(alpha: 0.1),
             child: const Center(child: AppText('Left')),
           ),
           second: Container(
-            color: Colors.green.withOpacity(0.1),
+            color: Colors.green.withValues(alpha: 0.1),
             child: const Center(child: AppText('Right')),
           ),
         ),

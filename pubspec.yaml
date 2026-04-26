@@ -1,13 +1,34 @@
 name: codelab_app_workspace
-publish_to: none
-
 environment:
-  sdk: ^3.11.5
-
-workspace:
-  - apps/codelab_desktop
-  - apps/codelab_ui_widgetbook
-  - packages/codelab_ui_components
-  
+  sdk: ">=3.11.5 <4.0.0"
 dev_dependencies:
   melos: ^7.5.1
+workspace:
+  - apps/codelab_desktop
+  - packages/codelab_ui_components
+  - apps/codelab_ui_widgetbook
+melos:
+  scripts:
+    bootstrap:
+      description: Install dependencies for all packages via FVM Flutter SDK
+      run: dart run melos exec -c 4 -- fvm flutter pub get
+
+    clean:
+      description: Clean build artifacts in all packages
+      run: dart run melos exec -c 4 -- fvm flutter clean
+
+    analyze:
+      description: Run static analysis for all packages
+      run: dart run melos exec -c 4 -- fvm flutter analyze
+
+    format:
+      description: Format Dart code in all packages
+      run: dart run melos exec -- fvm dart format .
+
+    test:
+      description: Run tests for all packages
+      run: dart run melos exec -c 2 -- fvm flutter test
+
+    build:
+      description: Build all packages
+      run: dart run melos exec -c 4 -- fvm flutter build

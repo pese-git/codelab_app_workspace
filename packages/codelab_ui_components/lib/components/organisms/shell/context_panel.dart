@@ -180,18 +180,20 @@ class _SegmentedHeader extends fluent.StatelessWidget {
 
     return fluent.Row(
       children: [
-        fluent.GestureDetector(
-          onTap: () => onTabSelected(ContextPanelTab.activity),
-          child: fluent.Text(
-            '0 Changes',
-            style: AppTypography.small(
-              color: activeTab == ContextPanelTab.activity
-                  ? colors.textBase
-                  : colors.textMuted,
-            ).copyWith(fontWeight: fluent.FontWeight.w600),
+        fluent.Flexible(
+          child: fluent.GestureDetector(
+            onTap: () => onTabSelected(ContextPanelTab.activity),
+            child: fluent.Text(
+              '0 Changes',
+              style: AppTypography.small(
+                color: activeTab == ContextPanelTab.activity
+                    ? colors.textBase
+                    : colors.textMuted,
+              ).copyWith(fontWeight: fluent.FontWeight.w600),
+            ),
           ),
         ),
-        const fluent.Spacer(),
+        const fluent.SizedBox(width: 8),
         _SegmentButton(
           label: 'All files',
           isSelected: activeTab == ContextPanelTab.details,

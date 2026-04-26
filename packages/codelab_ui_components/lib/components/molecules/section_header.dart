@@ -54,6 +54,7 @@ class SectionHeader extends fluent.StatelessWidget {
               ],
             ),
           ),
+          // ignore: use_null_aware_elements
           if (trailing != null) trailing!,
         ],
       ),
@@ -119,6 +120,7 @@ class CollapsibleSectionHeader extends fluent.StatelessWidget {
                   ],
                 ),
               ),
+              // ignore: use_null_aware_elements
               if (trailing != null) trailing!,
             ],
           ),
