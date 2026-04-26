@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart' as fluent;
 
 /// Design tokens for CodeLab Desktop application.
 /// Supports light and dark themes with semantic color naming.
@@ -21,71 +21,71 @@ final class LightColors {
   const LightColors();
 
   // Backgrounds
-  Color get backgroundBase => const Color(0xFFF7F6F3);
-  Color get backgroundSubtle => const Color(0xFFF5F4F1);
-  Color get backgroundElevated => const Color(0xFFF4F3F0);
+  fluent.Color get backgroundBase => const fluent.Color(0xFFF7F6F3);
+  fluent.Color get backgroundSubtle => const fluent.Color(0xFFF5F4F1);
+  fluent.Color get backgroundElevated => const fluent.Color(0xFFF4F3F0);
 
   // Surfaces
-  Color get surfaceBase => const Color(0xFFFFFFFF);
-  Color get surfaceSubtle => const Color(0xFFF5F4F1);
-  Color get surfaceAccent => const Color(0xFFF4F3EF);
-  Color get surfaceHover => const Color(0xFFF0EFEC);
-  Color get surfacePressed => const Color(0xFFEBEAE6);
-  Color get surfaceSelected => const Color(0xFFF4F3EF);
+  fluent.Color get surfaceBase => const fluent.Color(0xFFFFFFFF);
+  fluent.Color get surfaceSubtle => const fluent.Color(0xFFF5F4F1);
+  fluent.Color get surfaceAccent => const fluent.Color(0xFFF4F3EF);
+  fluent.Color get surfaceHover => const fluent.Color(0xFFF0EFEC);
+  fluent.Color get surfacePressed => const fluent.Color(0xFFEBEAE6);
+  fluent.Color get surfaceSelected => const fluent.Color(0xFFF4F3EF);
 
   // Borders
-  Color get borderBase => const Color(0xFFE2E0DB);
-  Color get borderWeak => const Color(0xFFE5E3DD);
-  Color get borderStrong => const Color(0xFFD8D6D0);
-  Color get borderFocus => const Color(0xFF1F1F1F);
+  fluent.Color get borderBase => const fluent.Color(0xFFE2E0DB);
+  fluent.Color get borderWeak => const fluent.Color(0xFFE5E3DD);
+  fluent.Color get borderStrong => const fluent.Color(0xFFD8D6D0);
+  fluent.Color get borderFocus => const fluent.Color(0xFF1F1F1F);
 
   // Text
-  Color get textStrong => const Color(0xFF252522);
-  Color get textBase => const Color(0xFF2E2D29);
-  Color get textWeak => const Color(0xFF8F8D88);
-  Color get textMuted => const Color(0xFF9A9A96);
-  Color get textOnAccent => const Color(0xFFFFFFFF);
+  fluent.Color get textStrong => const fluent.Color(0xFF252522);
+  fluent.Color get textBase => const fluent.Color(0xFF2E2D29);
+  fluent.Color get textWeak => const fluent.Color(0xFF8F8D88);
+  fluent.Color get textMuted => const fluent.Color(0xFF9A9A96);
+  fluent.Color get textOnAccent => const fluent.Color(0xFFFFFFFF);
 
   // Icons
-  Color get iconBase => const Color(0xFF2E2D29);
-  Color get iconWeak => const Color(0xFF8F8D88);
-  Color get iconMuted => const Color(0xFF9A9A96);
-  Color get iconOnAccent => const Color(0xFFFFFFFF);
+  fluent.Color get iconBase => const fluent.Color(0xFF2E2D29);
+  fluent.Color get iconWeak => const fluent.Color(0xFF8F8D88);
+  fluent.Color get iconMuted => const fluent.Color(0xFF9A9A96);
+  fluent.Color get iconOnAccent => const fluent.Color(0xFFFFFFFF);
 
   // Accent / Primary
-  Color get accentPrimary => const Color(0xFF1F1F1F);
-  Color get accentHover => const Color(0xFF2D2C28);
-  Color get accentPressed => const Color(0xFF3A3935);
-  Color get accentSelected => const Color(0xFF30302D);
-  Color get accentSubtle => const Color(0xFFE8E7E3);
+  fluent.Color get accentPrimary => const fluent.Color(0xFF1F1F1F);
+  fluent.Color get accentHover => const fluent.Color(0xFF2D2C28);
+  fluent.Color get accentPressed => const fluent.Color(0xFF3A3935);
+  fluent.Color get accentSelected => const fluent.Color(0xFF30302D);
+  fluent.Color get accentSubtle => const fluent.Color(0xFFE8E7E3);
 
   // Semantic: Success
-  Color get successBase => const Color(0xFF22C55E);
-  Color get successSubtle => const Color(0xFFDCFCE7);
-  Color get successStrong => const Color(0xFF16A34A);
-  Color get successText => const Color(0xFF166534);
+  fluent.Color get successBase => const fluent.Color(0xFF22C55E);
+  fluent.Color get successSubtle => const fluent.Color(0xFFDCFCE7);
+  fluent.Color get successStrong => const fluent.Color(0xFF16A34A);
+  fluent.Color get successText => const fluent.Color(0xFF166534);
 
   // Semantic: Warning
-  Color get warningBase => const Color(0xFFFACC15);
-  Color get warningSubtle => const Color(0xFFFEF9C3);
-  Color get warningStrong => const Color(0xFFEAB308);
-  Color get warningText => const Color(0xFF854D0E);
+  fluent.Color get warningBase => const fluent.Color(0xFFFACC15);
+  fluent.Color get warningSubtle => const fluent.Color(0xFFFEF9C3);
+  fluent.Color get warningStrong => const fluent.Color(0xFFEAB308);
+  fluent.Color get warningText => const fluent.Color(0xFF854D0E);
 
   // Semantic: Error / Critical
-  Color get errorBase => const Color(0xFFEF4444);
-  Color get errorSubtle => const Color(0xFFFEE2E2);
-  Color get errorStrong => const Color(0xFFDC2626);
-  Color get errorText => const Color(0xFF991B1B);
+  fluent.Color get errorBase => const fluent.Color(0xFFEF4444);
+  fluent.Color get errorSubtle => const fluent.Color(0xFFFEE2E2);
+  fluent.Color get errorStrong => const fluent.Color(0xFFDC2626);
+  fluent.Color get errorText => const fluent.Color(0xFF991B1B);
 
   // Semantic: Info
-  Color get infoBase => const Color(0xFF3B82F6);
-  Color get infoSubtle => const Color(0xFFDBEAFE);
-  Color get infoStrong => const Color(0xFF2563EB);
-  Color get infoText => const Color(0xFF1E40AF);
+  fluent.Color get infoBase => const fluent.Color(0xFF3B82F6);
+  fluent.Color get infoSubtle => const fluent.Color(0xFFDBEAFE);
+  fluent.Color get infoStrong => const fluent.Color(0xFF2563EB);
+  fluent.Color get infoText => const fluent.Color(0xFF1E40AF);
 
   // Overlay
-  Color get overlay => const Color(0x66000000);
-  Color get scrim => const Color(0x33000000);
+  fluent.Color get overlay => const fluent.Color(0x66000000);
+  fluent.Color get scrim => const fluent.Color(0x33000000);
 }
 
 /// Dark theme color palette
@@ -94,107 +94,107 @@ final class DarkColors extends LightColors {
 
   // Backgrounds
   @override
-  Color get backgroundBase => const Color(0xFF121212);
+  fluent.Color get backgroundBase => const fluent.Color(0xFF121212);
   @override
-  Color get backgroundSubtle => const Color(0xFF1A1A1A);
+  fluent.Color get backgroundSubtle => const fluent.Color(0xFF1A1A1A);
   @override
-  Color get backgroundElevated => const Color(0xFF1E1E1E);
+  fluent.Color get backgroundElevated => const fluent.Color(0xFF1E1E1E);
 
   // Surfaces
   @override
-  Color get surfaceBase => const Color(0xFF1E1E1E);
+  fluent.Color get surfaceBase => const fluent.Color(0xFF1E1E1E);
   @override
-  Color get surfaceSubtle => const Color(0xFF252525);
+  fluent.Color get surfaceSubtle => const fluent.Color(0xFF252525);
   @override
-  Color get surfaceAccent => const Color(0xFF2A2A2A);
+  fluent.Color get surfaceAccent => const fluent.Color(0xFF2A2A2A);
   @override
-  Color get surfaceHover => const Color(0xFF2F2F2F);
+  fluent.Color get surfaceHover => const fluent.Color(0xFF2F2F2F);
   @override
-  Color get surfacePressed => const Color(0xFF383838);
+  fluent.Color get surfacePressed => const fluent.Color(0xFF383838);
   @override
-  Color get surfaceSelected => const Color(0xFF2A2A2A);
+  fluent.Color get surfaceSelected => const fluent.Color(0xFF2A2A2A);
 
   // Borders
   @override
-  Color get borderBase => const Color(0xFF333333);
+  fluent.Color get borderBase => const fluent.Color(0xFF333333);
   @override
-  Color get borderWeak => const Color(0xFF2A2A2A);
+  fluent.Color get borderWeak => const fluent.Color(0xFF2A2A2A);
   @override
-  Color get borderStrong => const Color(0xFF404040);
+  fluent.Color get borderStrong => const fluent.Color(0xFF404040);
   @override
-  Color get borderFocus => const Color(0xFFE5E5E5);
+  fluent.Color get borderFocus => const fluent.Color(0xFFE5E5E5);
 
   // Text
   @override
-  Color get textStrong => const Color(0xFFF5F5F5);
+  fluent.Color get textStrong => const fluent.Color(0xFFF5F5F5);
   @override
-  Color get textBase => const Color(0xFFE5E5E5);
+  fluent.Color get textBase => const fluent.Color(0xFFE5E5E5);
   @override
-  Color get textWeak => const Color(0xFF9A9A9A);
+  fluent.Color get textWeak => const fluent.Color(0xFF9A9A9A);
   @override
-  Color get textMuted => const Color(0xFF737373);
+  fluent.Color get textMuted => const fluent.Color(0xFF737373);
   @override
-  Color get textOnAccent => const Color(0xFF121212);
+  fluent.Color get textOnAccent => const fluent.Color(0xFF121212);
 
   // Icons
   @override
-  Color get iconBase => const Color(0xFFE5E5E5);
+  fluent.Color get iconBase => const fluent.Color(0xFFE5E5E5);
   @override
-  Color get iconWeak => const Color(0xFF9A9A9A);
+  fluent.Color get iconWeak => const fluent.Color(0xFF9A9A9A);
   @override
-  Color get iconMuted => const Color(0xFF737373);
+  fluent.Color get iconMuted => const fluent.Color(0xFF737373);
   @override
-  Color get iconOnAccent => const Color(0xFF121212);
+  fluent.Color get iconOnAccent => const fluent.Color(0xFF121212);
 
   // Accent / Primary
   @override
-  Color get accentPrimary => const Color(0xFFE5E5E5);
+  fluent.Color get accentPrimary => const fluent.Color(0xFFE5E5E5);
   @override
-  Color get accentHover => const Color(0xFFD4D4D4);
+  fluent.Color get accentHover => const fluent.Color(0xFFD4D4D4);
   @override
-  Color get accentPressed => const Color(0xFFC4C4C4);
+  fluent.Color get accentPressed => const fluent.Color(0xFFC4C4C4);
   @override
-  Color get accentSelected => const Color(0xFFD8D8D8);
+  fluent.Color get accentSelected => const fluent.Color(0xFFD8D8D8);
   @override
-  Color get accentSubtle => const Color(0xFF333333);
+  fluent.Color get accentSubtle => const fluent.Color(0xFF333333);
 
   // Semantic: Success
   @override
-  Color get successSubtle => const Color(0xFF14532D);
+  fluent.Color get successSubtle => const fluent.Color(0xFF14532D);
   @override
-  Color get successStrong => const Color(0xFF4ADE80);
+  fluent.Color get successStrong => const fluent.Color(0xFF4ADE80);
   @override
-  Color get successText => const Color(0xFF86EFAC);
+  fluent.Color get successText => const fluent.Color(0xFF86EFAC);
 
   // Semantic: Warning
   @override
-  Color get warningSubtle => const Color(0xFF713F12);
+  fluent.Color get warningSubtle => const fluent.Color(0xFF713F12);
   @override
-  Color get warningStrong => const Color(0xFFFDE047);
+  fluent.Color get warningStrong => const fluent.Color(0xFFFDE047);
   @override
-  Color get warningText => const Color(0xFFFEF08A);
+  fluent.Color get warningText => const fluent.Color(0xFFFEF08A);
 
   // Semantic: Error / Critical
   @override
-  Color get errorSubtle => const Color(0xFF7F1D1D);
+  fluent.Color get errorSubtle => const fluent.Color(0xFF7F1D1D);
   @override
-  Color get errorStrong => const Color(0xFFF87171);
+  fluent.Color get errorStrong => const fluent.Color(0xFFF87171);
   @override
-  Color get errorText => const Color(0xFFFCA5A5);
+  fluent.Color get errorText => const fluent.Color(0xFFFCA5A5);
 
   // Semantic: Info
   @override
-  Color get infoSubtle => const Color(0xFF1E3A8A);
+  fluent.Color get infoSubtle => const fluent.Color(0xFF1E3A8A);
   @override
-  Color get infoStrong => const Color(0xFF60A5FA);
+  fluent.Color get infoStrong => const fluent.Color(0xFF60A5FA);
   @override
-  Color get infoText => const Color(0xFF93C5FD);
+  fluent.Color get infoText => const fluent.Color(0xFF93C5FD);
 
   // Overlay
   @override
-  Color get overlay => const Color(0x99000000);
+  fluent.Color get overlay => const fluent.Color(0x99000000);
   @override
-  Color get scrim => const Color(0x66000000);
+  fluent.Color get scrim => const fluent.Color(0x66000000);
 }
 
 // =============================================================================
@@ -279,13 +279,13 @@ abstract final class AppRadius {
   /// 999px - Pills, badges (fully rounded)
   static const double full = 999;
 
-  // BorderRadius helpers
-  static BorderRadius get smAll => BorderRadius.circular(sm);
-  static BorderRadius get mdAll => BorderRadius.circular(md);
-  static BorderRadius get lgAll => BorderRadius.circular(lg);
-  static BorderRadius get xlAll => BorderRadius.circular(xl);
-  static BorderRadius get xxlAll => BorderRadius.circular(xxl);
-  static BorderRadius get fullAll => BorderRadius.circular(full);
+  // fluent.BorderRadius helpers
+  static fluent.BorderRadius get smAll => fluent.BorderRadius.circular(sm);
+  static fluent.BorderRadius get mdAll => fluent.BorderRadius.circular(md);
+  static fluent.BorderRadius get lgAll => fluent.BorderRadius.circular(lg);
+  static fluent.BorderRadius get xlAll => fluent.BorderRadius.circular(xl);
+  static fluent.BorderRadius get xxlAll => fluent.BorderRadius.circular(xxl);
+  static fluent.BorderRadius get fullAll => fluent.BorderRadius.circular(full);
 }
 
 // =============================================================================
@@ -301,10 +301,10 @@ abstract final class AppTypography {
   static const String fontFamilyMono = 'JetBrains Mono';
 
   // Font weights
-  static const FontWeight regular = FontWeight.w400;
-  static const FontWeight medium = FontWeight.w500;
-  static const FontWeight semiBold = FontWeight.w600;
-  static const FontWeight bold = FontWeight.w700;
+  static const fluent.FontWeight regular = fluent.FontWeight.w400;
+  static const fluent.FontWeight medium = fluent.FontWeight.w500;
+  static const fluent.FontWeight semiBold = fluent.FontWeight.w600;
+  static const fluent.FontWeight bold = fluent.FontWeight.w700;
 
   // Font sizes
   static const double fontSize12 = 12;
@@ -331,16 +331,16 @@ abstract final class AppTypography {
   static const double letterSpacingNormal = 0;
   static const double letterSpacingWide = 0.5;
 
-  /// Creates a TextStyle with the given parameters.
-  static TextStyle style({
+  /// Creates a fluent.TextStyle with the given parameters.
+  static fluent.TextStyle style({
     double size = fontSize14,
-    FontWeight weight = regular,
+    fluent.FontWeight weight = regular,
     double? height,
     double? letterSpacing,
-    Color? color,
+    fluent.Color? color,
     String? fontFamily,
   }) {
-    return TextStyle(
+    return fluent.TextStyle(
       fontSize: size,
       fontWeight: weight,
       height: height ?? lineHeightNormal,
@@ -351,31 +351,31 @@ abstract final class AppTypography {
   }
 
   /// Caption text style (12px, regular)
-  static TextStyle caption({Color? color}) =>
+  static fluent.TextStyle caption({fluent.Color? color}) =>
       style(size: fontSize12, weight: regular, color: color);
 
   /// Small text style (13px, regular)
-  static TextStyle small({Color? color}) =>
+  static fluent.TextStyle small({fluent.Color? color}) =>
       style(size: fontSize13, weight: regular, color: color);
 
   /// Body text style (14px, regular)
-  static TextStyle body({Color? color}) =>
+  static fluent.TextStyle body({fluent.Color? color}) =>
       style(size: fontSize14, weight: regular, color: color);
 
   /// Body medium text style (14px, medium)
-  static TextStyle bodyMedium({Color? color}) =>
+  static fluent.TextStyle bodyMedium({fluent.Color? color}) =>
       style(size: fontSize14, weight: medium, color: color);
 
   /// Label text style (15px, medium)
-  static TextStyle label({Color? color}) =>
+  static fluent.TextStyle label({fluent.Color? color}) =>
       style(size: fontSize15, weight: medium, color: color);
 
   /// Subtitle text style (16px, semibold)
-  static TextStyle subtitle({Color? color}) =>
+  static fluent.TextStyle subtitle({fluent.Color? color}) =>
       style(size: fontSize16, weight: semiBold, color: color);
 
   /// Title text style (18px, semibold)
-  static TextStyle title({Color? color}) => style(
+  static fluent.TextStyle title({fluent.Color? color}) => style(
     size: fontSize18,
     weight: semiBold,
     height: lineHeightTight,
@@ -383,7 +383,7 @@ abstract final class AppTypography {
   );
 
   /// Headline text style (24px, bold)
-  static TextStyle headline({Color? color}) => style(
+  static fluent.TextStyle headline({fluent.Color? color}) => style(
     size: fontSize24,
     weight: bold,
     height: lineHeightTight,
@@ -391,7 +391,7 @@ abstract final class AppTypography {
   );
 
   /// Display text style (28px, bold)
-  static TextStyle display({Color? color}) => style(
+  static fluent.TextStyle display({fluent.Color? color}) => style(
     size: fontSize28,
     weight: bold,
     height: lineHeightTight,
@@ -399,7 +399,7 @@ abstract final class AppTypography {
   );
 
   /// Code text style (14px, regular, monospace)
-  static TextStyle code({Color? color}) => style(
+  static fluent.TextStyle code({fluent.Color? color}) => style(
     size: fontSize14,
     weight: regular,
     fontFamily: fontFamilyMono,
@@ -408,7 +408,7 @@ abstract final class AppTypography {
   );
 
   /// Code small text style (12px, regular, monospace)
-  static TextStyle codeSmall({Color? color}) => style(
+  static fluent.TextStyle codeSmall({fluent.Color? color}) => style(
     size: fontSize12,
     weight: regular,
     fontFamily: fontFamilyMono,
@@ -453,55 +453,55 @@ final class LightShadows {
   const LightShadows();
 
   /// No shadow
-  List<BoxShadow> get none => const [];
+  List<fluent.BoxShadow> get none => const [];
 
   /// Subtle shadow for hover states
-  List<BoxShadow> get subtle => [
-    BoxShadow(
-      color: const Color(0x0D000000),
+  List<fluent.BoxShadow> get subtle => [
+    fluent.BoxShadow(
+      color: const fluent.Color(0x0D000000),
       blurRadius: 4,
-      offset: const Offset(0, 1),
+      offset: const fluent.Offset(0, 1),
     ),
   ];
 
   /// Small shadow for cards
-  List<BoxShadow> get sm => [
-    BoxShadow(
-      color: const Color(0x0F000000),
+  List<fluent.BoxShadow> get sm => [
+    fluent.BoxShadow(
+      color: const fluent.Color(0x0F000000),
       blurRadius: 6,
-      offset: const Offset(0, 2),
+      offset: const fluent.Offset(0, 2),
     ),
   ];
 
   /// Medium shadow for dropdowns
-  List<BoxShadow> get md => [
-    BoxShadow(
-      color: const Color(0x14000000),
+  List<fluent.BoxShadow> get md => [
+    fluent.BoxShadow(
+      color: const fluent.Color(0x14000000),
       blurRadius: 10,
-      offset: const Offset(0, 4),
+      offset: const fluent.Offset(0, 4),
     ),
   ];
 
   /// Large shadow for panels
-  List<BoxShadow> get lg => [
-    BoxShadow(
-      color: const Color(0x19000000),
+  List<fluent.BoxShadow> get lg => [
+    fluent.BoxShadow(
+      color: const fluent.Color(0x19000000),
       blurRadius: 15,
-      offset: const Offset(0, 6),
+      offset: const fluent.Offset(0, 6),
     ),
   ];
 
   /// Extra large shadow for dialogs
-  List<BoxShadow> get xl => [
-    BoxShadow(
-      color: const Color(0x1F000000),
+  List<fluent.BoxShadow> get xl => [
+    fluent.BoxShadow(
+      color: const fluent.Color(0x1F000000),
       blurRadius: 18,
-      offset: const Offset(0, 6),
+      offset: const fluent.Offset(0, 6),
     ),
-    BoxShadow(
-      color: const Color(0x0A000000),
+    fluent.BoxShadow(
+      color: const fluent.Color(0x0A000000),
       blurRadius: 40,
-      offset: const Offset(0, 15),
+      offset: const fluent.Offset(0, 15),
     ),
   ];
 }
@@ -512,56 +512,56 @@ final class DarkShadows extends LightShadows {
 
   /// Subtle shadow for hover states
   @override
-  List<BoxShadow> get subtle => [
-    BoxShadow(
-      color: const Color(0x33000000),
+  List<fluent.BoxShadow> get subtle => [
+    fluent.BoxShadow(
+      color: const fluent.Color(0x33000000),
       blurRadius: 4,
-      offset: const Offset(0, 1),
+      offset: const fluent.Offset(0, 1),
     ),
   ];
 
   /// Small shadow for cards
   @override
-  List<BoxShadow> get sm => [
-    BoxShadow(
-      color: const Color(0x40000000),
+  List<fluent.BoxShadow> get sm => [
+    fluent.BoxShadow(
+      color: const fluent.Color(0x40000000),
       blurRadius: 6,
-      offset: const Offset(0, 2),
+      offset: const fluent.Offset(0, 2),
     ),
   ];
 
   /// Medium shadow for dropdowns
   @override
-  List<BoxShadow> get md => [
-    BoxShadow(
-      color: const Color(0x4D000000),
+  List<fluent.BoxShadow> get md => [
+    fluent.BoxShadow(
+      color: const fluent.Color(0x4D000000),
       blurRadius: 10,
-      offset: const Offset(0, 4),
+      offset: const fluent.Offset(0, 4),
     ),
   ];
 
   /// Large shadow for panels
   @override
-  List<BoxShadow> get lg => [
-    BoxShadow(
-      color: const Color(0x59000000),
+  List<fluent.BoxShadow> get lg => [
+    fluent.BoxShadow(
+      color: const fluent.Color(0x59000000),
       blurRadius: 15,
-      offset: const Offset(0, 6),
+      offset: const fluent.Offset(0, 6),
     ),
   ];
 
   /// Extra large shadow for dialogs
   @override
-  List<BoxShadow> get xl => [
-    BoxShadow(
-      color: const Color(0x66000000),
+  List<fluent.BoxShadow> get xl => [
+    fluent.BoxShadow(
+      color: const fluent.Color(0x66000000),
       blurRadius: 18,
-      offset: const Offset(0, 6),
+      offset: const fluent.Offset(0, 6),
     ),
-    BoxShadow(
-      color: const Color(0x33000000),
+    fluent.BoxShadow(
+      color: const fluent.Color(0x33000000),
       blurRadius: 40,
-      offset: const Offset(0, 15),
+      offset: const fluent.Offset(0, 15),
     ),
   ];
 }

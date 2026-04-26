@@ -1,10 +1,9 @@
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
-import 'package:flutter/material.dart';
 
 import '../theme/tokens.dart';
 
 /// A text input field component.
-class AppTextField extends StatelessWidget {
+class AppTextField extends fluent.StatelessWidget {
   const AppTextField({
     this.controller,
     this.focusNode,
@@ -29,19 +28,19 @@ class AppTextField extends StatelessWidget {
   });
 
   /// Text controller
-  final TextEditingController? controller;
+  final fluent.TextEditingController? controller;
 
   /// Focus node
-  final FocusNode? focusNode;
+  final fluent.FocusNode? focusNode;
 
   /// Current value (for controlled usage)
   final String? value;
 
   /// Value change callback
-  final ValueChanged<String>? onChanged;
+  final fluent.ValueChanged<String>? onChanged;
 
   /// Submit callback
-  final ValueChanged<String>? onSubmitted;
+  final fluent.ValueChanged<String>? onSubmitted;
 
   /// Placeholder text
   final String? placeholder;
@@ -56,16 +55,16 @@ class AppTextField extends StatelessWidget {
   final String? error;
 
   /// Prefix widget
-  final Widget? prefix;
+  final fluent.Widget? prefix;
 
   /// Suffix widget
-  final Widget? suffix;
+  final fluent.Widget? suffix;
 
   /// Prefix icon
-  final IconData? prefixIcon;
+  final fluent.IconData? prefixIcon;
 
   /// Suffix icon
-  final IconData? suffixIcon;
+  final fluent.IconData? suffixIcon;
 
   /// Disabled state
   final bool isDisabled;
@@ -83,37 +82,37 @@ class AppTextField extends StatelessWidget {
   final int? maxLength;
 
   /// Keyboard type
-  final TextInputType? keyboardType;
+  final fluent.TextInputType? keyboardType;
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
     final hasError = error != null && error!.isNotEmpty;
 
-    Widget? prefixWidget;
+    fluent.Widget? prefixWidget;
     if (prefixIcon != null) {
-      prefixWidget = Padding(
-        padding: const EdgeInsets.only(left: AppSpacing.sm),
-        child: Icon(prefixIcon, size: 16, color: colors.iconWeak),
+      prefixWidget = fluent.Padding(
+        padding: const fluent.EdgeInsets.only(left: AppSpacing.sm),
+        child: fluent.Icon(prefixIcon, size: 16, color: colors.iconWeak),
       );
     } else if (prefix != null) {
       prefixWidget = prefix;
     }
 
-    Widget? suffixWidget;
+    fluent.Widget? suffixWidget;
     if (suffixIcon != null) {
-      suffixWidget = Padding(
-        padding: const EdgeInsets.only(right: AppSpacing.sm),
-        child: Icon(suffixIcon, size: 16, color: colors.iconWeak),
+      suffixWidget = fluent.Padding(
+        padding: const fluent.EdgeInsets.only(right: AppSpacing.sm),
+        child: fluent.Icon(suffixIcon, size: 16, color: colors.iconWeak),
       );
     } else if (suffix != null) {
       suffixWidget = suffix;
     }
 
-    Widget textField = fluent.TextBox(
+    fluent.Widget textField = fluent.TextBox(
       controller: controller,
       focusNode: focusNode,
       placeholder: placeholder,
@@ -129,41 +128,41 @@ class AppTextField extends StatelessWidget {
       suffix: suffixWidget,
       style: AppTypography.body(color: colors.textBase),
       placeholderStyle: AppTypography.body(color: colors.textMuted),
-      decoration: WidgetStateProperty.resolveWith((states) {
-        Color borderColor = colors.borderBase;
+      decoration: fluent.WidgetStateProperty.resolveWith((states) {
+        fluent.Color borderColor = colors.borderBase;
         if (hasError) {
           borderColor = colors.errorBase;
-        } else if (states.contains(WidgetState.focused)) {
+        } else if (states.contains(fluent.WidgetState.focused)) {
           borderColor = colors.borderFocus;
         }
-        return BoxDecoration(
+        return fluent.BoxDecoration(
           color: colors.surfaceSubtle,
           borderRadius: AppRadius.mdAll,
-          border: Border.all(color: borderColor),
+          border: fluent.Border.all(color: borderColor),
         );
       }),
     );
 
     if (label != null || helper != null || error != null) {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
+      return fluent.Column(
+        crossAxisAlignment: fluent.CrossAxisAlignment.start,
+        mainAxisSize: fluent.MainAxisSize.min,
         children: [
           if (label != null) ...[
-            Text(
+            fluent.Text(
               label!,
               style: AppTypography.bodyMedium(color: colors.textBase),
             ),
-            const SizedBox(height: AppSpacing.xs),
+            const fluent.SizedBox(height: AppSpacing.xs),
           ],
           textField,
           if (helper != null && !hasError) ...[
-            const SizedBox(height: AppSpacing.xs),
-            Text(helper!, style: AppTypography.caption(color: colors.textWeak)),
+            const fluent.SizedBox(height: AppSpacing.xs),
+            fluent.Text(helper!, style: AppTypography.caption(color: colors.textWeak)),
           ],
           if (hasError) ...[
-            const SizedBox(height: AppSpacing.xs),
-            Text(error!, style: AppTypography.caption(color: colors.errorText)),
+            const fluent.SizedBox(height: AppSpacing.xs),
+            fluent.Text(error!, style: AppTypography.caption(color: colors.errorText)),
           ],
         ],
       );

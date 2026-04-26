@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart' as fluent;
 
 import '../theme/tokens.dart';
 
 /// A breadcrumbs navigation component.
-class Breadcrumbs extends StatelessWidget {
+class Breadcrumbs extends fluent.StatelessWidget {
   const Breadcrumbs({
     required this.items,
     this.separator,
@@ -15,23 +15,23 @@ class Breadcrumbs extends StatelessWidget {
   final List<BreadcrumbItem> items;
 
   /// Custom separator widget
-  final Widget? separator;
+  final fluent.Widget? separator;
 
   /// Maximum items to display (shows ellipsis)
   final int? maxItems;
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
 
     final effectiveSeparator =
         separator ??
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xs),
-          child: Icon(Icons.chevron_right, size: 16, color: colors.iconMuted),
+        fluent.Padding(
+          padding: const fluent.EdgeInsets.symmetric(horizontal: AppSpacing.xs),
+          child: fluent.Icon(fluent.FluentIcons.chevron_right, size: 16, color: colors.iconMuted),
         );
 
     List<BreadcrumbItem> displayItems = items;
@@ -45,12 +45,12 @@ class Breadcrumbs extends StatelessWidget {
       showEllipsis = true;
     }
 
-    return Row(
-      mainAxisSize: MainAxisSize.min,
+    return fluent.Row(
+      mainAxisSize: fluent.MainAxisSize.min,
       children: [
         for (var i = 0; i < displayItems.length; i++) ...[
           if (i == 1 && showEllipsis) ...[
-            Text('...', style: AppTypography.body(color: colors.textMuted)),
+            fluent.Text('...', style: AppTypography.body(color: colors.textMuted)),
             effectiveSeparator,
           ],
           _BreadcrumbButton(
@@ -64,47 +64,47 @@ class Breadcrumbs extends StatelessWidget {
   }
 }
 
-class _BreadcrumbButton extends StatefulWidget {
+class _BreadcrumbButton extends fluent.StatefulWidget {
   const _BreadcrumbButton({required this.item, required this.isLast});
 
   final BreadcrumbItem item;
   final bool isLast;
 
   @override
-  State<_BreadcrumbButton> createState() => _BreadcrumbButtonState();
+  fluent.State<_BreadcrumbButton> createState() => _BreadcrumbButtonState();
 }
 
-class _BreadcrumbButtonState extends State<_BreadcrumbButton> {
+class _BreadcrumbButtonState extends fluent.State<_BreadcrumbButton> {
   bool _isHovered = false;
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
     final isClickable = widget.item.onTap != null && !widget.isLast;
 
-    return GestureDetector(
+    return fluent.GestureDetector(
       onTap: isClickable ? widget.item.onTap : null,
-      child: MouseRegion(
+      child: fluent.MouseRegion(
         cursor: isClickable
-            ? SystemMouseCursors.click
-            : SystemMouseCursors.basic,
+            ? fluent.SystemMouseCursors.click
+            : fluent.SystemMouseCursors.basic,
         onEnter: (_) => setState(() => _isHovered = true),
         onExit: (_) => setState(() => _isHovered = false),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
+        child: fluent.Row(
+          mainAxisSize: fluent.MainAxisSize.min,
           children: [
             if (widget.item.icon != null) ...[
-              Icon(
+              fluent.Icon(
                 widget.item.icon,
                 size: 14,
                 color: widget.isLast ? colors.iconBase : colors.iconWeak,
               ),
-              const SizedBox(width: AppSpacing.xs),
+              const fluent.SizedBox(width: AppSpacing.xs),
             ],
-            Text(
+            fluent.Text(
               widget.item.label,
               style:
                   AppTypography.body(
@@ -115,7 +115,7 @@ class _BreadcrumbButtonState extends State<_BreadcrumbButton> {
                         : colors.textWeak,
                   ).copyWith(
                     decoration: _isHovered && isClickable
-                        ? TextDecoration.underline
+                        ? fluent.TextDecoration.underline
                         : null,
                   ),
             ),
@@ -134,8 +134,8 @@ class BreadcrumbItem {
   final String label;
 
   /// Optional icon
-  final IconData? icon;
+  final fluent.IconData? icon;
 
   /// Tap callback
-  final VoidCallback? onTap;
+  final fluent.VoidCallback? onTap;
 }

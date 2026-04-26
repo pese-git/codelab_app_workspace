@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart' as fluent;
 
 import '../theme/tokens.dart';
 
 /// A menu item component.
-class MenuItem extends StatefulWidget {
+class MenuItem extends fluent.StatefulWidget {
   const MenuItem({
     required this.label,
     this.icon,
@@ -18,13 +18,13 @@ class MenuItem extends StatefulWidget {
   final String label;
 
   /// Optional leading icon
-  final IconData? icon;
+  final fluent.IconData? icon;
 
   /// Optional keyboard shortcut text
   final String? shortcut;
 
   /// Tap callback
-  final VoidCallback? onTap;
+  final fluent.VoidCallback? onTap;
 
   /// Disabled state
   final bool isDisabled;
@@ -33,16 +33,16 @@ class MenuItem extends StatefulWidget {
   final bool isDestructive;
 
   @override
-  State<MenuItem> createState() => _MenuItemState();
+  fluent.State<MenuItem> createState() => _MenuItemState();
 }
 
-class _MenuItemState extends State<MenuItem> {
+class _MenuItemState extends fluent.State<MenuItem> {
   bool _isHovered = false;
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
     final isEnabled = !widget.isDisabled && widget.onTap != null;
@@ -59,38 +59,38 @@ class _MenuItemState extends State<MenuItem> {
         ? colors.errorBase
         : colors.iconBase;
 
-    return GestureDetector(
+    return fluent.GestureDetector(
       onTap: isEnabled ? widget.onTap : null,
-      child: MouseRegion(
-        cursor: isEnabled ? SystemMouseCursors.click : SystemMouseCursors.basic,
+      child: fluent.MouseRegion(
+        cursor: isEnabled ? fluent.SystemMouseCursors.click : fluent.SystemMouseCursors.basic,
         onEnter: (_) => setState(() => _isHovered = true),
         onExit: (_) => setState(() => _isHovered = false),
-        child: AnimatedContainer(
+        child: fluent.AnimatedContainer(
           duration: AppDurations.fast,
-          padding: const EdgeInsets.symmetric(
+          padding: const fluent.EdgeInsets.symmetric(
             horizontal: AppSpacing.md,
             vertical: AppSpacing.sm,
           ),
-          decoration: BoxDecoration(
+          decoration: fluent.BoxDecoration(
             color: _isHovered && isEnabled
                 ? colors.surfaceHover
-                : Colors.transparent,
+                : fluent.Colors.transparent,
             borderRadius: AppRadius.smAll,
           ),
-          child: Row(
+          child: fluent.Row(
             children: [
               if (widget.icon != null) ...[
-                Icon(widget.icon, size: 16, color: iconColor),
-                const SizedBox(width: AppSpacing.md),
+                fluent.Icon(widget.icon, size: 16, color: iconColor),
+                const fluent.SizedBox(width: AppSpacing.md),
               ],
-              Expanded(
-                child: Text(
+              fluent.Expanded(
+                child: fluent.Text(
                   widget.label,
                   style: AppTypography.body(color: textColor),
                 ),
               ),
               if (widget.shortcut != null)
-                Text(
+                fluent.Text(
                   widget.shortcut!,
                   style: AppTypography.caption(color: colors.textMuted),
                 ),
@@ -103,44 +103,44 @@ class _MenuItemState extends State<MenuItem> {
 }
 
 /// A menu divider.
-class MenuDivider extends StatelessWidget {
+class MenuDivider extends fluent.StatelessWidget {
   const MenuDivider({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: AppSpacing.xs),
-      child: Container(height: 1, color: colors.borderWeak),
+    return fluent.Padding(
+      padding: const fluent.EdgeInsets.symmetric(vertical: AppSpacing.xs),
+      child: fluent.Container(height: 1, color: colors.borderWeak),
     );
   }
 }
 
 /// A menu section header.
-class MenuSectionHeader extends StatelessWidget {
+class MenuSectionHeader extends fluent.StatelessWidget {
   const MenuSectionHeader({required this.title, super.key});
 
   final String title;
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
 
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(
+    return fluent.Padding(
+      padding: const fluent.EdgeInsets.fromLTRB(
         AppSpacing.md,
         AppSpacing.sm,
         AppSpacing.md,
         AppSpacing.xs,
       ),
-      child: Text(
+      child: fluent.Text(
         title.toUpperCase(),
         style: AppTypography.style(
           size: 11,

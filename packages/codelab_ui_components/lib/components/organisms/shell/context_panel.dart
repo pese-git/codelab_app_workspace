@@ -1,5 +1,4 @@
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
-import 'package:flutter/material.dart';
 
 import '../../theme/tokens.dart';
 
@@ -7,7 +6,7 @@ import '../../theme/tokens.dart';
 enum ContextPanelTab { details, activity, agent }
 
 /// Context panel component (right sidebar).
-class ContextPanel extends StatelessWidget {
+class ContextPanel extends fluent.StatelessWidget {
   const ContextPanel({
     required this.activeTab,
     required this.onTabChanged,
@@ -20,64 +19,64 @@ class ContextPanel extends StatelessWidget {
   });
 
   final ContextPanelTab activeTab;
-  final ValueChanged<ContextPanelTab> onTabChanged;
+  final fluent.ValueChanged<ContextPanelTab> onTabChanged;
   final String title;
   final List<ContextPanelItem> items;
-  final ValueChanged<ContextPanelItem>? onItemTap;
+  final fluent.ValueChanged<ContextPanelItem>? onItemTap;
   final bool isEmpty;
   final String emptyMessage;
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
 
-    return Container(
+    return fluent.Container(
       width: AppDimensions.contextPanelWidth + 54,
-      decoration: BoxDecoration(
+      decoration: fluent.BoxDecoration(
         color: colors.surfaceBase,
-        border: Border(left: BorderSide(color: colors.borderBase)),
+        border: fluent.Border(left: fluent.BorderSide(color: colors.borderBase)),
       ),
-      child: Column(
+      child: fluent.Column(
         children: [
           // Header
-          Container(
+          fluent.Container(
             height: 64,
-            padding: const EdgeInsets.fromLTRB(16, 14, 16, 0),
-            decoration: BoxDecoration(
-              border: Border(bottom: BorderSide(color: colors.borderWeak)),
+            padding: const fluent.EdgeInsets.fromLTRB(16, 14, 16, 0),
+            decoration: fluent.BoxDecoration(
+              border: fluent.Border(bottom: fluent.BorderSide(color: colors.borderWeak)),
             ),
-            child: Row(
+            child: fluent.Row(
               children: [
                 _TabButton(
                   label: 'Overview',
                   isSelected: activeTab == ContextPanelTab.details,
                   onTap: () => onTabChanged(ContextPanelTab.details),
                 ),
-                const SizedBox(width: 14),
-                GestureDetector(
+                const fluent.SizedBox(width: 14),
+                fluent.GestureDetector(
                   onTap: () {},
-                  child: Text(
+                  child: fluent.Text(
                     '+',
-                    style: TextStyle(fontSize: 20, color: colors.iconWeak),
+                    style: fluent.TextStyle(fontSize: 20, color: colors.iconWeak),
                   ),
                 ),
               ],
             ),
           ),
           // Title
-          Padding(
-            padding: const EdgeInsets.fromLTRB(18, 18, 18, 12),
-            child: Row(
+          fluent.Padding(
+            padding: const fluent.EdgeInsets.fromLTRB(18, 18, 18, 12),
+            child: fluent.Row(
               children: [
-                Text(
+                fluent.Text(
                   title,
                   style: AppTypography.subtitle(color: colors.textStrong),
                 ),
-                const SizedBox(width: 8),
-                Icon(
+                const fluent.SizedBox(width: 8),
+                fluent.Icon(
                   fluent.FluentIcons.chevron_down,
                   size: 10,
                   color: colors.iconMuted,
@@ -86,25 +85,25 @@ class ContextPanel extends StatelessWidget {
             ),
           ),
           // Tabs
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+          fluent.Padding(
+            padding: const fluent.EdgeInsets.fromLTRB(16, 0, 16, 0),
             child: _SegmentedHeader(
               activeTab: activeTab,
               onTabSelected: onTabChanged,
             ),
           ),
-          const SizedBox(height: 18),
+          const fluent.SizedBox(height: 18),
           // Content
-          Expanded(
+          fluent.Expanded(
             child: isEmpty
-                ? Center(
-                    child: Text(
+                ? fluent.Center(
+                    child: fluent.Text(
                       emptyMessage,
                       style: AppTypography.body(color: colors.textMuted),
                     ),
                   )
-                : ListView(
-                    padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                : fluent.ListView(
+                    padding: const fluent.EdgeInsets.fromLTRB(16, 0, 16, 16),
                     children: items
                         .map(
                           (item) => _FileListRow(
@@ -121,7 +120,7 @@ class ContextPanel extends StatelessWidget {
   }
 }
 
-class _TabButton extends StatelessWidget {
+class _TabButton extends fluent.StatelessWidget {
   const _TabButton({
     required this.label,
     required this.isSelected,
@@ -130,24 +129,24 @@ class _TabButton extends StatelessWidget {
 
   final String label;
   final bool isSelected;
-  final VoidCallback onTap;
+  final fluent.VoidCallback onTap;
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
 
-    return GestureDetector(
+    return fluent.GestureDetector(
       onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-        decoration: BoxDecoration(
+      child: fluent.Container(
+        padding: const fluent.EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+        decoration: fluent.BoxDecoration(
           color: isSelected ? colors.surfaceSelected : colors.surfaceSubtle,
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: fluent.BorderRadius.circular(10),
         ),
-        child: Text(
+        child: fluent.Text(
           label,
           style: AppTypography.label(color: colors.textStrong),
         ),
@@ -156,42 +155,42 @@ class _TabButton extends StatelessWidget {
   }
 }
 
-class _SegmentedHeader extends StatelessWidget {
+class _SegmentedHeader extends fluent.StatelessWidget {
   const _SegmentedHeader({
     required this.activeTab,
     required this.onTabSelected,
   });
 
   final ContextPanelTab activeTab;
-  final ValueChanged<ContextPanelTab> onTabSelected;
+  final fluent.ValueChanged<ContextPanelTab> onTabSelected;
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
 
-    return Row(
+    return fluent.Row(
       children: [
-        GestureDetector(
+        fluent.GestureDetector(
           onTap: () => onTabSelected(ContextPanelTab.activity),
-          child: Text(
+          child: fluent.Text(
             '0 Changes',
             style: AppTypography.small(
               color: activeTab == ContextPanelTab.activity
                   ? colors.textBase
                   : colors.textMuted,
-            ).copyWith(fontWeight: FontWeight.w600),
+            ).copyWith(fontWeight: fluent.FontWeight.w600),
           ),
         ),
-        const Spacer(),
+        const fluent.Spacer(),
         _SegmentButton(
           label: 'All files',
           isSelected: activeTab == ContextPanelTab.details,
           onTap: () => onTabSelected(ContextPanelTab.details),
         ),
-        const SizedBox(width: 8),
+        const fluent.SizedBox(width: 8),
         _SegmentButton(
           label: 'Agent',
           isSelected: activeTab == ContextPanelTab.agent,
@@ -202,7 +201,7 @@ class _SegmentedHeader extends StatelessWidget {
   }
 }
 
-class _SegmentButton extends StatelessWidget {
+class _SegmentButton extends fluent.StatelessWidget {
   const _SegmentButton({
     required this.label,
     required this.isSelected,
@@ -211,84 +210,84 @@ class _SegmentButton extends StatelessWidget {
 
   final String label;
   final bool isSelected;
-  final VoidCallback onTap;
+  final fluent.VoidCallback onTap;
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
 
-    return GestureDetector(
+    return fluent.GestureDetector(
       onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-        decoration: BoxDecoration(
+      child: fluent.Container(
+        padding: const fluent.EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        decoration: fluent.BoxDecoration(
           color: isSelected ? colors.surfaceSelected : colors.surfaceSubtle,
-          borderRadius: BorderRadius.circular(9),
+          borderRadius: fluent.BorderRadius.circular(9),
         ),
-        child: Text(
+        child: fluent.Text(
           label,
           style: AppTypography.small(
             color: colors.textBase,
-          ).copyWith(fontWeight: FontWeight.w600),
+          ).copyWith(fontWeight: fluent.FontWeight.w600),
         ),
       ),
     );
   }
 }
 
-class _FileListRow extends StatelessWidget {
+class _FileListRow extends fluent.StatelessWidget {
   const _FileListRow({required this.item, this.onTap});
 
   final ContextPanelItem item;
-  final VoidCallback? onTap;
+  final fluent.VoidCallback? onTap;
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
 
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
-      child: GestureDetector(
+    return fluent.Padding(
+      padding: const fluent.EdgeInsets.only(bottom: 12),
+      child: fluent.GestureDetector(
         onTap: onTap,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: fluent.Row(
+          crossAxisAlignment: fluent.CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 4),
-              child: Icon(
+            fluent.Padding(
+              padding: const fluent.EdgeInsets.only(top: 4),
+              child: fluent.Icon(
                 fluent.FluentIcons.page,
                 size: 13,
                 color: colors.iconWeak,
               ),
             ),
-            const SizedBox(width: 10),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+            const fluent.SizedBox(width: 10),
+            fluent.Expanded(
+              child: fluent.Column(
+                crossAxisAlignment: fluent.CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  fluent.Text(
                     item.title,
                     style: AppTypography.body(
                       color: colors.textBase,
-                    ).copyWith(fontWeight: FontWeight.w600),
+                    ).copyWith(fontWeight: fluent.FontWeight.w600),
                   ),
                   if (item.subtitle.isNotEmpty)
-                    Text(
+                    fluent.Text(
                       item.subtitle,
                       style: AppTypography.caption(color: colors.textMuted),
                       maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
+                      overflow: fluent.TextOverflow.ellipsis,
                     ),
                 ],
               ),
             ),
-            Text(
+            fluent.Text(
               item.trailing,
               style: AppTypography.caption(color: colors.textMuted),
             ),

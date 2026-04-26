@@ -1,11 +1,10 @@
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
-import 'package:flutter/material.dart';
 
 import '../../atoms/icon_button.dart';
 import '../../theme/tokens.dart';
 
 /// Session header component with title and actions.
-class SessionHeader extends StatelessWidget {
+class SessionHeader extends fluent.StatelessWidget {
   const SessionHeader({
     required this.title,
     this.subtitle,
@@ -20,26 +19,26 @@ class SessionHeader extends StatelessWidget {
   final String title;
   final String? subtitle;
   final String? branchName;
-  final VoidCallback? onBack;
-  final VoidCallback? onFork;
-  final VoidCallback? onShare;
-  final VoidCallback? onMore;
+  final fluent.VoidCallback? onBack;
+  final fluent.VoidCallback? onFork;
+  final fluent.VoidCallback? onShare;
+  final fluent.VoidCallback? onMore;
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
 
-    return Container(
+    return fluent.Container(
       height: 64,
-      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xl),
-      decoration: BoxDecoration(
+      padding: const fluent.EdgeInsets.symmetric(horizontal: AppSpacing.xl),
+      decoration: fluent.BoxDecoration(
         color: colors.surfaceBase,
-        border: Border(bottom: BorderSide(color: colors.borderWeak)),
+        border: fluent.Border(bottom: fluent.BorderSide(color: colors.borderWeak)),
       ),
-      child: Row(
+      child: fluent.Row(
         children: [
           if (onBack != null) ...[
             AppIconButton(
@@ -47,41 +46,41 @@ class SessionHeader extends StatelessWidget {
               onPressed: onBack,
               size: IconButtonSize.sm,
             ),
-            const SizedBox(width: AppSpacing.md),
+            const fluent.SizedBox(width: AppSpacing.md),
           ],
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
+          fluent.Expanded(
+            child: fluent.Column(
+              crossAxisAlignment: fluent.CrossAxisAlignment.start,
+              mainAxisAlignment: fluent.MainAxisAlignment.center,
               children: [
-                Text(
+                fluent.Text(
                   title,
                   style: AppTypography.subtitle(color: colors.textStrong),
                   maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+                  overflow: fluent.TextOverflow.ellipsis,
                 ),
                 if (subtitle != null || branchName != null)
-                  Row(
+                  fluent.Row(
                     children: [
                       if (branchName != null) ...[
-                        Icon(
+                        fluent.Icon(
                           fluent.FluentIcons.branch_fork2,
                           size: 12,
                           color: colors.iconMuted,
                         ),
-                        const SizedBox(width: AppSpacing.xs),
-                        Text(
+                        const fluent.SizedBox(width: AppSpacing.xs),
+                        fluent.Text(
                           branchName!,
                           style: AppTypography.caption(color: colors.textMuted),
                         ),
                       ],
                       if (branchName != null && subtitle != null)
-                        Text(
+                        fluent.Text(
                           ' • ',
                           style: AppTypography.caption(color: colors.textMuted),
                         ),
                       if (subtitle != null)
-                        Text(
+                        fluent.Text(
                           subtitle!,
                           style: AppTypography.caption(color: colors.textMuted),
                         ),

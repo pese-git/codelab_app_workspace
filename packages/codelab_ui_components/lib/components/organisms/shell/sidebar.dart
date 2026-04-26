@@ -1,11 +1,10 @@
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
-import 'package:flutter/material.dart';
 
 import '../../theme/tokens.dart';
 import '../session/file_list.dart';
 
 /// Sidebar component with project info and navigation.
-class Sidebar extends StatelessWidget {
+class Sidebar extends fluent.StatelessWidget {
   const Sidebar({
     required this.projectName,
     required this.projectPath,
@@ -29,53 +28,53 @@ class Sidebar extends StatelessWidget {
   final String? selectedSessionId;
   final List<FileNode> workspaceNodes;
   final Set<String> expandedNodes;
-  final ValueChanged<String>? onSessionSelected;
-  final ValueChanged<String>? onNodeToggle;
-  final VoidCallback? onNewWorkspace;
-  final VoidCallback? onEditProject;
-  final VoidCallback? onConnectProvider;
+  final fluent.ValueChanged<String>? onSessionSelected;
+  final fluent.ValueChanged<String>? onNodeToggle;
+  final fluent.VoidCallback? onNewWorkspace;
+  final fluent.VoidCallback? onEditProject;
+  final fluent.VoidCallback? onConnectProvider;
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
 
-    return Container(
+    return fluent.Container(
       width: AppDimensions.sidebarWidth,
-      decoration: BoxDecoration(
+      decoration: fluent.BoxDecoration(
         color: colors.surfaceBase,
-        border: Border(right: BorderSide(color: colors.borderBase)),
+        border: fluent.Border(right: fluent.BorderSide(color: colors.borderBase)),
       ),
-      child: Column(
+      child: fluent.Column(
         children: [
           // Project header
-          Padding(
-            padding: const EdgeInsets.fromLTRB(18, 14, 18, 8),
-            child: Row(
+          fluent.Padding(
+            padding: const fluent.EdgeInsets.fromLTRB(18, 14, 18, 8),
+            child: fluent.Row(
               children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                fluent.Expanded(
+                  child: fluent.Column(
+                    crossAxisAlignment: fluent.CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      fluent.Text(
                         projectName,
                         style: AppTypography.title(color: colors.textStrong),
                       ),
-                      const SizedBox(height: 2),
-                      Text(
+                      const fluent.SizedBox(height: 2),
+                      fluent.Text(
                         projectPath,
                         style: AppTypography.caption(color: colors.textWeak),
-                        overflow: TextOverflow.ellipsis,
+                        overflow: fluent.TextOverflow.ellipsis,
                       ),
                     ],
                   ),
                 ),
                 if (onEditProject != null)
-                  GestureDetector(
+                  fluent.GestureDetector(
                     onTap: onEditProject,
-                    child: Icon(
+                    child: fluent.Icon(
                       fluent.FluentIcons.more,
                       size: 16,
                       color: colors.iconWeak,
@@ -86,27 +85,27 @@ class Sidebar extends StatelessWidget {
           ),
           // New workspace button
           if (onNewWorkspace != null)
-            Padding(
-              padding: const EdgeInsets.fromLTRB(14, 12, 14, 10),
-              child: GestureDetector(
+            fluent.Padding(
+              padding: const fluent.EdgeInsets.fromLTRB(14, 12, 14, 10),
+              child: fluent.GestureDetector(
                 onTap: onNewWorkspace,
-                child: Container(
+                child: fluent.Container(
                   height: 48,
-                  padding: const EdgeInsets.symmetric(horizontal: 18),
-                  decoration: BoxDecoration(
+                  padding: const fluent.EdgeInsets.symmetric(horizontal: 18),
+                  decoration: fluent.BoxDecoration(
                     color: colors.surfaceBase,
-                    borderRadius: BorderRadius.circular(13),
-                    border: Border.all(color: colors.borderWeak),
+                    borderRadius: fluent.BorderRadius.circular(13),
+                    border: fluent.Border.all(color: colors.borderWeak),
                   ),
-                  child: Row(
+                  child: fluent.Row(
                     children: [
-                      Icon(
+                      fluent.Icon(
                         fluent.FluentIcons.add,
                         size: 14,
                         color: colors.iconWeak,
                       ),
-                      const SizedBox(width: 12),
-                      Text(
+                      const fluent.SizedBox(width: 12),
+                      fluent.Text(
                         'New workspace',
                         style: AppTypography.label(color: colors.textStrong),
                       ),
@@ -116,27 +115,27 @@ class Sidebar extends StatelessWidget {
               ),
             ),
           // Content
-          Expanded(
-            child: ListView(
-              padding: const EdgeInsets.fromLTRB(14, 16, 14, 14),
+          fluent.Expanded(
+            child: fluent.ListView(
+              padding: const fluent.EdgeInsets.fromLTRB(14, 16, 14, 14),
               children: [
                 // Branch info
                 if (branchName != null) ...[
-                  Row(
+                  fluent.Row(
                     children: [
-                      Icon(
+                      fluent.Icon(
                         fluent.FluentIcons.branch_fork2,
                         size: 14,
                         color: colors.iconWeak,
                       ),
-                      const SizedBox(width: 10),
-                      Text(
+                      const fluent.SizedBox(width: 10),
+                      fluent.Text(
                         branchName!,
                         style: AppTypography.small(color: colors.textWeak),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 12),
+                  const fluent.SizedBox(height: 12),
                 ],
                 // Sessions
                 for (final session in sessions)
@@ -147,8 +146,8 @@ class Sidebar extends StatelessWidget {
                   ),
                 // Workspace tree
                 if (workspaceNodes.isNotEmpty) ...[
-                  const SizedBox(height: 18),
-                  Text(
+                  const fluent.SizedBox(height: 18),
+                  fluent.Text(
                     'workspace',
                     style: AppTypography.style(
                       size: 13,
@@ -156,16 +155,16 @@ class Sidebar extends StatelessWidget {
                       color: colors.textMuted,
                     ),
                   ),
-                  const SizedBox(height: 10),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
+                  const fluent.SizedBox(height: 10),
+                  fluent.Container(
+                    padding: const fluent.EdgeInsets.symmetric(
                       horizontal: 8,
                       vertical: 6,
                     ),
-                    decoration: BoxDecoration(
+                    decoration: fluent.BoxDecoration(
                       color: colors.surfaceSubtle,
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: colors.borderWeak),
+                      borderRadius: fluent.BorderRadius.circular(12),
+                      border: fluent.Border.all(color: colors.borderWeak),
                     ),
                     child: FileList(
                       nodes: workspaceNodes,
@@ -176,7 +175,7 @@ class Sidebar extends StatelessWidget {
                 ],
                 // Provider card
                 if (onConnectProvider != null) ...[
-                  const SizedBox(height: 18),
+                  const fluent.SizedBox(height: 18),
                   _ProviderCard(onTap: onConnectProvider!),
                 ],
               ],
@@ -188,7 +187,7 @@ class Sidebar extends StatelessWidget {
   }
 }
 
-class _SessionTile extends StatelessWidget {
+class _SessionTile extends fluent.StatelessWidget {
   const _SessionTile({
     required this.session,
     required this.isSelected,
@@ -197,34 +196,34 @@ class _SessionTile extends StatelessWidget {
 
   final SidebarSession session;
   final bool isSelected;
-  final VoidCallback onTap;
+  final fluent.VoidCallback onTap;
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
 
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 6),
-      child: GestureDetector(
+    return fluent.Padding(
+      padding: const fluent.EdgeInsets.only(bottom: 6),
+      child: fluent.GestureDetector(
         onTap: onTap,
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-          decoration: BoxDecoration(
-            color: isSelected ? colors.surfaceSelected : Colors.transparent,
-            borderRadius: BorderRadius.circular(10),
+        child: fluent.Container(
+          padding: const fluent.EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+          decoration: fluent.BoxDecoration(
+            color: isSelected ? colors.surfaceSelected : fluent.Colors.transparent,
+            borderRadius: fluent.BorderRadius.circular(10),
           ),
-          child: Text(
+          child: fluent.Text(
             session.title,
             maxLines: 1,
-            overflow: TextOverflow.ellipsis,
+            overflow: fluent.TextOverflow.ellipsis,
             style:
                 AppTypography.body(
                   color: isSelected ? colors.textStrong : colors.textBase,
                 ).copyWith(
-                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+                  fontWeight: isSelected ? fluent.FontWeight.w600 : fluent.FontWeight.w500,
                 ),
           ),
         ),
@@ -233,57 +232,57 @@ class _SessionTile extends StatelessWidget {
   }
 }
 
-class _ProviderCard extends StatelessWidget {
+class _ProviderCard extends fluent.StatelessWidget {
   const _ProviderCard({required this.onTap});
 
-  final VoidCallback onTap;
+  final fluent.VoidCallback onTap;
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
 
-    return Container(
-      padding: const EdgeInsets.all(18),
-      decoration: BoxDecoration(
+    return fluent.Container(
+      padding: const fluent.EdgeInsets.all(18),
+      decoration: fluent.BoxDecoration(
         color: colors.surfaceBase,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: colors.borderWeak),
+        borderRadius: fluent.BorderRadius.circular(16),
+        border: fluent.Border.all(color: colors.borderWeak),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: fluent.Column(
+        crossAxisAlignment: fluent.CrossAxisAlignment.start,
         children: [
-          Text(
+          fluent.Text(
             'Get Started',
             style: AppTypography.subtitle(color: colors.textStrong),
           ),
-          const SizedBox(height: 12),
-          Text(
+          const fluent.SizedBox(height: 12),
+          fluent.Text(
             'Connect a provider to use AI models.',
             style: AppTypography.caption(color: colors.textWeak),
           ),
-          const SizedBox(height: 16),
-          GestureDetector(
+          const fluent.SizedBox(height: 16),
+          fluent.GestureDetector(
             onTap: onTap,
-            child: Container(
+            child: fluent.Container(
               height: 46,
-              alignment: Alignment.centerLeft,
-              padding: const EdgeInsets.symmetric(horizontal: 14),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: colors.borderWeak),
+              alignment: fluent.Alignment.centerLeft,
+              padding: const fluent.EdgeInsets.symmetric(horizontal: 14),
+              decoration: fluent.BoxDecoration(
+                borderRadius: fluent.BorderRadius.circular(12),
+                border: fluent.Border.all(color: colors.borderWeak),
               ),
-              child: Row(
+              child: fluent.Row(
                 children: [
-                  Icon(
+                  fluent.Icon(
                     fluent.FluentIcons.add,
                     size: 14,
                     color: colors.iconWeak,
                   ),
-                  const SizedBox(width: 12),
-                  Text(
+                  const fluent.SizedBox(width: 12),
+                  fluent.Text(
                     'Connect provider',
                     style: AppTypography.label(color: colors.textStrong),
                   ),

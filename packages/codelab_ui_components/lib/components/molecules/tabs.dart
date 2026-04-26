@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart' as fluent;
 
 import '../theme/tokens.dart';
 
 /// A tab bar component.
-class AppTabs<T> extends StatelessWidget {
+class AppTabs<T> extends fluent.StatelessWidget {
   const AppTabs({
     required this.tabs,
     required this.selected,
@@ -19,15 +19,15 @@ class AppTabs<T> extends StatelessWidget {
   final T selected;
 
   /// Tab change callback
-  final ValueChanged<T> onChanged;
+  final fluent.ValueChanged<T> onChanged;
 
   /// Whether tabs are scrollable
   final bool isScrollable;
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
 
@@ -41,22 +41,22 @@ class AppTabs<T> extends StatelessWidget {
     }).toList();
 
     if (isScrollable) {
-      return SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(children: tabWidgets),
+      return fluent.SingleChildScrollView(
+        scrollDirection: fluent.Axis.horizontal,
+        child: fluent.Row(children: tabWidgets),
       );
     }
 
-    return Container(
-      decoration: BoxDecoration(
-        border: Border(bottom: BorderSide(color: colors.borderWeak)),
+    return fluent.Container(
+      decoration: fluent.BoxDecoration(
+        border: fluent.Border(bottom: fluent.BorderSide(color: colors.borderWeak)),
       ),
-      child: Row(children: tabWidgets),
+      child: fluent.Row(children: tabWidgets),
     );
   }
 }
 
-class _TabButton extends StatefulWidget {
+class _TabButton extends fluent.StatefulWidget {
   const _TabButton({
     required this.label,
     required this.isSelected,
@@ -65,44 +65,44 @@ class _TabButton extends StatefulWidget {
 
   final String label;
   final bool isSelected;
-  final VoidCallback onTap;
+  final fluent.VoidCallback onTap;
 
   @override
-  State<_TabButton> createState() => _TabButtonState();
+  fluent.State<_TabButton> createState() => _TabButtonState();
 }
 
-class _TabButtonState extends State<_TabButton> {
+class _TabButtonState extends fluent.State<_TabButton> {
   bool _isHovered = false;
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
 
-    return GestureDetector(
+    return fluent.GestureDetector(
       onTap: widget.onTap,
-      child: MouseRegion(
-        cursor: SystemMouseCursors.click,
+      child: fluent.MouseRegion(
+        cursor: fluent.SystemMouseCursors.click,
         onEnter: (_) => setState(() => _isHovered = true),
         onExit: (_) => setState(() => _isHovered = false),
-        child: Container(
-          padding: const EdgeInsets.symmetric(
+        child: fluent.Container(
+          padding: const fluent.EdgeInsets.symmetric(
             horizontal: AppSpacing.lg,
             vertical: AppSpacing.md,
           ),
-          decoration: BoxDecoration(
-            border: Border(
-              bottom: BorderSide(
+          decoration: fluent.BoxDecoration(
+            border: fluent.Border(
+              bottom: fluent.BorderSide(
                 color: widget.isSelected
                     ? colors.accentPrimary
-                    : Colors.transparent,
+                    : fluent.Colors.transparent,
                 width: 2,
               ),
             ),
           ),
-          child: Text(
+          child: fluent.Text(
             widget.label,
             style: AppTypography.bodyMedium(
               color: widget.isSelected
@@ -119,7 +119,7 @@ class _TabButtonState extends State<_TabButton> {
 }
 
 /// A closeable tab component.
-class CloseableTab extends StatefulWidget {
+class CloseableTab extends fluent.StatefulWidget {
   const CloseableTab({
     required this.label,
     required this.isSelected,
@@ -131,54 +131,54 @@ class CloseableTab extends StatefulWidget {
 
   final String label;
   final bool isSelected;
-  final VoidCallback onSelect;
-  final VoidCallback onClose;
-  final IconData? icon;
+  final fluent.VoidCallback onSelect;
+  final fluent.VoidCallback onClose;
+  final fluent.IconData? icon;
 
   @override
-  State<CloseableTab> createState() => _CloseableTabState();
+  fluent.State<CloseableTab> createState() => _CloseableTabState();
 }
 
-class _CloseableTabState extends State<CloseableTab> {
+class _CloseableTabState extends fluent.State<CloseableTab> {
   bool _isHovered = false;
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
 
-    return GestureDetector(
+    return fluent.GestureDetector(
       onTap: widget.onSelect,
-      child: MouseRegion(
-        cursor: SystemMouseCursors.click,
+      child: fluent.MouseRegion(
+        cursor: fluent.SystemMouseCursors.click,
         onEnter: (_) => setState(() => _isHovered = true),
         onExit: (_) => setState(() => _isHovered = false),
-        child: Container(
-          padding: const EdgeInsets.symmetric(
+        child: fluent.Container(
+          padding: const fluent.EdgeInsets.symmetric(
             horizontal: AppSpacing.md,
             vertical: AppSpacing.sm,
           ),
-          decoration: BoxDecoration(
-            color: widget.isSelected ? colors.surfaceBase : Colors.transparent,
-            border: Border(
-              bottom: BorderSide(
+          decoration: fluent.BoxDecoration(
+            color: widget.isSelected ? colors.surfaceBase : fluent.Colors.transparent,
+            border: fluent.Border(
+              bottom: fluent.BorderSide(
                 color: widget.isSelected
                     ? colors.accentPrimary
-                    : Colors.transparent,
+                    : fluent.Colors.transparent,
                 width: 2,
               ),
             ),
           ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
+          child: fluent.Row(
+            mainAxisSize: fluent.MainAxisSize.min,
             children: [
               if (widget.icon != null) ...[
-                Icon(widget.icon, size: 14, color: colors.iconWeak),
-                const SizedBox(width: AppSpacing.sm),
+                fluent.Icon(widget.icon, size: 14, color: colors.iconWeak),
+                const fluent.SizedBox(width: AppSpacing.sm),
               ],
-              Text(
+              fluent.Text(
                 widget.label,
                 style: AppTypography.small(
                   color: widget.isSelected
@@ -187,10 +187,10 @@ class _CloseableTabState extends State<CloseableTab> {
                 ),
               ),
               if (_isHovered || widget.isSelected) ...[
-                const SizedBox(width: AppSpacing.sm),
-                GestureDetector(
+                const fluent.SizedBox(width: AppSpacing.sm),
+                fluent.GestureDetector(
                   onTap: widget.onClose,
-                  child: Icon(Icons.close, size: 14, color: colors.iconWeak),
+                  child: fluent.Icon(fluent.FluentIcons.chrome_close, size: 14, color: colors.iconWeak),
                 ),
               ],
             ],

@@ -46,8 +46,8 @@ class _CodeLabAppBootstrapState extends State<CodeLabAppBootstrap> {
         title: 'CodeLab Desktop',
         debugShowCheckedModeBanner: false,
         themeMode: ThemeMode.light,
-        theme: AppTheme.fluentLight,
-        darkTheme: AppTheme.fluentDark,
+        theme: AppTheme.light,
+        darkTheme: AppTheme.dark,
         routerConfig: _router,
         builder: (context, child) {
           return DialogHost(child: child ?? const SizedBox.shrink());

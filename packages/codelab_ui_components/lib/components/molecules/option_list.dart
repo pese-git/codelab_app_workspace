@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart' as fluent;
 
 import '../theme/tokens.dart';
 
 /// An option list for selection.
-class OptionList<T> extends StatelessWidget {
+class OptionList<T> extends fluent.StatelessWidget {
   const OptionList({
     required this.options,
     required this.selected,
@@ -19,15 +19,15 @@ class OptionList<T> extends StatelessWidget {
   final Set<T> selected;
 
   /// Selection callback
-  final ValueChanged<T> onSelect;
+  final fluent.ValueChanged<T> onSelect;
 
   /// Allow multiple selection
   final bool multiSelect;
 
   @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
+  fluent.Widget build(fluent.BuildContext context) {
+    return fluent.Column(
+      mainAxisSize: fluent.MainAxisSize.min,
       children: options.map((option) {
         final isSelected = selected.contains(option.value);
         return _OptionRow(
@@ -41,7 +41,7 @@ class OptionList<T> extends StatelessWidget {
   }
 }
 
-class _OptionRow<T> extends StatefulWidget {
+class _OptionRow<T> extends fluent.StatefulWidget {
   const _OptionRow({
     required this.option,
     required this.isSelected,
@@ -53,88 +53,88 @@ class _OptionRow<T> extends StatefulWidget {
   final OptionItem<T> option;
   final bool isSelected;
   final bool showCheckbox;
-  final VoidCallback onTap;
+  final fluent.VoidCallback onTap;
 
   @override
-  State<_OptionRow<T>> createState() => _OptionRowState<T>();
+  fluent.State<_OptionRow<T>> createState() => _OptionRowState<T>();
 }
 
-class _OptionRowState<T> extends State<_OptionRow<T>> {
+class _OptionRowState<T> extends fluent.State<_OptionRow<T>> {
   bool _isHovered = false;
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
     final isDisabled = widget.option.isDisabled;
 
-    return GestureDetector(
+    return fluent.GestureDetector(
       onTap: isDisabled ? null : widget.onTap,
-      child: MouseRegion(
+      child: fluent.MouseRegion(
         cursor: isDisabled
-            ? SystemMouseCursors.basic
-            : SystemMouseCursors.click,
+            ? fluent.SystemMouseCursors.basic
+            : fluent.SystemMouseCursors.click,
         onEnter: (_) => setState(() => _isHovered = true),
         onExit: (_) => setState(() => _isHovered = false),
-        child: AnimatedContainer(
+        child: fluent.AnimatedContainer(
           duration: AppDurations.fast,
-          padding: const EdgeInsets.symmetric(
+          padding: const fluent.EdgeInsets.symmetric(
             horizontal: AppSpacing.md,
             vertical: AppSpacing.sm,
           ),
-          decoration: BoxDecoration(
+          decoration: fluent.BoxDecoration(
             color: widget.isSelected
                 ? colors.surfaceSelected
                 : _isHovered
                 ? colors.surfaceHover
-                : Colors.transparent,
+                : fluent.Colors.transparent,
             borderRadius: AppRadius.smAll,
           ),
-          child: Row(
+          child: fluent.Row(
             children: [
               if (widget.showCheckbox) ...[
-                Container(
+                fluent.Container(
                   width: 18,
                   height: 18,
-                  decoration: BoxDecoration(
+                  decoration: fluent.BoxDecoration(
                     color: widget.isSelected
                         ? colors.accentPrimary
-                        : Colors.transparent,
-                    borderRadius: BorderRadius.circular(4),
-                    border: Border.all(
+                        : fluent.Colors.transparent,
+                    borderRadius: fluent.BorderRadius.circular(4),
+                    border: fluent.Border.all(
                       color: widget.isSelected
                           ? colors.accentPrimary
                           : colors.borderStrong,
                     ),
                   ),
                   child: widget.isSelected
-                      ? Icon(Icons.check, size: 14, color: colors.iconOnAccent)
+                      ? fluent.Icon(fluent.FluentIcons.check_mark, size: 14, color: colors.iconOnAccent)
                       : null,
                 ),
-                const SizedBox(width: AppSpacing.md),
+                const fluent.SizedBox(width: AppSpacing.md),
               ],
               if (widget.option.icon != null) ...[
-                Icon(
+                fluent.Icon(
                   widget.option.icon,
                   size: 16,
                   color: isDisabled ? colors.iconMuted : colors.iconBase,
                 ),
-                const SizedBox(width: AppSpacing.md),
+                const fluent.SizedBox(width: AppSpacing.md),
               ],
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+              fluent.Expanded(
+                child: fluent.Column(
+                  crossAxisAlignment: fluent.CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    fluent.Text(
                       widget.option.label,
                       style: AppTypography.body(
                         color: isDisabled ? colors.textMuted : colors.textBase,
                       ),
                     ),
                     if (widget.option.description != null)
-                      Text(
+                      fluent.Text(
                         widget.option.description!,
                         style: AppTypography.caption(color: colors.textWeak),
                       ),
@@ -142,7 +142,7 @@ class _OptionRowState<T> extends State<_OptionRow<T>> {
                 ),
               ),
               if (!widget.showCheckbox && widget.isSelected)
-                Icon(Icons.check, size: 16, color: colors.accentPrimary),
+                fluent.Icon(fluent.FluentIcons.check_mark, size: 16, color: colors.accentPrimary),
             ],
           ),
         ),
@@ -164,6 +164,6 @@ class OptionItem<T> {
   final T value;
   final String label;
   final String? description;
-  final IconData? icon;
+  final fluent.IconData? icon;
   final bool isDisabled;
 }

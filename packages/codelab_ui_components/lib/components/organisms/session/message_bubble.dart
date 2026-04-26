@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart' as fluent;
 
 import '../../molecules/markdown_view.dart';
 import '../../theme/tokens.dart';
@@ -22,64 +22,64 @@ class Message {
 }
 
 /// A message bubble component.
-class MessageBubble extends StatelessWidget {
+class MessageBubble extends fluent.StatelessWidget {
   const MessageBubble({required this.message, this.onCopyCode, super.key});
 
   final Message message;
   final void Function(String code)? onCopyCode;
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
     final isUser = message.role == MessageRole.user;
     final isSystem = message.role == MessageRole.system;
 
-    Color backgroundColor;
-    Color textColor;
-    CrossAxisAlignment alignment;
-    EdgeInsets padding;
+    fluent.Color backgroundColor;
+    fluent.Color textColor;
+    fluent.CrossAxisAlignment alignment;
+    fluent.EdgeInsets padding;
 
     if (isUser) {
       backgroundColor = colors.accentSubtle;
       textColor = colors.textBase;
-      alignment = CrossAxisAlignment.end;
-      padding = const EdgeInsets.only(left: AppSpacing.huge);
+      alignment = fluent.CrossAxisAlignment.end;
+      padding = const fluent.EdgeInsets.only(left: AppSpacing.huge);
     } else if (isSystem) {
       backgroundColor = colors.warningSubtle;
       textColor = colors.warningText;
-      alignment = CrossAxisAlignment.center;
-      padding = const EdgeInsets.symmetric(horizontal: AppSpacing.xxl);
+      alignment = fluent.CrossAxisAlignment.center;
+      padding = const fluent.EdgeInsets.symmetric(horizontal: AppSpacing.xxl);
     } else {
       backgroundColor = colors.surfaceSubtle;
       textColor = colors.textBase;
-      alignment = CrossAxisAlignment.start;
-      padding = const EdgeInsets.only(right: AppSpacing.huge);
+      alignment = fluent.CrossAxisAlignment.start;
+      padding = const fluent.EdgeInsets.only(right: AppSpacing.huge);
     }
 
-    return Padding(
-      padding: const EdgeInsets.only(bottom: AppSpacing.md),
-      child: Column(
+    return fluent.Padding(
+      padding: const fluent.EdgeInsets.only(bottom: AppSpacing.md),
+      child: fluent.Column(
         crossAxisAlignment: alignment,
         children: [
           if (!isSystem)
-            Padding(
-              padding: const EdgeInsets.only(bottom: AppSpacing.xs),
-              child: Text(
+            fluent.Padding(
+              padding: const fluent.EdgeInsets.only(bottom: AppSpacing.xs),
+              child: fluent.Text(
                 _roleLabel(message.role),
                 style: AppTypography.caption(color: colors.textMuted),
               ),
             ),
-          Padding(
+          fluent.Padding(
             padding: padding,
-            child: Container(
-              decoration: BoxDecoration(
+            child: fluent.Container(
+              decoration: fluent.BoxDecoration(
                 color: backgroundColor,
                 borderRadius: AppRadius.lgAll,
               ),
-              padding: const EdgeInsets.all(AppSpacing.md),
+              padding: const fluent.EdgeInsets.all(AppSpacing.md),
               child: _MessageContent(
                 content: message.content,
                 textColor: textColor,
@@ -104,7 +104,7 @@ class MessageBubble extends StatelessWidget {
   }
 }
 
-class _MessageContent extends StatelessWidget {
+class _MessageContent extends fluent.StatelessWidget {
   const _MessageContent({
     required this.content,
     required this.textColor,
@@ -112,11 +112,11 @@ class _MessageContent extends StatelessWidget {
   });
 
   final String content;
-  final Color textColor;
+  final fluent.Color textColor;
   final void Function(String code)? onCopyCode;
 
   @override
-  Widget build(BuildContext context) {
+  fluent.Widget build(fluent.BuildContext context) {
     return MarkdownView(data: content, selectable: true, shrinkWrap: true);
   }
 }

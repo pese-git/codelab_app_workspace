@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart' as fluent;
 
 import '../../theme/tokens.dart';
 
@@ -18,20 +18,20 @@ class ReviewItem {
 }
 
 /// A review list component.
-class ReviewList extends StatelessWidget {
+class ReviewList extends fluent.StatelessWidget {
   const ReviewList({required this.items, this.onItemTap, super.key});
 
   final List<ReviewItem> items;
-  final ValueChanged<ReviewItem>? onItemTap;
+  final fluent.ValueChanged<ReviewItem>? onItemTap;
 
   @override
-  Widget build(BuildContext context) {
+  fluent.Widget build(fluent.BuildContext context) {
     if (items.isEmpty) {
       return _buildEmptyState(context);
     }
 
-    return ListView.builder(
-      padding: const EdgeInsets.fromLTRB(
+    return fluent.ListView.builder(
+      padding: const fluent.EdgeInsets.fromLTRB(
         AppSpacing.md,
         0,
         AppSpacing.md,
@@ -47,24 +47,24 @@ class ReviewList extends StatelessWidget {
     );
   }
 
-  Widget _buildEmptyState(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget _buildEmptyState(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
 
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
+    return fluent.Center(
+      child: fluent.Column(
+        mainAxisSize: fluent.MainAxisSize.min,
         children: [
-          Icon(Icons.check_circle_outline, size: 48, color: colors.successBase),
-          const SizedBox(height: AppSpacing.md),
-          Text(
+          fluent.Icon(fluent.FluentIcons.check_mark, size: 48, color: colors.successBase),
+          const fluent.SizedBox(height: AppSpacing.md),
+          fluent.Text(
             'No issues found',
             style: AppTypography.subtitle(color: colors.textStrong),
           ),
-          const SizedBox(height: AppSpacing.xs),
-          Text(
+          const fluent.SizedBox(height: AppSpacing.xs),
+          fluent.Text(
             'All code looks good!',
             style: AppTypography.body(color: colors.textWeak),
           ),
@@ -75,46 +75,46 @@ class ReviewList extends StatelessWidget {
 }
 
 /// A single review card.
-class ReviewCard extends StatelessWidget {
+class ReviewCard extends fluent.StatelessWidget {
   const ReviewCard({required this.item, this.onTap, super.key});
 
   final ReviewItem item;
-  final VoidCallback? onTap;
+  final fluent.VoidCallback? onTap;
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
 
-    return GestureDetector(
+    return fluent.GestureDetector(
       onTap: onTap,
-      child: Container(
-        margin: const EdgeInsets.only(top: AppSpacing.md2),
-        padding: const EdgeInsets.all(AppSpacing.lg2),
-        decoration: BoxDecoration(
+      child: fluent.Container(
+        margin: const fluent.EdgeInsets.only(top: AppSpacing.md2),
+        padding: const fluent.EdgeInsets.all(AppSpacing.lg2),
+        decoration: fluent.BoxDecoration(
           color: colors.surfaceBase,
           borderRadius: AppRadius.smAll,
-          border: Border.all(color: colors.borderWeak),
+          border: fluent.Border.all(color: colors.borderWeak),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: fluent.Column(
+          crossAxisAlignment: fluent.CrossAxisAlignment.start,
           children: [
-            Row(
+            fluent.Row(
               children: [
                 _buildSeverityBadge(item.severity, colors),
-                const SizedBox(width: AppSpacing.sm),
-                Expanded(
-                  child: Text(
+                const fluent.SizedBox(width: AppSpacing.sm),
+                fluent.Expanded(
+                  child: fluent.Text(
                     item.title,
                     style: AppTypography.bodyMedium(color: colors.textStrong),
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: AppSpacing.sm),
-            Text(
+            const fluent.SizedBox(height: AppSpacing.sm),
+            fluent.Text(
               item.summary,
               style: AppTypography.caption(color: colors.textWeak),
             ),
@@ -124,9 +124,9 @@ class ReviewCard extends StatelessWidget {
     );
   }
 
-  Widget _buildSeverityBadge(String severity, LightColors colors) {
-    Color bgColor;
-    Color textColor;
+  fluent.Widget _buildSeverityBadge(String severity, LightColors colors) {
+    fluent.Color bgColor;
+    fluent.Color textColor;
 
     switch (severity.toLowerCase()) {
       case 'error':
@@ -147,16 +147,16 @@ class ReviewCard extends StatelessWidget {
         textColor = colors.textMuted;
     }
 
-    return Container(
-      padding: const EdgeInsets.symmetric(
+    return fluent.Container(
+      padding: const fluent.EdgeInsets.symmetric(
         horizontal: AppSpacing.sm,
         vertical: 2,
       ),
-      decoration: BoxDecoration(
+      decoration: fluent.BoxDecoration(
         color: bgColor,
         borderRadius: AppRadius.fullAll,
       ),
-      child: Text(
+      child: fluent.Text(
         severity,
         style: AppTypography.style(
           size: 11,

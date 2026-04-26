@@ -1,5 +1,4 @@
-import 'package:fluent_ui/fluent_ui.dart' show FluentIcons;
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart' as fluent;
 
 import '../theme/tokens.dart';
 
@@ -19,7 +18,7 @@ enum AppIconSize {
 }
 
 /// A themed icon widget with standardized sizes.
-class AppIcon extends StatelessWidget {
+class AppIcon extends fluent.StatelessWidget {
   const AppIcon(
     this.icon, {
     this.size = AppIconSize.md,
@@ -29,32 +28,32 @@ class AppIcon extends StatelessWidget {
   });
 
   /// The icon to display
-  final IconData icon;
+  final fluent.IconData icon;
 
   /// Size variant
   final AppIconSize size;
 
   /// Icon color (defaults to iconBase from theme)
-  final Color? color;
+  final fluent.Color? color;
 
   /// Semantic label for accessibility
   final String? semanticLabel;
 
   /// Small icon (16px)
   const AppIcon.sm(this.icon, {this.color, this.semanticLabel, super.key})
-    : size = AppIconSize.sm;
+      : size = AppIconSize.sm;
 
   /// Medium icon (20px) - default
   const AppIcon.md(this.icon, {this.color, this.semanticLabel, super.key})
-    : size = AppIconSize.md;
+      : size = AppIconSize.md;
 
   /// Large icon (24px)
   const AppIcon.lg(this.icon, {this.color, this.semanticLabel, super.key})
-    : size = AppIconSize.lg;
+      : size = AppIconSize.lg;
 
   /// Extra large icon (28px)
   const AppIcon.xl(this.icon, {this.color, this.semanticLabel, super.key})
-    : size = AppIconSize.xl;
+      : size = AppIconSize.xl;
 
   double get _pixelSize {
     switch (size) {
@@ -70,13 +69,13 @@ class AppIcon extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
 
-    return Icon(
+    return fluent.Icon(
       icon,
       size: _pixelSize,
       color: color ?? colors.iconBase,
@@ -88,61 +87,65 @@ class AppIcon extends StatelessWidget {
 /// Common app icons using FluentIcons.
 abstract final class AppIcons {
   // Navigation
-  static const IconData home = FluentIcons.home;
-  static const IconData back = FluentIcons.chevron_left;
-  static const IconData forward = FluentIcons.chevron_right;
-  static const IconData menu = FluentIcons.global_nav_button;
-  static const IconData close = FluentIcons.chrome_close;
-  static const IconData more = FluentIcons.more;
+  static const fluent.IconData home = fluent.FluentIcons.home;
+  static const fluent.IconData back = fluent.FluentIcons.chevron_left;
+  static const fluent.IconData forward = fluent.FluentIcons.chevron_right;
+  static const fluent.IconData menu = fluent.FluentIcons.global_nav_button;
+  static const fluent.IconData close = fluent.FluentIcons.chrome_close;
+  static const fluent.IconData more = fluent.FluentIcons.more;
 
   // Actions
-  static const IconData add = FluentIcons.add;
-  static const IconData remove = FluentIcons.remove;
-  static const IconData edit = FluentIcons.edit;
-  static const IconData delete = FluentIcons.delete;
-  static const IconData copy = FluentIcons.copy;
-  static const IconData paste = FluentIcons.paste;
-  static const IconData cut = FluentIcons.cut;
-  static const IconData save = FluentIcons.save;
-  static const IconData refresh = FluentIcons.refresh;
-  static const IconData search = FluentIcons.search;
-  static const IconData send = FluentIcons.send;
+  static const fluent.IconData add = fluent.FluentIcons.add;
+  static const fluent.IconData remove = fluent.FluentIcons.remove;
+  static const fluent.IconData edit = fluent.FluentIcons.edit;
+  static const fluent.IconData delete = fluent.FluentIcons.delete;
+  static const fluent.IconData copy = fluent.FluentIcons.copy;
+  static const fluent.IconData paste = fluent.FluentIcons.paste;
+  static const fluent.IconData cut = fluent.FluentIcons.cut;
+  static const fluent.IconData save = fluent.FluentIcons.save;
+  static const fluent.IconData refresh = fluent.FluentIcons.refresh;
+  static const fluent.IconData search = fluent.FluentIcons.search;
+  static const fluent.IconData send = fluent.FluentIcons.send;
 
   // Files & folders
-  static const IconData file = FluentIcons.page;
-  static const IconData folder = FluentIcons.fabric_folder;
-  static const IconData folderOpen = FluentIcons.fabric_open_folder_horizontal;
-  static const IconData newFile = FluentIcons.page_add;
-  static const IconData newFolder = FluentIcons.new_folder;
+  static const fluent.IconData file = fluent.FluentIcons.page;
+  static const fluent.IconData folder = fluent.FluentIcons.fabric_folder;
+  static const fluent.IconData folderOpen =
+      fluent.FluentIcons.fabric_open_folder_horizontal;
+  static const fluent.IconData newFile = fluent.FluentIcons.page_add;
+  static const fluent.IconData newFolder = fluent.FluentIcons.new_folder;
 
   // Git
-  static const IconData branch = FluentIcons.branch_fork2;
-  static const IconData commit = FluentIcons.git_graph;
-  static const IconData merge = FluentIcons.branch_merge;
-  static const IconData pull = FluentIcons.branch_pull_request;
+  static const fluent.IconData branch = fluent.FluentIcons.branch_fork2;
+  static const fluent.IconData commit = fluent.FluentIcons.git_graph;
+  static const fluent.IconData merge = fluent.FluentIcons.branch_merge;
+  static const fluent.IconData pull = fluent.FluentIcons.branch_pull_request;
 
   // Status
-  static const IconData success = FluentIcons.accept;
-  static const IconData warning = FluentIcons.warning;
-  static const IconData error = FluentIcons.error_badge;
-  static const IconData info = FluentIcons.info;
+  static const fluent.IconData success = fluent.FluentIcons.accept;
+  static const fluent.IconData warning = fluent.FluentIcons.warning;
+  static const fluent.IconData error = fluent.FluentIcons.error_badge;
+  static const fluent.IconData info = fluent.FluentIcons.info;
 
   // UI
-  static const IconData sidePanel = FluentIcons.side_panel;
-  static const IconData settings = FluentIcons.settings;
-  static const IconData help = FluentIcons.help;
-  static const IconData terminal = FluentIcons.command_prompt;
-  static const IconData server = FluentIcons.server_processes;
+  static const fluent.IconData sidePanel = fluent.FluentIcons.side_panel;
+  static const fluent.IconData settings = fluent.FluentIcons.settings;
+  static const fluent.IconData help = fluent.FluentIcons.help;
+  static const fluent.IconData terminal = fluent.FluentIcons.command_prompt;
+  static const fluent.IconData server = fluent.FluentIcons.server_processes;
 
   // Chevrons
-  static const IconData chevronUp = FluentIcons.chevron_up;
-  static const IconData chevronDown = FluentIcons.chevron_down;
-  static const IconData chevronLeft = FluentIcons.chevron_left;
-  static const IconData chevronRight = FluentIcons.chevron_right;
-  static const IconData chevronLeftSmall = FluentIcons.chevron_left_small;
-  static const IconData chevronRightSmall = FluentIcons.chevron_right_small;
+  static const fluent.IconData chevronUp = fluent.FluentIcons.chevron_up;
+  static const fluent.IconData chevronDown = fluent.FluentIcons.chevron_down;
+  static const fluent.IconData chevronLeft = fluent.FluentIcons.chevron_left;
+  static const fluent.IconData chevronRight = fluent.FluentIcons.chevron_right;
+  static const fluent.IconData chevronLeftSmall =
+      fluent.FluentIcons.chevron_left_small;
+  static const fluent.IconData chevronRightSmall =
+      fluent.FluentIcons.chevron_right_small;
 
   // Expand / collapse
-  static const IconData expand = FluentIcons.chevron_down_small;
-  static const IconData collapse = FluentIcons.chevron_right_small;
+  static const fluent.IconData expand = fluent.FluentIcons.chevron_down_small;
+  static const fluent.IconData collapse =
+      fluent.FluentIcons.chevron_right_small;
 }

@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart' as fluent;
 
 import '../theme/tokens.dart';
 
 /// A section header component.
-class SectionHeader extends StatelessWidget {
+class SectionHeader extends fluent.StatelessWidget {
   const SectionHeader({
     required this.title,
     this.subtitle,
@@ -19,33 +19,33 @@ class SectionHeader extends StatelessWidget {
   final String? subtitle;
 
   /// Trailing widget (action button, etc.)
-  final Widget? trailing;
+  final fluent.Widget? trailing;
 
   /// Custom padding
-  final EdgeInsetsGeometry? padding;
+  final fluent.EdgeInsetsGeometry? padding;
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
 
-    return Padding(
-      padding: padding ?? const EdgeInsets.symmetric(vertical: AppSpacing.sm),
-      child: Row(
+    return fluent.Padding(
+      padding: padding ?? const fluent.EdgeInsets.symmetric(vertical: AppSpacing.sm),
+      child: fluent.Row(
         children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+          fluent.Expanded(
+            child: fluent.Column(
+              crossAxisAlignment: fluent.CrossAxisAlignment.start,
               children: [
-                Text(
+                fluent.Text(
                   title,
                   style: AppTypography.subtitle(color: colors.textStrong),
                 ),
                 if (subtitle != null) ...[
-                  const SizedBox(height: AppSpacing.xs2),
-                  Text(
+                  const fluent.SizedBox(height: AppSpacing.xs2),
+                  fluent.Text(
                     subtitle!,
                     style: AppTypography.caption(color: colors.textWeak),
                   ),
@@ -53,7 +53,7 @@ class SectionHeader extends StatelessWidget {
               ],
             ),
           ),
-          ?trailing,
+          if (trailing != null) trailing!,
         ],
       ),
     );
@@ -61,7 +61,7 @@ class SectionHeader extends StatelessWidget {
 }
 
 /// A collapsible section header.
-class CollapsibleSectionHeader extends StatelessWidget {
+class CollapsibleSectionHeader extends fluent.StatelessWidget {
   const CollapsibleSectionHeader({
     required this.title,
     required this.isExpanded,
@@ -73,52 +73,52 @@ class CollapsibleSectionHeader extends StatelessWidget {
 
   final String title;
   final bool isExpanded;
-  final VoidCallback onToggle;
+  final fluent.VoidCallback onToggle;
   final String? subtitle;
-  final Widget? trailing;
+  final fluent.Widget? trailing;
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
 
-    return GestureDetector(
+    return fluent.GestureDetector(
       onTap: onToggle,
-      child: MouseRegion(
-        cursor: SystemMouseCursors.click,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
-          child: Row(
+      child: fluent.MouseRegion(
+        cursor: fluent.SystemMouseCursors.click,
+        child: fluent.Padding(
+          padding: const fluent.EdgeInsets.symmetric(vertical: AppSpacing.sm),
+          child: fluent.Row(
             children: [
-              AnimatedRotation(
+              fluent.AnimatedRotation(
                 turns: isExpanded ? 0.25 : 0,
                 duration: AppDurations.fast,
-                child: Icon(
-                  Icons.chevron_right,
+                child: fluent.Icon(
+                  fluent.FluentIcons.chevron_right,
                   size: 18,
                   color: colors.iconWeak,
                 ),
               ),
-              const SizedBox(width: AppSpacing.sm),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+              const fluent.SizedBox(width: AppSpacing.sm),
+              fluent.Expanded(
+                child: fluent.Column(
+                  crossAxisAlignment: fluent.CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    fluent.Text(
                       title,
                       style: AppTypography.bodyMedium(color: colors.textStrong),
                     ),
                     if (subtitle != null)
-                      Text(
+                      fluent.Text(
                         subtitle!,
                         style: AppTypography.caption(color: colors.textWeak),
                       ),
                   ],
                 ),
               ),
-              ?trailing,
+              if (trailing != null) trailing!,
             ],
           ),
         ),
@@ -128,26 +128,26 @@ class CollapsibleSectionHeader extends StatelessWidget {
 }
 
 /// A small section label (like category headers in lists).
-class SectionLabel extends StatelessWidget {
+class SectionLabel extends fluent.StatelessWidget {
   const SectionLabel(this.label, {super.key});
 
   final String label;
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
 
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(
+    return fluent.Padding(
+      padding: const fluent.EdgeInsets.fromLTRB(
         AppSpacing.md,
         AppSpacing.md,
         AppSpacing.md,
         AppSpacing.xs,
       ),
-      child: Text(
+      child: fluent.Text(
         label.toUpperCase(),
         style: AppTypography.style(
           size: 11,

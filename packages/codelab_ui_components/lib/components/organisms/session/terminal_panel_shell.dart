@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart' as fluent;
 
 import '../../foundations/loaders.dart';
 import '../../theme/tokens.dart';
@@ -6,7 +6,7 @@ import '../../theme/tokens.dart';
 /// A terminal panel shell/wrapper component.
 /// The actual terminal implementation uses xterm/flutter_pty
 /// which requires platform-specific setup.
-class TerminalPanelShell extends StatelessWidget {
+class TerminalPanelShell extends fluent.StatelessWidget {
   const TerminalPanelShell({
     required this.child,
     this.title = 'Terminal',
@@ -17,108 +17,108 @@ class TerminalPanelShell extends StatelessWidget {
   });
 
   /// Terminal view widget
-  final Widget child;
+  final fluent.Widget child;
 
   /// Terminal title
   final String title;
 
   /// Close callback
-  final VoidCallback? onClose;
+  final fluent.VoidCallback? onClose;
 
   /// Minimize callback
-  final VoidCallback? onMinimize;
+  final fluent.VoidCallback? onMinimize;
 
   /// Maximize callback
-  final VoidCallback? onMaximize;
+  final fluent.VoidCallback? onMaximize;
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
 
-    return Container(
-      decoration: BoxDecoration(
+    return fluent.Container(
+      decoration: fluent.BoxDecoration(
         color: colors.backgroundBase,
-        border: Border(top: BorderSide(color: colors.borderWeak)),
+        border: fluent.Border(top: fluent.BorderSide(color: colors.borderWeak)),
       ),
-      child: Column(
+      child: fluent.Column(
         children: [
           // Header bar
-          Container(
+          fluent.Container(
             height: 32,
-            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
-            decoration: BoxDecoration(
+            padding: const fluent.EdgeInsets.symmetric(horizontal: AppSpacing.md),
+            decoration: fluent.BoxDecoration(
               color: colors.surfaceSubtle,
-              border: Border(bottom: BorderSide(color: colors.borderWeak)),
+              border: fluent.Border(bottom: fluent.BorderSide(color: colors.borderWeak)),
             ),
-            child: Row(
+            child: fluent.Row(
               children: [
-                Icon(Icons.terminal, size: 14, color: colors.iconWeak),
-                const SizedBox(width: AppSpacing.sm),
-                Text(title, style: AppTypography.small(color: colors.textBase)),
-                const Spacer(),
+                fluent.Icon(fluent.FluentIcons.command_prompt, size: 14, color: colors.iconWeak),
+                const fluent.SizedBox(width: AppSpacing.sm),
+                fluent.Text(title, style: AppTypography.small(color: colors.textBase)),
+                const fluent.Spacer(),
                 if (onMinimize != null)
-                  _TerminalButton(icon: Icons.minimize, onTap: onMinimize!),
+                  _TerminalButton(icon: fluent.FluentIcons.chrome_minimize, onTap: onMinimize!),
                 if (onMaximize != null)
-                  _TerminalButton(icon: Icons.crop_square, onTap: onMaximize!),
+                  _TerminalButton(icon: fluent.FluentIcons.full_screen, onTap: onMaximize!),
                 if (onClose != null)
-                  _TerminalButton(icon: Icons.close, onTap: onClose!),
+                  _TerminalButton(icon: fluent.FluentIcons.chrome_close, onTap: onClose!),
               ],
             ),
           ),
           // Terminal content
-          Expanded(child: child),
+          fluent.Expanded(child: child),
         ],
       ),
     );
   }
 }
 
-class _TerminalButton extends StatelessWidget {
+class _TerminalButton extends fluent.StatelessWidget {
   const _TerminalButton({required this.icon, required this.onTap});
 
-  final IconData icon;
-  final VoidCallback onTap;
+  final fluent.IconData icon;
+  final fluent.VoidCallback onTap;
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
 
-    return GestureDetector(
+    return fluent.GestureDetector(
       onTap: onTap,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xs),
-        child: Icon(icon, size: 14, color: colors.iconWeak),
+      child: fluent.Padding(
+        padding: const fluent.EdgeInsets.symmetric(horizontal: AppSpacing.xs),
+        child: fluent.Icon(icon, size: 14, color: colors.iconWeak),
       ),
     );
   }
 }
 
 /// Terminal loading state.
-class TerminalLoading extends StatelessWidget {
+class TerminalLoading extends fluent.StatelessWidget {
   const TerminalLoading({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
 
-    return Container(
+    return fluent.Container(
       color: colors.backgroundBase,
-      child: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
+      child: fluent.Center(
+        child: fluent.Column(
+          mainAxisSize: fluent.MainAxisSize.min,
           children: [
             const AppProgressRing(),
-            const SizedBox(height: AppSpacing.md),
-            Text(
+            const fluent.SizedBox(height: AppSpacing.md),
+            fluent.Text(
               'Starting terminal...',
               style: AppTypography.body(color: colors.textMuted),
             ),
@@ -130,36 +130,36 @@ class TerminalLoading extends StatelessWidget {
 }
 
 /// Terminal error state.
-class TerminalError extends StatelessWidget {
+class TerminalError extends fluent.StatelessWidget {
   const TerminalError({required this.error, this.onRetry, super.key});
 
   final String error;
-  final VoidCallback? onRetry;
+  final fluent.VoidCallback? onRetry;
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
 
-    return Container(
+    return fluent.Container(
       color: colors.backgroundBase,
-      padding: const EdgeInsets.all(AppSpacing.lg),
-      child: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
+      padding: const fluent.EdgeInsets.all(AppSpacing.lg),
+      child: fluent.Center(
+        child: fluent.Column(
+          mainAxisSize: fluent.MainAxisSize.min,
           children: [
-            Icon(Icons.error_outline, size: 32, color: colors.errorBase),
-            const SizedBox(height: AppSpacing.md),
-            Text(
+            fluent.Icon(fluent.FluentIcons.error_badge, size: 32, color: colors.errorBase),
+            const fluent.SizedBox(height: AppSpacing.md),
+            fluent.Text(
               error,
               style: AppTypography.body(color: colors.errorText),
-              textAlign: TextAlign.center,
+              textAlign: fluent.TextAlign.center,
             ),
             if (onRetry != null) ...[
-              const SizedBox(height: AppSpacing.lg),
-              TextButton(onPressed: onRetry, child: const Text('Retry')),
+              const fluent.SizedBox(height: AppSpacing.lg),
+              fluent.Button(onPressed: onRetry, child: const fluent.Text('Retry')),
             ],
           ],
         ),

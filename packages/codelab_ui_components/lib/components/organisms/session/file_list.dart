@@ -1,5 +1,4 @@
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
-import 'package:flutter/material.dart';
 
 import '../../theme/tokens.dart';
 
@@ -21,7 +20,7 @@ class FileNode {
 }
 
 /// A file list/tree component (workspace tree).
-class FileList extends StatelessWidget {
+class FileList extends fluent.StatelessWidget {
   const FileList({
     required this.nodes,
     this.expandedNodes = const {},
@@ -33,14 +32,14 @@ class FileList extends StatelessWidget {
 
   final List<FileNode> nodes;
   final Set<String> expandedNodes;
-  final ValueChanged<FileNode>? onNodeTap;
-  final ValueChanged<String>? onNodeToggle;
+  final fluent.ValueChanged<FileNode>? onNodeTap;
+  final fluent.ValueChanged<String>? onNodeToggle;
   final int depth;
 
   @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+  fluent.Widget build(fluent.BuildContext context) {
+    return fluent.Column(
+      crossAxisAlignment: fluent.CrossAxisAlignment.start,
       children: [
         for (final node in nodes)
           _FileNodeRow(
@@ -56,7 +55,7 @@ class FileList extends StatelessWidget {
   }
 }
 
-class _FileNodeRow extends StatelessWidget {
+class _FileNodeRow extends fluent.StatelessWidget {
   const _FileNodeRow({
     required this.node,
     required this.depth,
@@ -70,31 +69,31 @@ class _FileNodeRow extends StatelessWidget {
   final int depth;
   final bool isExpanded;
   final Set<String> expandedNodes;
-  final VoidCallback? onTap;
-  final ValueChanged<String>? onToggle;
+  final fluent.VoidCallback? onTap;
+  final fluent.ValueChanged<String>? onToggle;
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return fluent.Column(
+      crossAxisAlignment: fluent.CrossAxisAlignment.start,
       children: [
-        GestureDetector(
+        fluent.GestureDetector(
           onTap: node.isFolder ? () => onToggle?.call(node.id) : onTap,
-          child: Container(
-            margin: const EdgeInsets.symmetric(vertical: 2),
-            padding: EdgeInsets.fromLTRB(10 + depth * 14, 6, 10, 6),
-            decoration: BoxDecoration(
-              color: Colors.transparent,
-              borderRadius: BorderRadius.circular(7),
+          child: fluent.Container(
+            margin: const fluent.EdgeInsets.symmetric(vertical: 2),
+            padding: fluent.EdgeInsets.fromLTRB(10 + depth * 14, 6, 10, 6),
+            decoration: fluent.BoxDecoration(
+              color: fluent.Colors.transparent,
+              borderRadius: fluent.BorderRadius.circular(7),
             ),
-            child: Row(
+            child: fluent.Row(
               children: [
-                Icon(
+                fluent.Icon(
                   node.isFolder
                       ? (isExpanded
                             ? fluent.FluentIcons.chevron_down
@@ -103,33 +102,33 @@ class _FileNodeRow extends StatelessWidget {
                   size: 10,
                   color: colors.iconWeak,
                 ),
-                const SizedBox(width: 8),
-                Icon(
+                const fluent.SizedBox(width: 8),
+                fluent.Icon(
                   node.isFolder
                       ? fluent.FluentIcons.fabric_folder
                       : fluent.FluentIcons.page_add,
                   size: 13,
                   color: colors.iconBase,
                 ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: Text(
+                const fluent.SizedBox(width: 8),
+                fluent.Expanded(
+                  child: fluent.Text(
                     node.label,
                     style: AppTypography.small(color: colors.textBase),
-                    overflow: TextOverflow.ellipsis,
+                    overflow: fluent.TextOverflow.ellipsis,
                   ),
                 ),
                 if (node.badge != null)
-                  Container(
-                    padding: const EdgeInsets.symmetric(
+                  fluent.Container(
+                    padding: const fluent.EdgeInsets.symmetric(
                       horizontal: 6,
                       vertical: 2,
                     ),
-                    decoration: BoxDecoration(
+                    decoration: fluent.BoxDecoration(
                       color: colors.surfaceSubtle,
                       borderRadius: AppRadius.fullAll,
                     ),
-                    child: Text(
+                    child: fluent.Text(
                       node.badge!,
                       style: AppTypography.style(
                         size: 11,
@@ -142,8 +141,8 @@ class _FileNodeRow extends StatelessWidget {
           ),
         ),
         if (node.isFolder && isExpanded)
-          Padding(
-            padding: const EdgeInsets.only(left: 4),
+          fluent.Padding(
+            padding: const fluent.EdgeInsets.only(left: 4),
             child: FileList(
               nodes: node.children,
               depth: depth + 1,

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart' as fluent;
 
 import '../theme/tokens.dart';
 
@@ -6,7 +6,7 @@ import '../theme/tokens.dart';
 enum ToastVariant { info, success, warning, error }
 
 /// A toast notification component.
-class Toast extends StatelessWidget {
+class Toast extends fluent.StatelessWidget {
   const Toast({
     required this.message,
     this.variant = ToastVariant.info,
@@ -29,81 +29,81 @@ class Toast extends StatelessWidget {
   final ToastAction? action;
 
   /// Dismiss callback
-  final VoidCallback? onDismiss;
+  final fluent.VoidCallback? onDismiss;
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
-    final shadows = brightness == Brightness.light
+    final shadows = brightness == fluent.Brightness.light
         ? AppShadows.light
         : AppShadows.dark;
 
-    final Color backgroundColor;
-    final Color iconColor;
-    final IconData icon;
+    final fluent.Color backgroundColor;
+    final fluent.Color iconColor;
+    final fluent.IconData icon;
 
     switch (variant) {
       case ToastVariant.info:
         backgroundColor = colors.surfaceBase;
         iconColor = colors.infoBase;
-        icon = Icons.info_outline;
+        icon = fluent.FluentIcons.info;
         break;
       case ToastVariant.success:
         backgroundColor = colors.surfaceBase;
         iconColor = colors.successBase;
-        icon = Icons.check_circle_outline;
+        icon = fluent.FluentIcons.check_mark;
         break;
       case ToastVariant.warning:
         backgroundColor = colors.surfaceBase;
         iconColor = colors.warningBase;
-        icon = Icons.warning_amber_outlined;
+        icon = fluent.FluentIcons.warning;
         break;
       case ToastVariant.error:
         backgroundColor = colors.surfaceBase;
         iconColor = colors.errorBase;
-        icon = Icons.error_outline;
+        icon = fluent.FluentIcons.error_badge;
         break;
     }
 
-    return Container(
-      constraints: const BoxConstraints(maxWidth: 400),
-      padding: const EdgeInsets.all(AppSpacing.md),
-      decoration: BoxDecoration(
+    return fluent.Container(
+      constraints: const fluent.BoxConstraints(maxWidth: 400),
+      padding: const fluent.EdgeInsets.all(AppSpacing.md),
+      decoration: fluent.BoxDecoration(
         color: backgroundColor,
         borderRadius: AppRadius.lgAll,
-        border: Border.all(color: colors.borderWeak),
+        border: fluent.Border.all(color: colors.borderWeak),
         boxShadow: shadows.lg,
       ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: fluent.Row(
+        mainAxisSize: fluent.MainAxisSize.min,
+        crossAxisAlignment: fluent.CrossAxisAlignment.start,
         children: [
-          Icon(icon, size: 20, color: iconColor),
-          const SizedBox(width: AppSpacing.md),
-          Flexible(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
+          fluent.Icon(icon, size: 20, color: iconColor),
+          const fluent.SizedBox(width: AppSpacing.md),
+          fluent.Flexible(
+            child: fluent.Column(
+              crossAxisAlignment: fluent.CrossAxisAlignment.start,
+              mainAxisSize: fluent.MainAxisSize.min,
               children: [
                 if (title != null) ...[
-                  Text(
+                  fluent.Text(
                     title!,
                     style: AppTypography.bodyMedium(color: colors.textStrong),
                   ),
-                  const SizedBox(height: AppSpacing.xs),
+                  const fluent.SizedBox(height: AppSpacing.xs),
                 ],
-                Text(
+                fluent.Text(
                   message,
                   style: AppTypography.body(color: colors.textBase),
                 ),
                 if (action != null) ...[
-                  const SizedBox(height: AppSpacing.sm),
-                  GestureDetector(
+                  const fluent.SizedBox(height: AppSpacing.sm),
+                  fluent.GestureDetector(
                     onTap: action!.onTap,
-                    child: Text(
+                    child: fluent.Text(
                       action!.label,
                       style: AppTypography.bodyMedium(color: colors.infoBase),
                     ),
@@ -113,10 +113,10 @@ class Toast extends StatelessWidget {
             ),
           ),
           if (onDismiss != null) ...[
-            const SizedBox(width: AppSpacing.sm),
-            GestureDetector(
+            const fluent.SizedBox(width: AppSpacing.sm),
+            fluent.GestureDetector(
               onTap: onDismiss,
-              child: Icon(Icons.close, size: 18, color: colors.iconWeak),
+              child: fluent.Icon(fluent.FluentIcons.chrome_close, size: 18, color: colors.iconWeak),
             ),
           ],
         ],
@@ -130,5 +130,5 @@ class ToastAction {
   const ToastAction({required this.label, required this.onTap});
 
   final String label;
-  final VoidCallback onTap;
+  final fluent.VoidCallback onTap;
 }

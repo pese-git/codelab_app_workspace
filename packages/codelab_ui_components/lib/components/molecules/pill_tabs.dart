@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart' as fluent;
 
 import '../theme/tokens.dart';
 
 /// Pill-style tabs component.
-class PillTabs<T> extends StatelessWidget {
+class PillTabs<T> extends fluent.StatelessWidget {
   const PillTabs({
     required this.tabs,
     required this.selected,
@@ -19,19 +19,19 @@ class PillTabs<T> extends StatelessWidget {
   final T selected;
 
   /// Tab change callback
-  final ValueChanged<T> onChanged;
+  final fluent.ValueChanged<T> onChanged;
 
   /// Spacing between tabs
   final double spacing;
 
   @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
+  fluent.Widget build(fluent.BuildContext context) {
+    return fluent.Row(
+      mainAxisSize: fluent.MainAxisSize.min,
       children: tabs.entries.map((entry) {
         final isSelected = entry.key == selected;
-        return Padding(
-          padding: EdgeInsets.only(right: spacing),
+        return fluent.Padding(
+          padding: fluent.EdgeInsets.only(right: spacing),
           child: _PillTab(
             label: entry.value,
             isSelected: isSelected,
@@ -43,7 +43,7 @@ class PillTabs<T> extends StatelessWidget {
   }
 }
 
-class _PillTab extends StatefulWidget {
+class _PillTab extends fluent.StatefulWidget {
   const _PillTab({
     required this.label,
     required this.isSelected,
@@ -52,35 +52,35 @@ class _PillTab extends StatefulWidget {
 
   final String label;
   final bool isSelected;
-  final VoidCallback onTap;
+  final fluent.VoidCallback onTap;
 
   @override
-  State<_PillTab> createState() => _PillTabState();
+  fluent.State<_PillTab> createState() => _PillTabState();
 }
 
-class _PillTabState extends State<_PillTab> {
+class _PillTabState extends fluent.State<_PillTab> {
   bool _isHovered = false;
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
 
-    return GestureDetector(
+    return fluent.GestureDetector(
       onTap: widget.onTap,
-      child: MouseRegion(
-        cursor: SystemMouseCursors.click,
+      child: fluent.MouseRegion(
+        cursor: fluent.SystemMouseCursors.click,
         onEnter: (_) => setState(() => _isHovered = true),
         onExit: (_) => setState(() => _isHovered = false),
-        child: AnimatedContainer(
+        child: fluent.AnimatedContainer(
           duration: AppDurations.fast,
-          padding: const EdgeInsets.symmetric(
+          padding: const fluent.EdgeInsets.symmetric(
             horizontal: AppSpacing.md,
             vertical: AppSpacing.sm,
           ),
-          decoration: BoxDecoration(
+          decoration: fluent.BoxDecoration(
             color: widget.isSelected
                 ? colors.accentSubtle
                 : _isHovered
@@ -88,7 +88,7 @@ class _PillTabState extends State<_PillTab> {
                 : colors.surfaceSubtle,
             borderRadius: AppRadius.fullAll,
           ),
-          child: Text(
+          child: fluent.Text(
             widget.label,
             style: AppTypography.bodyMedium(
               color: widget.isSelected ? colors.textStrong : colors.textWeak,
@@ -101,7 +101,7 @@ class _PillTabState extends State<_PillTab> {
 }
 
 /// Pill tabs with icons.
-class IconPillTabs<T> extends StatelessWidget {
+class IconPillTabs<T> extends fluent.StatelessWidget {
   const IconPillTabs({
     required this.tabs,
     required this.selected,
@@ -111,54 +111,54 @@ class IconPillTabs<T> extends StatelessWidget {
   });
 
   /// Map of tab values to (icon, label) pairs
-  final Map<T, (IconData, String)> tabs;
+  final Map<T, (fluent.IconData, String)> tabs;
 
   /// Currently selected tab
   final T selected;
 
   /// Tab change callback
-  final ValueChanged<T> onChanged;
+  final fluent.ValueChanged<T> onChanged;
 
   /// Spacing between tabs
   final double spacing;
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
 
-    return Row(
-      mainAxisSize: MainAxisSize.min,
+    return fluent.Row(
+      mainAxisSize: fluent.MainAxisSize.min,
       children: tabs.entries.map((entry) {
         final isSelected = entry.key == selected;
         final (icon, label) = entry.value;
 
-        return Padding(
-          padding: EdgeInsets.only(right: spacing),
-          child: GestureDetector(
+        return fluent.Padding(
+          padding: fluent.EdgeInsets.only(right: spacing),
+          child: fluent.GestureDetector(
             onTap: () => onChanged(entry.key),
-            child: AnimatedContainer(
+            child: fluent.AnimatedContainer(
               duration: AppDurations.fast,
-              padding: const EdgeInsets.symmetric(
+              padding: const fluent.EdgeInsets.symmetric(
                 horizontal: AppSpacing.md,
                 vertical: AppSpacing.sm,
               ),
-              decoration: BoxDecoration(
+              decoration: fluent.BoxDecoration(
                 color: isSelected ? colors.accentSubtle : colors.surfaceSubtle,
                 borderRadius: AppRadius.fullAll,
               ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
+              child: fluent.Row(
+                mainAxisSize: fluent.MainAxisSize.min,
                 children: [
-                  Icon(
+                  fluent.Icon(
                     icon,
                     size: 14,
                     color: isSelected ? colors.iconBase : colors.iconWeak,
                   ),
-                  const SizedBox(width: AppSpacing.xs),
-                  Text(
+                  const fluent.SizedBox(width: AppSpacing.xs),
+                  fluent.Text(
                     label,
                     style: AppTypography.bodyMedium(
                       color: isSelected ? colors.textStrong : colors.textWeak,

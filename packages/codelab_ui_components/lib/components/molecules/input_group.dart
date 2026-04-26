@@ -1,21 +1,21 @@
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart' as fluent;
 
 import '../theme/tokens.dart';
 
 /// A group of input fields.
-class InputGroup extends StatelessWidget {
+class InputGroup extends fluent.StatelessWidget {
   const InputGroup({
     required this.children,
     this.label,
     this.helper,
     this.error,
     this.spacing = AppSpacing.md,
-    this.direction = Axis.vertical,
+    this.direction = fluent.Axis.vertical,
     super.key,
   });
 
   /// Input widgets
-  final List<Widget> children;
+  final List<fluent.Widget> children;
 
   /// Group label
   final String? label;
@@ -30,59 +30,59 @@ class InputGroup extends StatelessWidget {
   final double spacing;
 
   /// Layout direction
-  final Axis direction;
+  final fluent.Axis direction;
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
     final hasError = error != null && error!.isNotEmpty;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
+    return fluent.Column(
+      crossAxisAlignment: fluent.CrossAxisAlignment.start,
+      mainAxisSize: fluent.MainAxisSize.min,
       children: [
         if (label != null) ...[
-          Text(label!, style: AppTypography.bodyMedium(color: colors.textBase)),
-          const SizedBox(height: AppSpacing.sm),
+          fluent.Text(label!, style: AppTypography.bodyMedium(color: colors.textBase)),
+          const fluent.SizedBox(height: AppSpacing.sm),
         ],
-        if (direction == Axis.vertical)
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+        if (direction == fluent.Axis.vertical)
+          fluent.Column(
+            crossAxisAlignment: fluent.CrossAxisAlignment.stretch,
             children: _buildChildren(),
           )
         else
-          Row(children: _buildChildren()),
+          fluent.Row(children: _buildChildren()),
         if (helper != null && !hasError) ...[
-          const SizedBox(height: AppSpacing.xs),
-          Text(helper!, style: AppTypography.caption(color: colors.textWeak)),
+          const fluent.SizedBox(height: AppSpacing.xs),
+          fluent.Text(helper!, style: AppTypography.caption(color: colors.textWeak)),
         ],
         if (hasError) ...[
-          const SizedBox(height: AppSpacing.xs),
-          Text(error!, style: AppTypography.caption(color: colors.errorText)),
+          const fluent.SizedBox(height: AppSpacing.xs),
+          fluent.Text(error!, style: AppTypography.caption(color: colors.errorText)),
         ],
       ],
     );
   }
 
-  List<Widget> _buildChildren() {
+  List<fluent.Widget> _buildChildren() {
     return children.asMap().entries.map((entry) {
       final isLast = entry.key == children.length - 1;
-      final child = direction == Axis.horizontal
-          ? Expanded(child: entry.value)
+      final child = direction == fluent.Axis.horizontal
+          ? fluent.Expanded(child: entry.value)
           : entry.value;
 
       if (isLast) return child;
 
-      return direction == Axis.vertical
-          ? Padding(
-              padding: EdgeInsets.only(bottom: spacing),
+      return direction == fluent.Axis.vertical
+          ? fluent.Padding(
+              padding: fluent.EdgeInsets.only(bottom: spacing),
               child: child,
             )
-          : Padding(
-              padding: EdgeInsets.only(right: spacing),
+          : fluent.Padding(
+              padding: fluent.EdgeInsets.only(right: spacing),
               child: child,
             );
     }).toList();
@@ -90,7 +90,7 @@ class InputGroup extends StatelessWidget {
 }
 
 /// A form section with a header.
-class FormSection extends StatelessWidget {
+class FormSection extends fluent.StatelessWidget {
   const FormSection({
     required this.title,
     required this.children,
@@ -104,7 +104,7 @@ class FormSection extends StatelessWidget {
   final String title;
 
   /// Form fields
-  final List<Widget> children;
+  final List<fluent.Widget> children;
 
   /// Optional description
   final String? description;
@@ -116,25 +116,25 @@ class FormSection extends StatelessWidget {
   final bool initiallyExpanded;
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
+    return fluent.Column(
+      crossAxisAlignment: fluent.CrossAxisAlignment.start,
+      mainAxisSize: fluent.MainAxisSize.min,
       children: [
-        Text(title, style: AppTypography.subtitle(color: colors.textStrong)),
+        fluent.Text(title, style: AppTypography.subtitle(color: colors.textStrong)),
         if (description != null) ...[
-          const SizedBox(height: AppSpacing.xs),
-          Text(description!, style: AppTypography.body(color: colors.textWeak)),
+          const fluent.SizedBox(height: AppSpacing.xs),
+          fluent.Text(description!, style: AppTypography.body(color: colors.textWeak)),
         ],
-        const SizedBox(height: AppSpacing.lg),
+        const fluent.SizedBox(height: AppSpacing.lg),
         ...children.map((child) {
-          return Padding(
-            padding: const EdgeInsets.only(bottom: AppSpacing.md),
+          return fluent.Padding(
+            padding: const fluent.EdgeInsets.only(bottom: AppSpacing.md),
             child: child,
           );
         }),

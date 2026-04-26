@@ -1,5 +1,4 @@
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
-import 'package:flutter/material.dart';
 
 import '../foundations/loaders.dart';
 import '../theme/tokens.dart';
@@ -32,7 +31,7 @@ enum ButtonSize {
 }
 
 /// A styled button component with multiple variants.
-class AppButton extends StatelessWidget {
+class AppButton extends fluent.StatelessWidget {
   const AppButton({
     required this.onPressed,
     this.label,
@@ -49,13 +48,13 @@ class AppButton extends StatelessWidget {
        );
 
   /// Button press callback (null for disabled state)
-  final VoidCallback? onPressed;
+  final fluent.VoidCallback? onPressed;
 
   /// Button label text
   final String? label;
 
   /// Optional leading icon
-  final IconData? icon;
+  final fluent.IconData? icon;
 
   /// Button variant
   final ButtonVariant variant;
@@ -131,14 +130,14 @@ class AppButton extends StatelessWidget {
     }
   }
 
-  EdgeInsets get _padding {
+  fluent.EdgeInsets get _padding {
     switch (size) {
       case ButtonSize.sm:
-        return const EdgeInsets.symmetric(horizontal: AppSpacing.md);
+        return const fluent.EdgeInsets.symmetric(horizontal: AppSpacing.md);
       case ButtonSize.md:
-        return const EdgeInsets.symmetric(horizontal: AppSpacing.lg);
+        return const fluent.EdgeInsets.symmetric(horizontal: AppSpacing.lg);
       case ButtonSize.lg:
-        return const EdgeInsets.symmetric(horizontal: AppSpacing.xl);
+        return const fluent.EdgeInsets.symmetric(horizontal: AppSpacing.xl);
     }
   }
 
@@ -153,7 +152,7 @@ class AppButton extends StatelessWidget {
     }
   }
 
-  TextStyle _textStyle(LightColors colors) {
+  fluent.TextStyle _textStyle(LightColors colors) {
     switch (size) {
       case ButtonSize.sm:
         return AppTypography.small(color: colors.textBase);
@@ -165,16 +164,16 @@ class AppButton extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
     final isEnabled = !isDisabled && !isLoading && onPressed != null;
 
-    final Color backgroundColor;
-    final Color foregroundColor;
-    final Color? borderColor;
+    final fluent.Color backgroundColor;
+    final fluent.Color foregroundColor;
+    final fluent.Color? borderColor;
 
     switch (variant) {
       case ButtonVariant.primary:
@@ -185,63 +184,63 @@ class AppButton extends StatelessWidget {
         borderColor = null;
         break;
       case ButtonVariant.secondary:
-        backgroundColor = Colors.transparent;
+        backgroundColor = fluent.Colors.transparent;
         foregroundColor = isEnabled ? colors.textBase : colors.textMuted;
         borderColor = colors.borderBase;
         break;
       case ButtonVariant.tertiary:
-        backgroundColor = Colors.transparent;
+        backgroundColor = fluent.Colors.transparent;
         foregroundColor = isEnabled ? colors.textBase : colors.textMuted;
         borderColor = null;
         break;
       case ButtonVariant.destructive:
         backgroundColor = isEnabled ? colors.errorBase : colors.surfaceSubtle;
-        foregroundColor = isEnabled ? Colors.white : colors.textMuted;
+        foregroundColor = isEnabled ? fluent.Colors.white : colors.textMuted;
         borderColor = null;
         break;
     }
 
-    Widget content;
+    fluent.Widget content;
     if (isLoading) {
       content = ButtonLoader(size: _iconSize, color: foregroundColor);
     } else {
-      final children = <Widget>[];
+      final children = <fluent.Widget>[];
       if (icon != null) {
-        children.add(Icon(icon, size: _iconSize, color: foregroundColor));
+        children.add(fluent.Icon(icon, size: _iconSize, color: foregroundColor));
         if (label != null) {
-          children.add(const SizedBox(width: AppSpacing.sm));
+          children.add(const fluent.SizedBox(width: AppSpacing.sm));
         }
       }
       if (label != null) {
         children.add(
-          Text(
+          fluent.Text(
             label!,
             style: _textStyle(colors).copyWith(color: foregroundColor),
           ),
         );
       }
-      content = Row(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
+      content = fluent.Row(
+        mainAxisSize: fluent.MainAxisSize.min,
+        mainAxisAlignment: fluent.MainAxisAlignment.center,
         children: children,
       );
     }
 
-    return SizedBox(
+    return fluent.SizedBox(
       width: fullWidth ? double.infinity : null,
       height: _height,
       child: fluent.Button(
         onPressed: isEnabled ? onPressed : null,
         style: fluent.ButtonStyle(
-          backgroundColor: WidgetStatePropertyAll(backgroundColor),
-          foregroundColor: WidgetStatePropertyAll(foregroundColor),
-          padding: WidgetStatePropertyAll(_padding),
-          shape: WidgetStatePropertyAll(
-            RoundedRectangleBorder(
+          backgroundColor: fluent.WidgetStatePropertyAll(backgroundColor),
+          foregroundColor: fluent.WidgetStatePropertyAll(foregroundColor),
+          padding: fluent.WidgetStatePropertyAll(_padding),
+          shape: fluent.WidgetStatePropertyAll(
+            fluent.RoundedRectangleBorder(
               borderRadius: AppRadius.mdAll,
               side: borderColor != null
-                  ? BorderSide(color: borderColor)
-                  : BorderSide.none,
+                  ? fluent.BorderSide(color: borderColor)
+                  : fluent.BorderSide.none,
             ),
           ),
         ),

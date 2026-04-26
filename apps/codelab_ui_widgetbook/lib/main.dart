@@ -9,6 +9,27 @@ void main() {
   runApp(const WidgetbookApp());
 }
 
+/// Local Material themes for Widgetbook scaffolding.
+/// The actual components use FluentUI theming.
+ThemeData _buildMaterialTheme(Brightness brightness) {
+  final colors = brightness == Brightness.light
+      ? AppColors.light
+      : AppColors.dark;
+  return ThemeData(
+    useMaterial3: true,
+    brightness: brightness,
+    scaffoldBackgroundColor: colors.backgroundBase,
+    colorScheme: ColorScheme.fromSeed(
+      seedColor: colors.accentPrimary,
+      brightness: brightness,
+    ),
+    fontFamily: AppTypography.fontFamily,
+  );
+}
+
+final _materialLight = _buildMaterialTheme(Brightness.light);
+final _materialDark = _buildMaterialTheme(Brightness.dark);
+
 class WidgetbookApp extends StatelessWidget {
   const WidgetbookApp({super.key});
 
@@ -17,8 +38,8 @@ class WidgetbookApp extends StatelessWidget {
     return Widgetbook.material(
       addons: [
         MaterialThemeAddon(themes: [
-          WidgetbookTheme(name: 'Light', data: AppTheme.light),
-          WidgetbookTheme(name: 'Dark', data: AppTheme.dark),
+          WidgetbookTheme(name: 'Light', data: _materialLight),
+          WidgetbookTheme(name: 'Dark', data: _materialDark),
         ]),
         TextScaleAddon(min: 1, max: 1.5),
       ],
@@ -165,13 +186,13 @@ class _PreviewScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     final brightness = MediaQuery.of(context).platformBrightness;
     final fluentTheme = brightness == Brightness.light
-        ? AppTheme.fluentLight
-        : AppTheme.fluentDark;
+        ? AppTheme.light
+        : AppTheme.dark;
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: AppTheme.light,
-      darkTheme: AppTheme.dark,
+      theme: _materialLight,
+      darkTheme: _materialDark,
       localizationsDelegates: const [
         fluent.FluentLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,

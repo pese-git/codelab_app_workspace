@@ -1,5 +1,4 @@
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
-import 'package:flutter/material.dart';
 
 import '../theme/tokens.dart';
 
@@ -16,7 +15,7 @@ enum IconButtonSize {
 }
 
 /// A themed icon button component.
-class AppIconButton extends StatelessWidget {
+class AppIconButton extends fluent.StatelessWidget {
   const AppIconButton({
     required this.icon,
     required this.onPressed,
@@ -29,19 +28,19 @@ class AppIconButton extends StatelessWidget {
   });
 
   /// Icon to display
-  final IconData icon;
+  final fluent.IconData icon;
 
   /// Press callback
-  final VoidCallback? onPressed;
+  final fluent.VoidCallback? onPressed;
 
   /// Button size
   final IconButtonSize size;
 
   /// Icon color
-  final Color? color;
+  final fluent.Color? color;
 
   /// Background color
-  final Color? backgroundColor;
+  final fluent.Color? backgroundColor;
 
   /// Optional tooltip
   final String? tooltip;
@@ -72,37 +71,37 @@ class AppIconButton extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
     final isEnabled = !isDisabled && onPressed != null;
 
     final effectiveColor =
         color ?? (isEnabled ? colors.iconBase : colors.iconMuted);
-    final effectiveBgColor = backgroundColor ?? Colors.transparent;
+    final effectiveBgColor = backgroundColor ?? fluent.Colors.transparent;
 
-    Widget button = fluent.IconButton(
-      icon: Icon(icon, size: _iconSize, color: effectiveColor),
+    fluent.Widget button = fluent.IconButton(
+      icon: fluent.Icon(icon, size: _iconSize, color: effectiveColor),
       onPressed: isEnabled ? onPressed : null,
       style: fluent.ButtonStyle(
-        backgroundColor: WidgetStateProperty.resolveWith((states) {
-          if (states.contains(WidgetState.pressed)) {
+        backgroundColor: fluent.WidgetStateProperty.resolveWith((states) {
+          if (states.contains(fluent.WidgetState.pressed)) {
             return colors.surfacePressed;
           }
-          if (states.contains(WidgetState.hovered)) {
+          if (states.contains(fluent.WidgetState.hovered)) {
             return colors.surfaceHover;
           }
           return effectiveBgColor;
         }),
-        shape: WidgetStatePropertyAll(
-          RoundedRectangleBorder(borderRadius: AppRadius.smAll),
+        shape: fluent.WidgetStatePropertyAll(
+          fluent.RoundedRectangleBorder(borderRadius: AppRadius.smAll),
         ),
       ),
     );
 
-    button = SizedBox(width: _size, height: _size, child: button);
+    button = fluent.SizedBox(width: _size, height: _size, child: button);
 
     if (tooltip != null) {
       button = fluent.Tooltip(message: tooltip!, child: button);
@@ -113,7 +112,7 @@ class AppIconButton extends StatelessWidget {
 }
 
 /// A toggle-able icon button (e.g., for like, favorite, etc.)
-class AppToggleIconButton extends StatelessWidget {
+class AppToggleIconButton extends fluent.StatelessWidget {
   const AppToggleIconButton({
     required this.icon,
     required this.selectedIcon,
@@ -128,25 +127,25 @@ class AppToggleIconButton extends StatelessWidget {
   });
 
   /// Icon when not selected
-  final IconData icon;
+  final fluent.IconData icon;
 
   /// Icon when selected
-  final IconData selectedIcon;
+  final fluent.IconData selectedIcon;
 
   /// Whether currently selected
   final bool isSelected;
 
   /// Toggle callback
-  final ValueChanged<bool>? onChanged;
+  final fluent.ValueChanged<bool>? onChanged;
 
   /// Button size
   final IconButtonSize size;
 
   /// Unselected icon color
-  final Color? color;
+  final fluent.Color? color;
 
   /// Selected icon color
-  final Color? selectedColor;
+  final fluent.Color? selectedColor;
 
   /// Optional tooltip
   final String? tooltip;
@@ -155,9 +154,9 @@ class AppToggleIconButton extends StatelessWidget {
   final bool isDisabled;
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
 

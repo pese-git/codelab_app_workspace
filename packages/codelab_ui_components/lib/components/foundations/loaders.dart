@@ -1,10 +1,9 @@
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
-import 'package:flutter/material.dart';
 
 import '../theme/tokens.dart';
 
 /// A circular progress indicator.
-class AppProgressRing extends StatelessWidget {
+class AppProgressRing extends fluent.StatelessWidget {
   const AppProgressRing({
     this.value,
     this.size = 24,
@@ -24,25 +23,25 @@ class AppProgressRing extends StatelessWidget {
   final double strokeWidth;
 
   /// Progress color (defaults to accent)
-  final Color? color;
+  final fluent.Color? color;
 
   /// Background track color
-  final Color? backgroundColor;
+  final fluent.Color? backgroundColor;
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
 
-    return SizedBox(
+    return fluent.SizedBox(
       width: size,
       height: size,
-      child: CircularProgressIndicator(
-        value: value,
+      child: fluent.ProgressRing(
+        value: value != null ? value! * 100 : null,
         strokeWidth: strokeWidth,
-        color: color ?? colors.accentPrimary,
+        activeColor: color ?? colors.accentPrimary,
         backgroundColor: backgroundColor ?? colors.surfaceSubtle,
       ),
     );
@@ -50,7 +49,7 @@ class AppProgressRing extends StatelessWidget {
 }
 
 /// A linear progress bar.
-class AppProgressBar extends StatelessWidget {
+class AppProgressBar extends fluent.StatelessWidget {
   const AppProgressBar({
     this.value,
     this.height = 4,
@@ -67,35 +66,37 @@ class AppProgressBar extends StatelessWidget {
   final double height;
 
   /// Progress color (defaults to accent)
-  final Color? color;
+  final fluent.Color? color;
 
   /// Background track color
-  final Color? backgroundColor;
+  final fluent.Color? backgroundColor;
 
   /// Border radius
-  final BorderRadius? borderRadius;
+  final fluent.BorderRadius? borderRadius;
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
 
-    return ClipRRect(
+    return fluent.ClipRRect(
       borderRadius: borderRadius ?? AppRadius.fullAll,
-      child: LinearProgressIndicator(
-        value: value,
-        minHeight: height,
-        color: color ?? colors.accentPrimary,
-        backgroundColor: backgroundColor ?? colors.surfaceSubtle,
+      child: fluent.SizedBox(
+        height: height,
+        child: fluent.ProgressBar(
+          value: value != null ? value! * 100 : null,
+          activeColor: color ?? colors.accentPrimary,
+          backgroundColor: backgroundColor ?? colors.surfaceSubtle,
+        ),
       ),
     );
   }
 }
 
 /// A loading spinner with optional message.
-class LoadingIndicator extends StatelessWidget {
+class LoadingIndicator extends fluent.StatelessWidget {
   const LoadingIndicator({this.message, this.size = 32, super.key});
 
   /// Optional loading message
@@ -105,19 +106,24 @@ class LoadingIndicator extends StatelessWidget {
   final double size;
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
 
-    return Column(
-      mainAxisSize: MainAxisSize.min,
+    return fluent.Column(
+      mainAxisSize: fluent.MainAxisSize.min,
       children: [
-        fluent.ProgressRing(strokeWidth: 3),
+        fluent.SizedBox(
+          width: size,
+          height: size,
+          child: const fluent.ProgressRing(strokeWidth: 3),
+        ),
         if (message != null) ...[
-          const SizedBox(height: AppSpacing.md),
-          Text(message!, style: AppTypography.body(color: colors.textMuted)),
+          const fluent.SizedBox(height: AppSpacing.md),
+          fluent.Text(message!,
+              style: AppTypography.body(color: colors.textMuted)),
         ],
       ],
     );
@@ -125,7 +131,7 @@ class LoadingIndicator extends StatelessWidget {
 }
 
 /// A full-screen loading overlay.
-class LoadingOverlay extends StatelessWidget {
+class LoadingOverlay extends fluent.StatelessWidget {
   const LoadingOverlay({
     required this.isLoading,
     required this.child,
@@ -138,7 +144,7 @@ class LoadingOverlay extends StatelessWidget {
   final bool isLoading;
 
   /// Child widget
-  final Widget child;
+  final fluent.Widget child;
 
   /// Optional loading message
   final String? message;
@@ -147,20 +153,20 @@ class LoadingOverlay extends StatelessWidget {
   final double opacity;
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
 
-    return Stack(
+    return fluent.Stack(
       children: [
         child,
         if (isLoading)
-          Positioned.fill(
-            child: Container(
+          fluent.Positioned.fill(
+            child: fluent.Container(
               color: colors.overlay.withValues(alpha: opacity),
-              child: Center(child: LoadingIndicator(message: message)),
+              child: fluent.Center(child: LoadingIndicator(message: message)),
             ),
           ),
       ],
@@ -169,56 +175,58 @@ class LoadingOverlay extends StatelessWidget {
 }
 
 /// A button loading state indicator.
-class ButtonLoader extends StatelessWidget {
+class ButtonLoader extends fluent.StatelessWidget {
   const ButtonLoader({this.size = 18, this.color, super.key});
 
   final double size;
-  final Color? color;
+  final fluent.Color? color;
 
   @override
-  Widget build(BuildContext context) {
-    return SizedBox(
+  fluent.Widget build(fluent.BuildContext context) {
+    return fluent.SizedBox(
       width: size,
       height: size,
-      child: CircularProgressIndicator(
+      child: fluent.ProgressRing(
         strokeWidth: 2,
-        color: color ?? Colors.white,
+        activeColor: color ?? const fluent.Color(0xFFFFFFFF),
       ),
     );
   }
 }
 
 /// Animated dots loading indicator.
-class DotsLoader extends StatefulWidget {
+class DotsLoader extends fluent.StatefulWidget {
   const DotsLoader({this.size = 8, this.spacing = 4, this.color, super.key});
 
   final double size;
   final double spacing;
-  final Color? color;
+  final fluent.Color? color;
 
   @override
-  State<DotsLoader> createState() => _DotsLoaderState();
+  fluent.State<DotsLoader> createState() => _DotsLoaderState();
 }
 
-class _DotsLoaderState extends State<DotsLoader> with TickerProviderStateMixin {
-  late List<AnimationController> _controllers;
-  late List<Animation<double>> _animations;
+class _DotsLoaderState extends fluent.State<DotsLoader>
+    with fluent.TickerProviderStateMixin {
+  late List<fluent.AnimationController> _controllers;
+  late List<fluent.Animation<double>> _animations;
 
   @override
   void initState() {
     super.initState();
     _controllers = List.generate(3, (index) {
-      return AnimationController(
+      return fluent.AnimationController(
         vsync: this,
         duration: const Duration(milliseconds: 600),
       );
     });
 
     _animations = _controllers.map((controller) {
-      return Tween<double>(
+      return fluent.Tween<double>(
         begin: 0,
         end: 1,
-      ).animate(CurvedAnimation(parent: controller, curve: Curves.easeInOut));
+      ).animate(fluent.CurvedAnimation(
+          parent: controller, curve: fluent.Curves.easeInOut));
     }).toList();
 
     for (var i = 0; i < 3; i++) {
@@ -239,28 +247,29 @@ class _DotsLoaderState extends State<DotsLoader> with TickerProviderStateMixin {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
     final color = widget.color ?? colors.textMuted;
 
-    return Row(
-      mainAxisSize: MainAxisSize.min,
+    return fluent.Row(
+      mainAxisSize: fluent.MainAxisSize.min,
       children: List.generate(3, (index) {
-        return AnimatedBuilder(
+        return fluent.AnimatedBuilder(
           animation: _animations[index],
           builder: (context, child) {
-            return Container(
-              margin: EdgeInsets.only(right: index < 2 ? widget.spacing : 0),
+            return fluent.Container(
+              margin:
+                  fluent.EdgeInsets.only(right: index < 2 ? widget.spacing : 0),
               width: widget.size,
               height: widget.size,
-              decoration: BoxDecoration(
+              decoration: fluent.BoxDecoration(
                 color: color.withValues(
                   alpha: 0.3 + _animations[index].value * 0.7,
                 ),
-                shape: BoxShape.circle,
+                shape: fluent.BoxShape.circle,
               ),
             );
           },

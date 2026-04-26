@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart' as fluent;
 
 import '../theme/tokens.dart';
 
@@ -15,7 +15,7 @@ enum AvatarSize {
 }
 
 /// An avatar component for user/entity representation.
-class Avatar extends StatelessWidget {
+class Avatar extends fluent.StatelessWidget {
   const Avatar({
     this.imageUrl,
     this.initials,
@@ -34,19 +34,19 @@ class Avatar extends StatelessWidget {
   final String? initials;
 
   /// Icon to display when no image or initials
-  final IconData? icon;
+  final fluent.IconData? icon;
 
   /// Avatar size
   final AvatarSize size;
 
   /// Background color
-  final Color? backgroundColor;
+  final fluent.Color? backgroundColor;
 
   /// Foreground (text/icon) color
-  final Color? foregroundColor;
+  final fluent.Color? foregroundColor;
 
   /// Tap callback
-  final VoidCallback? onTap;
+  final fluent.VoidCallback? onTap;
 
   double get _pixelSize {
     switch (size) {
@@ -82,24 +82,24 @@ class Avatar extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
 
     final bgColor = backgroundColor ?? colors.surfaceAccent;
     final fgColor = foregroundColor ?? colors.textBase;
 
-    Widget content;
+    fluent.Widget content;
 
     if (imageUrl != null) {
-      content = ClipOval(
-        child: Image.network(
+      content = fluent.ClipOval(
+        child: fluent.Image.network(
           imageUrl!,
           width: _pixelSize,
           height: _pixelSize,
-          fit: BoxFit.cover,
+          fit: fluent.BoxFit.cover,
           errorBuilder: (context, error, stackTrace) =>
               _buildFallback(bgColor, fgColor, colors),
         ),
@@ -109,40 +109,40 @@ class Avatar extends StatelessWidget {
     }
 
     if (onTap != null) {
-      content = GestureDetector(
+      content = fluent.GestureDetector(
         onTap: onTap,
-        child: MouseRegion(cursor: SystemMouseCursors.click, child: content),
+        child: fluent.MouseRegion(cursor: fluent.SystemMouseCursors.click, child: content),
       );
     }
 
     return content;
   }
 
-  Widget _buildFallback(Color bgColor, Color fgColor, LightColors colors) {
-    return Container(
+  fluent.Widget _buildFallback(fluent.Color bgColor, fluent.Color fgColor, LightColors colors) {
+    return fluent.Container(
       width: _pixelSize,
       height: _pixelSize,
-      decoration: BoxDecoration(color: bgColor, shape: BoxShape.circle),
-      alignment: Alignment.center,
+      decoration: fluent.BoxDecoration(color: bgColor, shape: fluent.BoxShape.circle),
+      alignment: fluent.Alignment.center,
       child: initials != null
-          ? Text(
+          ? fluent.Text(
               initials!.toUpperCase().substring(
                 0,
                 initials!.length.clamp(0, 2),
               ),
-              style: TextStyle(
+              style: fluent.TextStyle(
                 fontSize: _fontSize,
                 fontWeight: AppTypography.semiBold,
                 color: fgColor,
               ),
             )
-          : Icon(icon ?? Icons.person, size: _iconSize, color: fgColor),
+          : fluent.Icon(icon ?? fluent.FluentIcons.contact, size: _iconSize, color: fgColor),
     );
   }
 }
 
 /// A stack of overlapping avatars.
-class AvatarStack extends StatelessWidget {
+class AvatarStack extends fluent.StatelessWidget {
   const AvatarStack({
     required this.avatars,
     this.maxDisplay = 3,
@@ -175,26 +175,26 @@ class AvatarStack extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
 
     final displayAvatars = avatars.take(maxDisplay).toList();
     final remaining = avatars.length - maxDisplay;
 
-    return SizedBox(
+    return fluent.SizedBox(
       height: _pixelSize,
-      child: Stack(
+      child: fluent.Stack(
         children: [
           for (var i = 0; i < displayAvatars.length; i++)
-            Positioned(
+            fluent.Positioned(
               left: i * (_pixelSize - overlap),
-              child: Container(
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(color: colors.surfaceBase, width: 2),
+              child: fluent.Container(
+                decoration: fluent.BoxDecoration(
+                  shape: fluent.BoxShape.circle,
+                  border: fluent.Border.all(color: colors.surfaceBase, width: 2),
                 ),
                 child: Avatar(
                   imageUrl: displayAvatars[i].imageUrl,
@@ -204,18 +204,18 @@ class AvatarStack extends StatelessWidget {
               ),
             ),
           if (remaining > 0)
-            Positioned(
+            fluent.Positioned(
               left: displayAvatars.length * (_pixelSize - overlap),
-              child: Container(
+              child: fluent.Container(
                 width: _pixelSize,
                 height: _pixelSize,
-                decoration: BoxDecoration(
+                decoration: fluent.BoxDecoration(
                   color: colors.surfaceSubtle,
-                  shape: BoxShape.circle,
-                  border: Border.all(color: colors.surfaceBase, width: 2),
+                  shape: fluent.BoxShape.circle,
+                  border: fluent.Border.all(color: colors.surfaceBase, width: 2),
                 ),
-                alignment: Alignment.center,
-                child: Text(
+                alignment: fluent.Alignment.center,
+                child: fluent.Text(
                   '+$remaining',
                   style: AppTypography.caption(color: colors.textMuted),
                 ),

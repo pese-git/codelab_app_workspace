@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart' as fluent;
 
 import '../theme/tokens.dart';
 
 /// A surface container with configurable appearance.
 /// Used as a foundation for cards, panels, and other containers.
-class Surface extends StatelessWidget {
+class Surface extends fluent.StatelessWidget {
   const Surface({
     required this.child,
     this.color,
@@ -16,30 +16,30 @@ class Surface extends StatelessWidget {
     this.width,
     this.height,
     this.constraints,
-    this.clipBehavior = Clip.antiAlias,
+    this.clipBehavior = fluent.Clip.antiAlias,
     super.key,
   });
 
   /// Child widget
-  final Widget child;
+  final fluent.Widget child;
 
   /// Background color (defaults to surfaceBase)
-  final Color? color;
+  final fluent.Color? color;
 
   /// Border color (null for no border)
-  final Color? borderColor;
+  final fluent.Color? borderColor;
 
   /// Border radius
-  final BorderRadius? borderRadius;
+  final fluent.BorderRadius? borderRadius;
 
   /// Elevation (0 for no shadow)
   final double elevation;
 
   /// Internal padding
-  final EdgeInsetsGeometry? padding;
+  final fluent.EdgeInsetsGeometry? padding;
 
   /// External margin
-  final EdgeInsetsGeometry? margin;
+  final fluent.EdgeInsetsGeometry? margin;
 
   /// Fixed width
   final double? width;
@@ -48,25 +48,25 @@ class Surface extends StatelessWidget {
   final double? height;
 
   /// Size constraints
-  final BoxConstraints? constraints;
+  final fluent.BoxConstraints? constraints;
 
   /// Clip behavior
-  final Clip clipBehavior;
+  final fluent.Clip clipBehavior;
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
-    final shadows = brightness == Brightness.light
+    final shadows = brightness == fluent.Brightness.light
         ? AppShadows.light
         : AppShadows.dark;
 
     final effectiveColor = color ?? colors.surfaceBase;
     final effectiveBorderRadius = borderRadius ?? AppRadius.lgAll;
 
-    List<BoxShadow> boxShadow;
+    List<fluent.BoxShadow> boxShadow;
     switch (elevation) {
       case 0:
         boxShadow = shadows.none;
@@ -87,16 +87,16 @@ class Surface extends StatelessWidget {
         boxShadow = shadows.xl;
     }
 
-    Widget result = Container(
+    fluent.Widget result = fluent.Container(
       width: width,
       height: height,
       constraints: constraints,
       margin: margin,
       padding: padding,
-      decoration: BoxDecoration(
+      decoration: fluent.BoxDecoration(
         color: effectiveColor,
         borderRadius: effectiveBorderRadius,
-        border: borderColor != null ? Border.all(color: borderColor!) : null,
+        border: borderColor != null ? fluent.Border.all(color: borderColor!) : null,
         boxShadow: boxShadow,
       ),
       clipBehavior: clipBehavior,
@@ -108,7 +108,7 @@ class Surface extends StatelessWidget {
 }
 
 /// Elevated surface variant with default shadow.
-class ElevatedSurface extends StatelessWidget {
+class ElevatedSurface extends fluent.StatelessWidget {
   const ElevatedSurface({
     required this.child,
     this.elevation = AppElevation.low,
@@ -117,13 +117,13 @@ class ElevatedSurface extends StatelessWidget {
     super.key,
   });
 
-  final Widget child;
+  final fluent.Widget child;
   final double elevation;
-  final EdgeInsetsGeometry? padding;
-  final BorderRadius? borderRadius;
+  final fluent.EdgeInsetsGeometry? padding;
+  final fluent.BorderRadius? borderRadius;
 
   @override
-  Widget build(BuildContext context) {
+  fluent.Widget build(fluent.BuildContext context) {
     return Surface(
       elevation: elevation,
       padding: padding,
@@ -134,7 +134,7 @@ class ElevatedSurface extends StatelessWidget {
 }
 
 /// Outlined surface variant with border.
-class OutlinedSurface extends StatelessWidget {
+class OutlinedSurface extends fluent.StatelessWidget {
   const OutlinedSurface({
     required this.child,
     this.padding,
@@ -143,15 +143,15 @@ class OutlinedSurface extends StatelessWidget {
     super.key,
   });
 
-  final Widget child;
-  final EdgeInsetsGeometry? padding;
-  final BorderRadius? borderRadius;
-  final Color? borderColor;
+  final fluent.Widget child;
+  final fluent.EdgeInsetsGeometry? padding;
+  final fluent.BorderRadius? borderRadius;
+  final fluent.Color? borderColor;
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
 

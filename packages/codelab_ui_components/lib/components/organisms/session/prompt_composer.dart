@@ -1,5 +1,4 @@
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../theme/tokens.dart';
@@ -10,7 +9,7 @@ typedef OnSendMessage = void Function(String message);
 /// A composable input widget for sending messages.
 /// Supports multi-line input with auto-grow, Cmd/Ctrl+Enter to send,
 /// and Shift+Enter for new lines.
-class PromptComposer extends StatefulWidget {
+class PromptComposer extends fluent.StatefulWidget {
   const PromptComposer({
     required this.onSend,
     this.placeholder = 'Type a message...',
@@ -25,12 +24,12 @@ class PromptComposer extends StatefulWidget {
   final int maxLines;
 
   @override
-  State<PromptComposer> createState() => _PromptComposerState();
+  fluent.State<PromptComposer> createState() => _PromptComposerState();
 }
 
-class _PromptComposerState extends State<PromptComposer> {
-  final TextEditingController _controller = TextEditingController();
-  final FocusNode _focusNode = FocusNode();
+class _PromptComposerState extends fluent.State<PromptComposer> {
+  final fluent.TextEditingController _controller = fluent.TextEditingController();
+  final fluent.FocusNode _focusNode = fluent.FocusNode();
 
   bool get _canSend => _controller.text.trim().isNotEmpty;
 
@@ -52,8 +51,8 @@ class _PromptComposerState extends State<PromptComposer> {
     _focusNode.requestFocus();
   }
 
-  KeyEventResult _handleKeyEvent(FocusNode node, KeyEvent event) {
-    if (event is! KeyDownEvent) return KeyEventResult.ignored;
+  fluent.KeyEventResult _handleKeyEvent(fluent.FocusNode node, KeyEvent event) {
+    if (event is! KeyDownEvent) return fluent.KeyEventResult.ignored;
 
     final isModPressed =
         HardwareKeyboard.instance.isMetaPressed ||
@@ -64,15 +63,15 @@ class _PromptComposerState extends State<PromptComposer> {
       if (isModPressed && !isShiftPressed) {
         // Cmd/Ctrl+Enter: Send
         _handleSend();
-        return KeyEventResult.handled;
+        return fluent.KeyEventResult.handled;
       } else if (!isShiftPressed) {
         // Plain Enter: Send (Shift+Enter allows newline via default behavior)
         _handleSend();
-        return KeyEventResult.handled;
+        return fluent.KeyEventResult.handled;
       }
     }
 
-    return KeyEventResult.ignored;
+    return fluent.KeyEventResult.ignored;
   }
 
   @override
@@ -84,27 +83,27 @@ class _PromptComposerState extends State<PromptComposer> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
 
-    return Container(
-      decoration: BoxDecoration(
+    return fluent.Container(
+      decoration: fluent.BoxDecoration(
         color: colors.surfaceBase,
         borderRadius: AppRadius.xxlAll,
-        border: Border.all(color: colors.borderBase),
+        border: fluent.Border.all(color: colors.borderBase),
       ),
-      padding: const EdgeInsets.symmetric(
+      padding: const fluent.EdgeInsets.symmetric(
         horizontal: AppSpacing.md,
         vertical: AppSpacing.sm,
       ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.end,
+      child: fluent.Row(
+        crossAxisAlignment: fluent.CrossAxisAlignment.end,
         children: [
-          Expanded(
-            child: Focus(
+          fluent.Expanded(
+            child: fluent.Focus(
               onKeyEvent: _handleKeyEvent,
               child: fluent.TextBox(
                 controller: _controller,
@@ -114,21 +113,21 @@ class _PromptComposerState extends State<PromptComposer> {
                 minLines: widget.minLines,
                 style: AppTypography.body(color: colors.textBase),
                 placeholderStyle: AppTypography.body(color: colors.textMuted),
-                decoration: WidgetStateProperty.all(
-                  BoxDecoration(
-                    color: Colors.transparent,
-                    border: Border.all(color: Colors.transparent),
+                decoration: fluent.WidgetStateProperty.all(
+                  fluent.BoxDecoration(
+                    color: fluent.Colors.transparent,
+                    border: fluent.Border.all(color: fluent.Colors.transparent),
                   ),
                 ),
-                padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
+                padding: const fluent.EdgeInsets.symmetric(vertical: AppSpacing.sm),
               ),
             ),
           ),
-          const SizedBox(width: AppSpacing.sm),
-          Padding(
-            padding: const EdgeInsets.only(bottom: AppSpacing.xs2),
+          const fluent.SizedBox(width: AppSpacing.sm),
+          fluent.Padding(
+            padding: const fluent.EdgeInsets.only(bottom: AppSpacing.xs2),
             child: fluent.IconButton(
-              icon: Icon(
+              icon: fluent.Icon(
                 fluent.FluentIcons.send,
                 size: 18,
                 color: _canSend ? colors.accentPrimary : colors.iconMuted,

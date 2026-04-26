@@ -1,5 +1,4 @@
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
-import 'package:flutter/material.dart';
 
 import '../../theme/tokens.dart';
 
@@ -14,14 +13,14 @@ class ProjectRailItem {
 
   final String id;
   final String name;
-  final Color color;
+  final fluent.Color color;
   final String? initials;
 
   String get displayInitials => initials ?? name.substring(0, 1).toUpperCase();
 }
 
 /// Project rail component (left sidebar with project icons).
-class ProjectRail extends StatelessWidget {
+class ProjectRail extends fluent.StatelessWidget {
   const ProjectRail({
     required this.projects,
     required this.selectedProjectId,
@@ -34,30 +33,30 @@ class ProjectRail extends StatelessWidget {
 
   final List<ProjectRailItem> projects;
   final String? selectedProjectId;
-  final ValueChanged<String> onProjectSelected;
-  final VoidCallback? onAddProject;
-  final VoidCallback? onSettings;
-  final VoidCallback? onHelp;
+  final fluent.ValueChanged<String> onProjectSelected;
+  final fluent.VoidCallback? onAddProject;
+  final fluent.VoidCallback? onSettings;
+  final fluent.VoidCallback? onHelp;
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
 
-    return Container(
+    return fluent.Container(
       width: AppDimensions.projectRailWidth,
-      decoration: BoxDecoration(
+      decoration: fluent.BoxDecoration(
         color: colors.backgroundSubtle,
-        border: Border(right: BorderSide(color: colors.borderBase)),
+        border: fluent.Border(right: fluent.BorderSide(color: colors.borderBase)),
       ),
-      child: Column(
+      child: fluent.Column(
         children: [
-          const SizedBox(height: 16),
+          const fluent.SizedBox(height: 16),
           for (final project in projects)
-            Padding(
-              padding: const EdgeInsets.only(bottom: 14),
+            fluent.Padding(
+              padding: const fluent.EdgeInsets.only(bottom: 14),
               child: fluent.Tooltip(
                 message: project.name,
                 child: _RailProjectButton(
@@ -68,39 +67,39 @@ class ProjectRail extends StatelessWidget {
               ),
             ),
           if (onAddProject != null)
-            GestureDetector(
+            fluent.GestureDetector(
               onTap: onAddProject,
-              child: Container(
+              child: fluent.Container(
                 width: 32,
                 height: 32,
-                alignment: Alignment.center,
-                child: Icon(
+                alignment: fluent.Alignment.center,
+                child: fluent.Icon(
                   fluent.FluentIcons.add,
                   size: 17,
                   color: colors.iconWeak,
                 ),
               ),
             ),
-          const Spacer(),
+          const fluent.Spacer(),
           if (onSettings != null)
             fluent.IconButton(
-              icon: Icon(fluent.FluentIcons.settings, color: colors.iconWeak),
+              icon: fluent.Icon(fluent.FluentIcons.settings, color: colors.iconWeak),
               onPressed: onSettings,
             ),
-          const SizedBox(height: 8),
+          const fluent.SizedBox(height: 8),
           if (onHelp != null)
             fluent.IconButton(
-              icon: Icon(fluent.FluentIcons.help, color: colors.iconWeak),
+              icon: fluent.Icon(fluent.FluentIcons.help, color: colors.iconWeak),
               onPressed: onHelp,
             ),
-          const SizedBox(height: 12),
+          const fluent.SizedBox(height: 12),
         ],
       ),
     );
   }
 }
 
-class _RailProjectButton extends StatelessWidget {
+class _RailProjectButton extends fluent.StatelessWidget {
   const _RailProjectButton({
     required this.project,
     required this.isSelected,
@@ -109,39 +108,39 @@ class _RailProjectButton extends StatelessWidget {
 
   final ProjectRailItem project;
   final bool isSelected;
-  final VoidCallback onTap;
+  final fluent.VoidCallback onTap;
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
 
-    return GestureDetector(
+    return fluent.GestureDetector(
       onTap: onTap,
-      child: Container(
+      child: fluent.Container(
         width: 54,
         height: 54,
-        padding: const EdgeInsets.all(4),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(14),
-          border: Border.all(
+        padding: const fluent.EdgeInsets.all(4),
+        decoration: fluent.BoxDecoration(
+          borderRadius: fluent.BorderRadius.circular(14),
+          border: fluent.Border.all(
             color: isSelected ? colors.accentPrimary : colors.borderBase,
             width: isSelected ? 2 : 1,
           ),
         ),
-        child: Container(
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
+        child: fluent.Container(
+          alignment: fluent.Alignment.center,
+          decoration: fluent.BoxDecoration(
             color: project.color.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: fluent.BorderRadius.circular(10),
           ),
-          child: Text(
+          child: fluent.Text(
             project.displayInitials,
-            style: TextStyle(
+            style: fluent.TextStyle(
               fontSize: 18,
-              fontWeight: FontWeight.w600,
+              fontWeight: fluent.FontWeight.w600,
               color: project.color,
             ),
           ),

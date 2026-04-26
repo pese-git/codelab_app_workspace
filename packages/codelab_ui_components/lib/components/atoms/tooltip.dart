@@ -1,10 +1,9 @@
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
-import 'package:flutter/material.dart';
 
 import '../theme/tokens.dart';
 
 /// A tooltip wrapper component.
-class AppTooltip extends StatelessWidget {
+class AppTooltip extends fluent.StatelessWidget {
   const AppTooltip({
     required this.message,
     required this.child,
@@ -18,7 +17,7 @@ class AppTooltip extends StatelessWidget {
   final String message;
 
   /// Child widget
-  final Widget child;
+  final fluent.Widget child;
 
   /// Prefer showing below the widget
   final bool preferBelow;
@@ -30,7 +29,7 @@ class AppTooltip extends StatelessWidget {
   final Duration? showDuration;
 
   @override
-  Widget build(BuildContext context) {
+  fluent.Widget build(fluent.BuildContext context) {
     return fluent.Tooltip(
       message: message,
       displayHorizontally: false,
@@ -40,7 +39,7 @@ class AppTooltip extends StatelessWidget {
 }
 
 /// A rich tooltip with custom content (uses standard Tooltip as fallback).
-class RichTooltip extends StatelessWidget {
+class RichTooltip extends fluent.StatelessWidget {
   const RichTooltip({
     required this.message,
     required this.child,
@@ -52,13 +51,13 @@ class RichTooltip extends StatelessWidget {
   final String message;
 
   /// Child widget
-  final Widget child;
+  final fluent.Widget child;
 
   /// Prefer showing below the widget
   final bool preferBelow;
 
   @override
-  Widget build(BuildContext context) {
+  fluent.Widget build(fluent.BuildContext context) {
     return fluent.Tooltip(
       message: message,
       displayHorizontally: false,
@@ -68,7 +67,7 @@ class RichTooltip extends StatelessWidget {
 }
 
 /// A help icon with tooltip.
-class HelpTooltip extends StatelessWidget {
+class HelpTooltip extends fluent.StatelessWidget {
   const HelpTooltip({
     required this.message,
     this.iconSize = 14,
@@ -83,18 +82,18 @@ class HelpTooltip extends StatelessWidget {
   final double iconSize;
 
   /// Icon color
-  final Color? iconColor;
+  final fluent.Color? iconColor;
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
 
     return AppTooltip(
       message: message,
-      child: Icon(
+      child: fluent.Icon(
         fluent.FluentIcons.info,
         size: iconSize,
         color: iconColor ?? colors.iconMuted,

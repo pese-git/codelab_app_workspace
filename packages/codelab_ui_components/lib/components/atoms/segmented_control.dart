@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart' as fluent;
 
 import '../theme/tokens.dart';
 
 /// A segmented control (tab bar style) component.
-class SegmentedControl<T> extends StatelessWidget {
+class SegmentedControl<T> extends fluent.StatelessWidget {
   const SegmentedControl({
     required this.segments,
     required this.selected,
@@ -19,26 +19,26 @@ class SegmentedControl<T> extends StatelessWidget {
   final T selected;
 
   /// Selection change callback
-  final ValueChanged<T> onChanged;
+  final fluent.ValueChanged<T> onChanged;
 
   /// Disabled state
   final bool isDisabled;
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
 
-    return Container(
-      padding: const EdgeInsets.all(AppSpacing.xs),
-      decoration: BoxDecoration(
+    return fluent.Container(
+      padding: const fluent.EdgeInsets.all(AppSpacing.xs),
+      decoration: fluent.BoxDecoration(
         color: colors.surfaceSubtle,
         borderRadius: AppRadius.mdAll,
       ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
+      child: fluent.Row(
+        mainAxisSize: fluent.MainAxisSize.min,
         children: segments.entries.map((entry) {
           final isSelected = entry.key == selected;
           return _SegmentButton(
@@ -53,7 +53,7 @@ class SegmentedControl<T> extends StatelessWidget {
   }
 }
 
-class _SegmentButton extends StatelessWidget {
+class _SegmentButton extends fluent.StatelessWidget {
   const _SegmentButton({
     required this.label,
     required this.isSelected,
@@ -64,33 +64,33 @@ class _SegmentButton extends StatelessWidget {
   final String label;
   final bool isSelected;
   final bool isDisabled;
-  final VoidCallback onPressed;
+  final fluent.VoidCallback onPressed;
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
 
-    return GestureDetector(
+    return fluent.GestureDetector(
       onTap: isDisabled ? null : onPressed,
-      child: MouseRegion(
+      child: fluent.MouseRegion(
         cursor: isDisabled
-            ? SystemMouseCursors.basic
-            : SystemMouseCursors.click,
-        child: AnimatedContainer(
+            ? fluent.SystemMouseCursors.basic
+            : fluent.SystemMouseCursors.click,
+        child: fluent.AnimatedContainer(
           duration: AppDurations.fast,
-          padding: const EdgeInsets.symmetric(
+          padding: const fluent.EdgeInsets.symmetric(
             horizontal: AppSpacing.md,
             vertical: AppSpacing.sm2,
           ),
-          decoration: BoxDecoration(
-            color: isSelected ? colors.surfaceBase : Colors.transparent,
+          decoration: fluent.BoxDecoration(
+            color: isSelected ? colors.surfaceBase : fluent.Colors.transparent,
             borderRadius: AppRadius.smAll,
             boxShadow: isSelected ? AppShadows.light.subtle : null,
           ),
-          child: Text(
+          child: fluent.Text(
             label,
             style: AppTypography.bodyMedium(
               color: isDisabled
@@ -107,7 +107,7 @@ class _SegmentButton extends StatelessWidget {
 }
 
 /// A pill-style segmented control.
-class PillSegmentedControl<T> extends StatelessWidget {
+class PillSegmentedControl<T> extends fluent.StatelessWidget {
   const PillSegmentedControl({
     required this.segments,
     required this.selected,
@@ -123,46 +123,46 @@ class PillSegmentedControl<T> extends StatelessWidget {
   final T selected;
 
   /// Selection change callback
-  final ValueChanged<T> onChanged;
+  final fluent.ValueChanged<T> onChanged;
 
   /// Spacing between pills
   final double spacing;
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
 
-    return Row(
-      mainAxisSize: MainAxisSize.min,
+    return fluent.Row(
+      mainAxisSize: fluent.MainAxisSize.min,
       children: segments.entries.map((entry) {
         final isSelected = entry.key == selected;
-        return Padding(
-          padding: EdgeInsets.only(right: spacing),
-          child: GestureDetector(
+        return fluent.Padding(
+          padding: fluent.EdgeInsets.only(right: spacing),
+          child: fluent.GestureDetector(
             onTap: () => onChanged(entry.key),
-            child: MouseRegion(
-              cursor: SystemMouseCursors.click,
-              child: AnimatedContainer(
+            child: fluent.MouseRegion(
+              cursor: fluent.SystemMouseCursors.click,
+              child: fluent.AnimatedContainer(
                 duration: AppDurations.fast,
-                padding: const EdgeInsets.symmetric(
+                padding: const fluent.EdgeInsets.symmetric(
                   horizontal: AppSpacing.md,
                   vertical: AppSpacing.sm,
                 ),
-                decoration: BoxDecoration(
+                decoration: fluent.BoxDecoration(
                   color: isSelected
                       ? colors.accentPrimary
                       : colors.surfaceSubtle,
                   borderRadius: AppRadius.fullAll,
-                  border: Border.all(
+                  border: fluent.Border.all(
                     color: isSelected
                         ? colors.accentPrimary
                         : colors.borderWeak,
                   ),
                 ),
-                child: Text(
+                child: fluent.Text(
                   entry.value,
                   style: AppTypography.bodyMedium(
                     color: isSelected ? colors.textOnAccent : colors.textBase,

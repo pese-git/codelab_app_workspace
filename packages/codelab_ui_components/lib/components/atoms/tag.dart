@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart' as fluent;
 
 import '../theme/tokens.dart';
 
 /// A tag/chip component for labels and filters.
-class Tag extends StatelessWidget {
+class Tag extends fluent.StatelessWidget {
   const Tag({
     required this.label,
     this.icon,
@@ -18,24 +18,24 @@ class Tag extends StatelessWidget {
   final String label;
 
   /// Optional leading icon
-  final IconData? icon;
+  final fluent.IconData? icon;
 
   /// Remove callback (shows X button)
-  final VoidCallback? onRemove;
+  final fluent.VoidCallback? onRemove;
 
   /// Press callback
-  final VoidCallback? onPressed;
+  final fluent.VoidCallback? onPressed;
 
   /// Custom background color
-  final Color? color;
+  final fluent.Color? color;
 
   /// Selected state
   final bool isSelected;
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
 
@@ -44,35 +44,35 @@ class Tag extends StatelessWidget {
     final textColor = isSelected ? colors.textStrong : colors.textBase;
     final borderColor = isSelected ? colors.accentPrimary : colors.borderWeak;
 
-    return GestureDetector(
+    return fluent.GestureDetector(
       onTap: onPressed,
-      child: MouseRegion(
+      child: fluent.MouseRegion(
         cursor: onPressed != null
-            ? SystemMouseCursors.click
-            : SystemMouseCursors.basic,
-        child: Container(
-          padding: const EdgeInsets.symmetric(
+            ? fluent.SystemMouseCursors.click
+            : fluent.SystemMouseCursors.basic,
+        child: fluent.Container(
+          padding: const fluent.EdgeInsets.symmetric(
             horizontal: AppSpacing.sm,
             vertical: AppSpacing.xs,
           ),
-          decoration: BoxDecoration(
+          decoration: fluent.BoxDecoration(
             color: backgroundColor,
             borderRadius: AppRadius.smAll,
-            border: Border.all(color: borderColor),
+            border: fluent.Border.all(color: borderColor),
           ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
+          child: fluent.Row(
+            mainAxisSize: fluent.MainAxisSize.min,
             children: [
               if (icon != null) ...[
-                Icon(icon, size: 12, color: textColor),
-                const SizedBox(width: AppSpacing.xs),
+                fluent.Icon(icon, size: 12, color: textColor),
+                const fluent.SizedBox(width: AppSpacing.xs),
               ],
-              Text(label, style: AppTypography.small(color: textColor)),
+              fluent.Text(label, style: AppTypography.small(color: textColor)),
               if (onRemove != null) ...[
-                const SizedBox(width: AppSpacing.xs),
-                GestureDetector(
+                const fluent.SizedBox(width: AppSpacing.xs),
+                fluent.GestureDetector(
                   onTap: onRemove,
-                  child: Icon(Icons.close, size: 12, color: colors.iconWeak),
+                  child: fluent.Icon(fluent.FluentIcons.chrome_close, size: 12, color: colors.iconWeak),
                 ),
               ],
             ],
@@ -84,7 +84,7 @@ class Tag extends StatelessWidget {
 }
 
 /// A group of tags with optional selection behavior.
-class TagGroup extends StatelessWidget {
+class TagGroup extends fluent.StatelessWidget {
   const TagGroup({
     required this.tags,
     this.selectedIndex,
@@ -101,7 +101,7 @@ class TagGroup extends StatelessWidget {
   final int? selectedIndex;
 
   /// Callback when tag is selected
-  final ValueChanged<int>? onTagSelected;
+  final fluent.ValueChanged<int>? onTagSelected;
 
   /// Spacing between tags
   final double spacing;
@@ -110,7 +110,7 @@ class TagGroup extends StatelessWidget {
   final bool wrap;
 
   @override
-  Widget build(BuildContext context) {
+  fluent.Widget build(fluent.BuildContext context) {
     final children = List.generate(tags.length, (index) {
       return Tag(
         label: tags[index],
@@ -120,14 +120,14 @@ class TagGroup extends StatelessWidget {
     });
 
     if (wrap) {
-      return Wrap(spacing: spacing, runSpacing: spacing, children: children);
+      return fluent.Wrap(spacing: spacing, runSpacing: spacing, children: children);
     }
 
-    return Row(
-      mainAxisSize: MainAxisSize.min,
+    return fluent.Row(
+      mainAxisSize: fluent.MainAxisSize.min,
       children: children.map((tag) {
-        return Padding(
-          padding: EdgeInsets.only(right: spacing),
+        return fluent.Padding(
+          padding: fluent.EdgeInsets.only(right: spacing),
           child: tag,
         );
       }).toList(),

@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart' as fluent;
 
 import '../theme/tokens.dart';
 
 /// A list item component with optional leading/trailing widgets.
-class ListItem extends StatelessWidget {
+class ListItem extends fluent.StatelessWidget {
   const ListItem({
     required this.title,
     this.subtitle,
@@ -23,13 +23,13 @@ class ListItem extends StatelessWidget {
   final String? subtitle;
 
   /// Leading widget (icon, avatar, etc.)
-  final Widget? leading;
+  final fluent.Widget? leading;
 
   /// Trailing widget
-  final Widget? trailing;
+  final fluent.Widget? trailing;
 
   /// Tap callback
-  final VoidCallback? onTap;
+  final fluent.VoidCallback? onTap;
 
   /// Selected state
   final bool isSelected;
@@ -38,58 +38,58 @@ class ListItem extends StatelessWidget {
   final bool isDisabled;
 
   /// Custom padding
-  final EdgeInsetsGeometry? padding;
+  final fluent.EdgeInsetsGeometry? padding;
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
     final isEnabled = !isDisabled && onTap != null;
 
-    return GestureDetector(
+    return fluent.GestureDetector(
       onTap: isEnabled ? onTap : null,
-      child: MouseRegion(
-        cursor: isEnabled ? SystemMouseCursors.click : SystemMouseCursors.basic,
-        child: AnimatedContainer(
+      child: fluent.MouseRegion(
+        cursor: isEnabled ? fluent.SystemMouseCursors.click : fluent.SystemMouseCursors.basic,
+        child: fluent.AnimatedContainer(
           duration: AppDurations.fast,
-          padding: padding ?? const EdgeInsets.all(AppSpacing.md),
-          decoration: BoxDecoration(
-            color: isSelected ? colors.surfaceSelected : Colors.transparent,
+          padding: padding ?? const fluent.EdgeInsets.all(AppSpacing.md),
+          decoration: fluent.BoxDecoration(
+            color: isSelected ? colors.surfaceSelected : fluent.Colors.transparent,
             borderRadius: AppRadius.smAll,
           ),
-          child: Row(
+          child: fluent.Row(
             children: [
               if (leading != null) ...[
                 leading!,
-                const SizedBox(width: AppSpacing.md),
+                const fluent.SizedBox(width: AppSpacing.md),
               ],
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
+              fluent.Expanded(
+                child: fluent.Column(
+                  crossAxisAlignment: fluent.CrossAxisAlignment.start,
+                  mainAxisSize: fluent.MainAxisSize.min,
                   children: [
-                    Text(
+                    fluent.Text(
                       title,
                       style: AppTypography.body(
                         color: isDisabled ? colors.textMuted : colors.textBase,
                       ),
                       maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
+                      overflow: fluent.TextOverflow.ellipsis,
                     ),
                     if (subtitle != null)
-                      Text(
+                      fluent.Text(
                         subtitle!,
                         style: AppTypography.caption(color: colors.textWeak),
                         maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
+                        overflow: fluent.TextOverflow.ellipsis,
                       ),
                   ],
                 ),
               ),
               if (trailing != null) ...[
-                const SizedBox(width: AppSpacing.sm),
+                const fluent.SizedBox(width: AppSpacing.sm),
                 trailing!,
               ],
             ],
@@ -101,7 +101,7 @@ class ListItem extends StatelessWidget {
 }
 
 /// A selectable list item with checkbox.
-class CheckableListItem extends StatelessWidget {
+class CheckableListItem extends fluent.StatelessWidget {
   const CheckableListItem({
     required this.title,
     required this.isChecked,
@@ -114,13 +114,13 @@ class CheckableListItem extends StatelessWidget {
   final String title;
   final String? subtitle;
   final bool isChecked;
-  final ValueChanged<bool> onChanged;
+  final fluent.ValueChanged<bool> onChanged;
   final bool isDisabled;
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
 
@@ -129,18 +129,18 @@ class CheckableListItem extends StatelessWidget {
       subtitle: subtitle,
       isDisabled: isDisabled,
       onTap: () => onChanged(!isChecked),
-      leading: Container(
+      leading: fluent.Container(
         width: 18,
         height: 18,
-        decoration: BoxDecoration(
-          color: isChecked ? colors.accentPrimary : Colors.transparent,
-          borderRadius: BorderRadius.circular(4),
-          border: Border.all(
+        decoration: fluent.BoxDecoration(
+          color: isChecked ? colors.accentPrimary : fluent.Colors.transparent,
+          borderRadius: fluent.BorderRadius.circular(4),
+          border: fluent.Border.all(
             color: isChecked ? colors.accentPrimary : colors.borderStrong,
           ),
         ),
         child: isChecked
-            ? Icon(Icons.check, size: 14, color: colors.iconOnAccent)
+            ? fluent.Icon(fluent.FluentIcons.check_mark, size: 14, color: colors.iconOnAccent)
             : null,
       ),
     );

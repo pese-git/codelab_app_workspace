@@ -1,10 +1,9 @@
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
-import 'package:flutter/material.dart';
 
 import '../../theme/tokens.dart';
 
 /// Desktop title bar component.
-class TitleBar extends StatelessWidget {
+class TitleBar extends fluent.StatelessWidget {
   const TitleBar({
     this.onToggleSidebar,
     this.onBack,
@@ -20,74 +19,74 @@ class TitleBar extends StatelessWidget {
     super.key,
   });
 
-  final VoidCallback? onToggleSidebar;
-  final VoidCallback? onBack;
-  final VoidCallback? onForward;
+  final fluent.VoidCallback? onToggleSidebar;
+  final fluent.VoidCallback? onBack;
+  final fluent.VoidCallback? onForward;
   final bool canBack;
   final bool canForward;
-  final VoidCallback? onSearch;
-  final VoidCallback? onToggleTerminal;
-  final VoidCallback? onNewWorkspace;
-  final VoidCallback? onToggleContextPanel;
+  final fluent.VoidCallback? onSearch;
+  final fluent.VoidCallback? onToggleTerminal;
+  final fluent.VoidCallback? onNewWorkspace;
+  final fluent.VoidCallback? onToggleContextPanel;
   final bool isContextPanelVisible;
   final String searchPlaceholder;
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
 
-    return Container(
+    return fluent.Container(
       height: AppDimensions.titleBarHeight,
-      padding: const EdgeInsets.symmetric(horizontal: 14),
-      decoration: BoxDecoration(
+      padding: const fluent.EdgeInsets.symmetric(horizontal: 14),
+      decoration: fluent.BoxDecoration(
         color: colors.backgroundElevated,
-        border: Border(bottom: BorderSide(color: colors.borderBase)),
+        border: fluent.Border(bottom: fluent.BorderSide(color: colors.borderBase)),
       ),
-      child: Row(
-        children: [
+      child: fluent.Row(
+        children: <fluent.Widget>[
           const _TrafficLights(),
-          const SizedBox(width: 20),
+          const fluent.SizedBox(width: 20),
           _TitleIconButton(
             icon: fluent.FluentIcons.side_panel,
             onTap: onToggleSidebar,
           ),
-          const SizedBox(width: 10),
+          const fluent.SizedBox(width: 10),
           _NavigationButton(
             icon: fluent.FluentIcons.chevron_left_small,
             enabled: canBack,
             onTap: onBack,
           ),
-          const SizedBox(width: 6),
+          const fluent.SizedBox(width: 6),
           _NavigationButton(
             icon: fluent.FluentIcons.chevron_right_small,
             enabled: canForward,
             onTap: onForward,
           ),
-          Expanded(
-            child: Center(
-              child: GestureDetector(
-                onTap: onSearch,
-                child: Container(
+          const fluent.Spacer(),
+          fluent.Center(
+            child: fluent.GestureDetector(
+              onTap: onSearch,
+                child: fluent.Container(
                   width: 360,
                   height: 32,
-                  padding: const EdgeInsets.symmetric(horizontal: 12),
-                  decoration: BoxDecoration(
+                  padding: const fluent.EdgeInsets.symmetric(horizontal: 12),
+                  decoration: fluent.BoxDecoration(
                     color: colors.surfaceSubtle,
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: colors.borderWeak),
+                    borderRadius: fluent.BorderRadius.circular(10),
+                    border: fluent.Border.all(color: colors.borderWeak),
                   ),
-                  child: Row(
+                    child: fluent.Row(
                     children: [
-                      Expanded(
-                        child: Text(
+                      fluent.Expanded(
+                        child: fluent.Text(
                           searchPlaceholder,
                           style: AppTypography.small(color: colors.textMuted),
                         ),
                       ),
-                      Text(
+                      fluent.Text(
                         '⌘K',
                         style: AppTypography.caption(color: colors.textMuted),
                       ),
@@ -96,16 +95,16 @@ class TitleBar extends StatelessWidget {
                 ),
               ),
             ),
-          ),
+          const fluent.Spacer(),
           _HeaderBadge(icon: fluent.FluentIcons.server_processes, onTap: () {}),
-          const SizedBox(width: 10),
+          const fluent.SizedBox(width: 10),
           _HeaderBadge(
             icon: fluent.FluentIcons.command_prompt,
             onTap: onToggleTerminal,
           ),
-          const SizedBox(width: 10),
+          const fluent.SizedBox(width: 10),
           _HeaderBadge(icon: fluent.FluentIcons.add, onTap: onNewWorkspace),
-          const SizedBox(width: 10),
+          const fluent.SizedBox(width: 10),
           _TitleIconButton(
             icon: isContextPanelVisible
                 ? fluent.FluentIcons.open_pane_mirrored
@@ -118,110 +117,112 @@ class TitleBar extends StatelessWidget {
   }
 }
 
-class _TrafficLights extends StatelessWidget {
+class _TrafficLights extends fluent.StatelessWidget {
   const _TrafficLights();
 
   @override
-  Widget build(BuildContext context) {
-    Widget dot(Color color) {
-      return Container(
+  fluent.Widget build(fluent.BuildContext context) {
+    fluent.Widget dot(fluent.Color color) {
+      return fluent.Container(
         width: 14,
         height: 14,
-        decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+        decoration: fluent.BoxDecoration(color: color, shape: fluent.BoxShape.circle),
       );
     }
 
-    return Row(
+    return fluent.Row(
       children: [
-        dot(const Color(0xFFFF5F57)),
-        const SizedBox(width: 8),
-        dot(const Color(0xFFFEBB2E)),
-        const SizedBox(width: 8),
-        dot(const Color(0xFF28C840)),
+        dot(const fluent.Color(0xFFFF5F57)),
+        const fluent.SizedBox(width: 8),
+        dot(const fluent.Color(0xFFFEBB2E)),
+        const fluent.SizedBox(width: 8),
+        dot(const fluent.Color(0xFF28C840)),
       ],
     );
   }
 }
 
-class _TitleIconButton extends StatelessWidget {
+class _TitleIconButton extends fluent.StatelessWidget {
   const _TitleIconButton({required this.icon, required this.onTap});
 
-  final IconData icon;
-  final VoidCallback? onTap;
+  final fluent.IconData icon;
+  final fluent.VoidCallback? onTap;
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
 
-    return GestureDetector(
+    return fluent.GestureDetector(
       onTap: onTap,
-      child: Container(
+      child: fluent.Container(
         width: 30,
         height: 30,
-        decoration: BoxDecoration(
+        decoration: fluent.BoxDecoration(
           color: colors.surfaceSubtle,
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: fluent.BorderRadius.circular(8),
         ),
-        child: Icon(icon, size: 14, color: colors.iconBase),
+        child: fluent.Icon(icon, size: 14, color: colors.iconBase),
       ),
     );
   }
 }
 
-class _HeaderBadge extends StatelessWidget {
+class _HeaderBadge extends fluent.StatelessWidget {
   const _HeaderBadge({required this.icon, required this.onTap});
 
-  final IconData icon;
-  final VoidCallback? onTap;
+  final fluent.IconData icon;
+  final fluent.VoidCallback? onTap;
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
 
-    return GestureDetector(
+    return fluent.GestureDetector(
       onTap: onTap,
-      child: Container(
+      child: fluent.Container(
         width: 30,
         height: 30,
-        decoration: BoxDecoration(
+        decoration: fluent.BoxDecoration(
           color: colors.surfaceAccent,
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: fluent.BorderRadius.circular(8),
         ),
-        child: Icon(icon, size: 14, color: colors.iconBase),
+        child: fluent.Icon(icon, size: 14, color: colors.iconBase),
       ),
     );
   }
 }
 
-class _NavigationButton extends StatelessWidget {
+class _NavigationButton extends fluent.StatelessWidget {
   const _NavigationButton({
     required this.icon,
     required this.enabled,
     required this.onTap,
   });
 
-  final IconData icon;
+  final fluent.IconData icon;
   final bool enabled;
-  final VoidCallback? onTap;
+  final fluent.VoidCallback? onTap;
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
 
-    return GestureDetector(
+    return fluent.GestureDetector(
       onTap: enabled ? onTap : null,
-      child: MouseRegion(
-        cursor: enabled ? SystemMouseCursors.click : SystemMouseCursors.basic,
-        child: Icon(
+      child: fluent.MouseRegion(
+        cursor: enabled
+            ? fluent.SystemMouseCursors.click
+            : fluent.SystemMouseCursors.basic,
+        child: fluent.Icon(
           icon,
           size: 15,
           color: enabled ? colors.iconBase : colors.iconMuted,

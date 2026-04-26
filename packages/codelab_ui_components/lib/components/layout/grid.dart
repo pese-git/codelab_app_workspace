@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart' as fluent;
 
 import '../theme/tokens.dart';
 
 /// A responsive grid layout component.
-class AppGrid extends StatelessWidget {
+class AppGrid extends fluent.StatelessWidget {
   const AppGrid({
     required this.children,
     this.columns = 2,
@@ -13,28 +13,28 @@ class AppGrid extends StatelessWidget {
     super.key,
   });
 
-  final List<Widget> children;
+  final List<fluent.Widget> children;
   final int columns;
   final double spacing;
   final double runSpacing;
   final double childAspectRatio;
 
   @override
-  Widget build(BuildContext context) {
-    return GridView.count(
+  fluent.Widget build(fluent.BuildContext context) {
+    return fluent.GridView.count(
       crossAxisCount: columns,
       mainAxisSpacing: runSpacing,
       crossAxisSpacing: spacing,
       childAspectRatio: childAspectRatio,
       shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
+      physics: const fluent.NeverScrollableScrollPhysics(),
       children: children,
     );
   }
 }
 
 /// A responsive grid that adapts based on available width.
-class ResponsiveGrid extends StatelessWidget {
+class ResponsiveGrid extends fluent.StatelessWidget {
   const ResponsiveGrid({
     required this.children,
     this.minChildWidth = 200,
@@ -43,27 +43,27 @@ class ResponsiveGrid extends StatelessWidget {
     super.key,
   });
 
-  final List<Widget> children;
+  final List<fluent.Widget> children;
   final double minChildWidth;
   final double spacing;
   final double runSpacing;
 
   @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(
+  fluent.Widget build(fluent.BuildContext context) {
+    return fluent.LayoutBuilder(
       builder: (context, constraints) {
         final columns = (constraints.maxWidth / minChildWidth).floor().clamp(
           1,
           6,
         );
 
-        return Wrap(
+        return fluent.Wrap(
           spacing: spacing,
           runSpacing: runSpacing,
           children: children.map((child) {
             final itemWidth =
                 (constraints.maxWidth - (columns - 1) * spacing) / columns;
-            return SizedBox(width: itemWidth, child: child);
+            return fluent.SizedBox(width: itemWidth, child: child);
           }).toList(),
         );
       },
@@ -72,7 +72,7 @@ class ResponsiveGrid extends StatelessWidget {
 }
 
 /// A masonry-style grid (staggered).
-class MasonryGrid extends StatelessWidget {
+class MasonryGrid extends fluent.StatelessWidget {
   const MasonryGrid({
     required this.children,
     this.columns = 2,
@@ -80,31 +80,31 @@ class MasonryGrid extends StatelessWidget {
     super.key,
   });
 
-  final List<Widget> children;
+  final List<fluent.Widget> children;
   final int columns;
   final double spacing;
 
   @override
-  Widget build(BuildContext context) {
-    final columnChildren = List.generate(columns, (_) => <Widget>[]);
+  fluent.Widget build(fluent.BuildContext context) {
+    final columnChildren = List.generate(columns, (_) => <fluent.Widget>[]);
 
     for (var i = 0; i < children.length; i++) {
       columnChildren[i % columns].add(
-        Padding(
-          padding: EdgeInsets.only(bottom: spacing),
+        fluent.Padding(
+          padding: fluent.EdgeInsets.only(bottom: spacing),
           child: children[i],
         ),
       );
     }
 
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return fluent.Row(
+      crossAxisAlignment: fluent.CrossAxisAlignment.start,
       children: columnChildren.asMap().entries.map((entry) {
         final isLast = entry.key == columns - 1;
-        return Expanded(
-          child: Padding(
-            padding: EdgeInsets.only(right: isLast ? 0 : spacing),
-            child: Column(children: entry.value),
+        return fluent.Expanded(
+          child: fluent.Padding(
+            padding: fluent.EdgeInsets.only(right: isLast ? 0 : spacing),
+            child: fluent.Column(children: entry.value),
           ),
         );
       }).toList(),

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart' as fluent;
 
 import '../theme/tokens.dart';
 
@@ -24,7 +24,7 @@ enum BadgeVariant {
 }
 
 /// A small status badge component.
-class Badge extends StatelessWidget {
+class Badge extends fluent.StatelessWidget {
   const Badge({
     required this.label,
     this.variant = BadgeVariant.neutral,
@@ -57,14 +57,14 @@ class Badge extends StatelessWidget {
     : variant = BadgeVariant.info;
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
 
-    final Color backgroundColor;
-    final Color textColor;
+    final fluent.Color backgroundColor;
+    final fluent.Color textColor;
 
     switch (variant) {
       case BadgeVariant.neutral:
@@ -94,8 +94,8 @@ class Badge extends StatelessWidget {
     }
 
     final padding = size == BadgeSize.sm
-        ? const EdgeInsets.symmetric(horizontal: AppSpacing.xs, vertical: 1)
-        : const EdgeInsets.symmetric(horizontal: AppSpacing.sm2, vertical: 2);
+        ? const fluent.EdgeInsets.symmetric(horizontal: AppSpacing.xs, vertical: 1)
+        : const fluent.EdgeInsets.symmetric(horizontal: AppSpacing.sm2, vertical: 2);
 
     final textStyle = size == BadgeSize.sm
         ? AppTypography.style(
@@ -105,13 +105,13 @@ class Badge extends StatelessWidget {
           )
         : AppTypography.caption(color: textColor);
 
-    return Container(
+    return fluent.Container(
       padding: padding,
-      decoration: BoxDecoration(
+      decoration: fluent.BoxDecoration(
         color: backgroundColor,
         borderRadius: AppRadius.fullAll,
       ),
-      child: Text(label, style: textStyle),
+      child: fluent.Text(label, style: textStyle),
     );
   }
 }
@@ -126,7 +126,7 @@ enum BadgeSize {
 }
 
 /// A numeric count badge (e.g., for notifications).
-class CountBadge extends StatelessWidget {
+class CountBadge extends fluent.StatelessWidget {
   const CountBadge({
     required this.count,
     this.maxCount = 99,
@@ -144,8 +144,8 @@ class CountBadge extends StatelessWidget {
   final BadgeVariant variant;
 
   @override
-  Widget build(BuildContext context) {
-    if (count <= 0) return const SizedBox.shrink();
+  fluent.Widget build(fluent.BuildContext context) {
+    if (count <= 0) return const fluent.SizedBox.shrink();
 
     final displayText = count > maxCount ? '$maxCount+' : '$count';
 
@@ -154,7 +154,7 @@ class CountBadge extends StatelessWidget {
 }
 
 /// A dot indicator badge (no text).
-class DotBadge extends StatelessWidget {
+class DotBadge extends fluent.StatelessWidget {
   const DotBadge({
     this.size = 8,
     this.color,
@@ -166,19 +166,19 @@ class DotBadge extends StatelessWidget {
   final double size;
 
   /// Custom color (overrides variant)
-  final Color? color;
+  final fluent.Color? color;
 
   /// Badge variant for color
   final BadgeVariant variant;
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
 
-    Color dotColor;
+    fluent.Color dotColor;
     if (color != null) {
       dotColor = color!;
     } else {
@@ -204,10 +204,10 @@ class DotBadge extends StatelessWidget {
       }
     }
 
-    return Container(
+    return fluent.Container(
       width: size,
       height: size,
-      decoration: BoxDecoration(color: dotColor, shape: BoxShape.circle),
+      decoration: fluent.BoxDecoration(color: dotColor, shape: fluent.BoxShape.circle),
     );
   }
 }

@@ -1,10 +1,9 @@
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
-import 'package:flutter/material.dart';
 
 import '../theme/tokens.dart';
 
 /// A multi-line text area component.
-class AppTextArea extends StatelessWidget {
+class AppTextArea extends fluent.StatelessWidget {
   const AppTextArea({
     this.controller,
     this.focusNode,
@@ -24,16 +23,16 @@ class AppTextArea extends StatelessWidget {
   });
 
   /// Text controller
-  final TextEditingController? controller;
+  final fluent.TextEditingController? controller;
 
   /// Focus node
-  final FocusNode? focusNode;
+  final fluent.FocusNode? focusNode;
 
   /// Current value
   final String? value;
 
   /// Value change callback
-  final ValueChanged<String>? onChanged;
+  final fluent.ValueChanged<String>? onChanged;
 
   /// Placeholder text
   final String? placeholder;
@@ -66,14 +65,14 @@ class AppTextArea extends StatelessWidget {
   final bool autofocus;
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
     final hasError = error != null && error!.isNotEmpty;
 
-    Widget textArea = fluent.TextBox(
+    fluent.Widget textArea = fluent.TextBox(
       controller: controller,
       focusNode: focusNode,
       placeholder: placeholder,
@@ -86,41 +85,41 @@ class AppTextArea extends StatelessWidget {
       onChanged: onChanged,
       style: AppTypography.body(color: colors.textBase),
       placeholderStyle: AppTypography.body(color: colors.textMuted),
-      decoration: WidgetStateProperty.resolveWith((states) {
-        Color borderColor = colors.borderBase;
+      decoration: fluent.WidgetStateProperty.resolveWith((states) {
+        fluent.Color borderColor = colors.borderBase;
         if (hasError) {
           borderColor = colors.errorBase;
-        } else if (states.contains(WidgetState.focused)) {
+        } else if (states.contains(fluent.WidgetState.focused)) {
           borderColor = colors.borderFocus;
         }
-        return BoxDecoration(
+        return fluent.BoxDecoration(
           color: colors.surfaceSubtle,
           borderRadius: AppRadius.mdAll,
-          border: Border.all(color: borderColor),
+          border: fluent.Border.all(color: borderColor),
         );
       }),
     );
 
     if (label != null || helper != null || error != null) {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
+      return fluent.Column(
+        crossAxisAlignment: fluent.CrossAxisAlignment.start,
+        mainAxisSize: fluent.MainAxisSize.min,
         children: [
           if (label != null) ...[
-            Text(
+            fluent.Text(
               label!,
               style: AppTypography.bodyMedium(color: colors.textBase),
             ),
-            const SizedBox(height: AppSpacing.xs),
+            const fluent.SizedBox(height: AppSpacing.xs),
           ],
           textArea,
           if (helper != null && !hasError) ...[
-            const SizedBox(height: AppSpacing.xs),
-            Text(helper!, style: AppTypography.caption(color: colors.textWeak)),
+            const fluent.SizedBox(height: AppSpacing.xs),
+            fluent.Text(helper!, style: AppTypography.caption(color: colors.textWeak)),
           ],
           if (hasError) ...[
-            const SizedBox(height: AppSpacing.xs),
-            Text(error!, style: AppTypography.caption(color: colors.errorText)),
+            const fluent.SizedBox(height: AppSpacing.xs),
+            fluent.Text(error!, style: AppTypography.caption(color: colors.errorText)),
           ],
         ],
       );

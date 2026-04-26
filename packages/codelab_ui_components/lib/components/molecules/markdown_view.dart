@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart' as fluent;
 import 'package:flutter_markdown/flutter_markdown.dart' as flutter_markdown;
 
 import '../theme/markdown_styles.dart';
@@ -9,7 +9,7 @@ export 'package:flutter_markdown/flutter_markdown.dart'
     show MarkdownElementBuilder, MarkdownStyleSheet;
 
 /// A markdown rendering component.
-class MarkdownView extends StatelessWidget {
+class MarkdownView extends fluent.StatelessWidget {
   const MarkdownView({
     required this.data,
     this.selectable = true,
@@ -32,12 +32,12 @@ class MarkdownView extends StatelessWidget {
   final bool shrinkWrap;
 
   /// Content padding
-  final EdgeInsets? padding;
+  final fluent.EdgeInsets? padding;
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final styleSheet = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final styleSheet = brightness == fluent.Brightness.light
         ? AppMarkdownStyles.light()
         : AppMarkdownStyles.dark();
 
@@ -56,7 +56,7 @@ class MarkdownView extends StatelessWidget {
       data: data,
       selectable: selectable,
       styleSheet: styleSheet,
-      padding: padding ?? const EdgeInsets.all(AppSpacing.md),
+      padding: padding ?? const fluent.EdgeInsets.all(AppSpacing.md),
       onTapLink: onTapLink != null
           ? (text, href, title) => onTapLink!(text, href, title)
           : null,
@@ -65,7 +65,7 @@ class MarkdownView extends StatelessWidget {
 }
 
 /// A simple markdown body (no scrolling).
-class AppMarkdownBody extends StatelessWidget {
+class AppMarkdownBody extends fluent.StatelessWidget {
   const AppMarkdownBody({
     required this.data,
     this.selectable = true,
@@ -82,11 +82,11 @@ class AppMarkdownBody extends StatelessWidget {
   final Map<String, flutter_markdown.MarkdownElementBuilder>? builders;
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
     final effectiveStyleSheet =
         styleSheet ??
-        (brightness == Brightness.light
+        (brightness == fluent.Brightness.light
             ? AppMarkdownStyles.light()
             : AppMarkdownStyles.dark());
 

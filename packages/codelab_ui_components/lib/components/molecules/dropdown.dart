@@ -1,10 +1,9 @@
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
-import 'package:flutter/material.dart';
 
 import '../theme/tokens.dart';
 
 /// A dropdown menu component.
-class AppDropdown<T> extends StatelessWidget {
+class AppDropdown<T> extends fluent.StatelessWidget {
   const AppDropdown({
     required this.items,
     required this.value,
@@ -22,7 +21,7 @@ class AppDropdown<T> extends StatelessWidget {
   final T? value;
 
   /// Selection change callback
-  final ValueChanged<T?> onChanged;
+  final fluent.ValueChanged<T?> onChanged;
 
   /// Placeholder text when no selection
   final String? placeholder;
@@ -34,9 +33,9 @@ class AppDropdown<T> extends StatelessWidget {
   final bool isExpanded;
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
 
@@ -45,21 +44,21 @@ class AppDropdown<T> extends StatelessWidget {
       items: items.map((item) {
         return fluent.ComboBoxItem<T>(
           value: item.value,
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
+          child: fluent.Row(
+            mainAxisSize: fluent.MainAxisSize.min,
             children: [
               if (item.icon != null) ...[
-                Icon(item.icon, size: 16, color: colors.iconBase),
-                const SizedBox(width: AppSpacing.sm),
+                fluent.Icon(item.icon, size: 16, color: colors.iconBase),
+                const fluent.SizedBox(width: AppSpacing.sm),
               ],
-              Flexible(child: Text(item.label)),
+              fluent.Flexible(child: fluent.Text(item.label)),
             ],
           ),
         );
       }).toList(),
       onChanged: isDisabled ? null : onChanged,
       placeholder: placeholder != null
-          ? Text(
+          ? fluent.Text(
               placeholder!,
               style: AppTypography.body(color: colors.textMuted),
             )
@@ -80,12 +79,12 @@ class DropdownItem<T> {
 
   final T value;
   final String label;
-  final IconData? icon;
+  final fluent.IconData? icon;
   final bool isDisabled;
 }
 
 /// A dropdown with sections/groups.
-class GroupedDropdown<T> extends StatelessWidget {
+class GroupedDropdown<T> extends fluent.StatelessWidget {
   const GroupedDropdown({
     required this.groups,
     required this.value,
@@ -102,7 +101,7 @@ class GroupedDropdown<T> extends StatelessWidget {
   final T? value;
 
   /// Selection change callback
-  final ValueChanged<T?> onChanged;
+  final fluent.ValueChanged<T?> onChanged;
 
   /// Placeholder text
   final String? placeholder;
@@ -111,7 +110,7 @@ class GroupedDropdown<T> extends StatelessWidget {
   final bool isDisabled;
 
   @override
-  Widget build(BuildContext context) {
+  fluent.Widget build(fluent.BuildContext context) {
     // Flatten groups to items for basic implementation
     final allItems = <DropdownItem<T>>[];
     for (final group in groups) {

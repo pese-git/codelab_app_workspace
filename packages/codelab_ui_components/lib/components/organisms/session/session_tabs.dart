@@ -1,5 +1,4 @@
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
-import 'package:flutter/material.dart';
 
 import '../../theme/tokens.dart';
 
@@ -7,7 +6,7 @@ import '../../theme/tokens.dart';
 enum SessionRegionTab { files, review, terminal }
 
 /// Session tabs component.
-class SessionTabs extends StatelessWidget {
+class SessionTabs extends fluent.StatelessWidget {
   const SessionTabs({
     required this.activeTab,
     required this.onTabChanged,
@@ -15,38 +14,38 @@ class SessionTabs extends StatelessWidget {
   });
 
   final SessionRegionTab activeTab;
-  final ValueChanged<SessionRegionTab> onTabChanged;
+  final fluent.ValueChanged<SessionRegionTab> onTabChanged;
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
 
-    return Container(
-      padding: const EdgeInsets.all(AppSpacing.md2),
-      decoration: BoxDecoration(
-        border: Border(bottom: BorderSide(color: colors.borderWeak)),
+    return fluent.Container(
+      padding: const fluent.EdgeInsets.all(AppSpacing.md2),
+      decoration: fluent.BoxDecoration(
+        border: fluent.Border(bottom: fluent.BorderSide(color: colors.borderWeak)),
       ),
-      child: Row(
+      child: fluent.Row(
         children: [
           for (final tab in SessionRegionTab.values)
-            Padding(
-              padding: const EdgeInsets.only(right: AppSpacing.sm2),
+            fluent.Padding(
+              padding: const fluent.EdgeInsets.only(right: AppSpacing.sm2),
               child: fluent.Button(
                 style: fluent.ButtonStyle(
-                  backgroundColor: WidgetStateProperty.all(
+                  backgroundColor: fluent.WidgetStateProperty.all(
                     activeTab == tab
                         ? colors.surfaceAccent
                         : colors.surfaceBase,
                   ),
-                  foregroundColor: WidgetStateProperty.all(
+                  foregroundColor: fluent.WidgetStateProperty.all(
                     activeTab == tab ? colors.textStrong : colors.textWeak,
                   ),
                 ),
                 onPressed: () => onTabChanged(tab),
-                child: Text(_label(tab)),
+                child: fluent.Text(_label(tab)),
               ),
             ),
         ],

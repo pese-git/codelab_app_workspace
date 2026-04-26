@@ -1,26 +1,26 @@
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart' as fluent;
 
 import '../theme/tokens.dart';
 
 /// A host widget for overlays (toasts, modals, etc.).
-class OverlayHost extends StatefulWidget {
+class OverlayHost extends fluent.StatefulWidget {
   const OverlayHost({required this.child, super.key});
 
-  final Widget child;
+  final fluent.Widget child;
 
-  static OverlayHostState? of(BuildContext context) {
+  static OverlayHostState? of(fluent.BuildContext context) {
     return context.findAncestorStateOfType<OverlayHostState>();
   }
 
   @override
-  State<OverlayHost> createState() => OverlayHostState();
+  fluent.State<OverlayHost> createState() => OverlayHostState();
 }
 
-class OverlayHostState extends State<OverlayHost> {
+class OverlayHostState extends fluent.State<OverlayHost> {
   final List<_OverlayEntry> _entries = [];
 
   /// Show an overlay widget.
-  void showOverlay(Widget overlay, {String? id, bool dismissible = true}) {
+  void showOverlay(fluent.Widget overlay, {String? id, bool dismissible = true}) {
     setState(() {
       _entries.add(
         _OverlayEntry(
@@ -47,15 +47,15 @@ class OverlayHostState extends State<OverlayHost> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Stack(
+  fluent.Widget build(fluent.BuildContext context) {
+    return fluent.Stack(
       children: [
         widget.child,
         for (final entry in _entries)
-          Positioned.fill(
-            child: GestureDetector(
+          fluent.Positioned.fill(
+            child: fluent.GestureDetector(
               onTap: entry.dismissible ? () => removeOverlay(entry.id) : null,
-              behavior: HitTestBehavior.translucent,
+              behavior: fluent.HitTestBehavior.translucent,
               child: entry.widget,
             ),
           ),
@@ -72,12 +72,12 @@ class _OverlayEntry {
   });
 
   final String id;
-  final Widget widget;
+  final fluent.Widget widget;
   final bool dismissible;
 }
 
 /// A modal overlay with backdrop.
-class ModalOverlay extends StatelessWidget {
+class ModalOverlay extends fluent.StatelessWidget {
   const ModalOverlay({
     required this.child,
     this.onDismiss,
@@ -85,23 +85,23 @@ class ModalOverlay extends StatelessWidget {
     super.key,
   });
 
-  final Widget child;
-  final VoidCallback? onDismiss;
-  final Color? barrierColor;
+  final fluent.Widget child;
+  final fluent.VoidCallback? onDismiss;
+  final fluent.Color? barrierColor;
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
 
-    return GestureDetector(
+    return fluent.GestureDetector(
       onTap: onDismiss,
-      child: Container(
+      child: fluent.Container(
         color: barrierColor ?? colors.overlay,
-        alignment: Alignment.center,
-        child: GestureDetector(
+        alignment: fluent.Alignment.center,
+        child: fluent.GestureDetector(
           onTap: () {}, // Prevent tap from passing through
           child: child,
         ),
@@ -111,32 +111,32 @@ class ModalOverlay extends StatelessWidget {
 }
 
 /// A toast container positioned at the top or bottom.
-class ToastContainer extends StatelessWidget {
+class ToastContainer extends fluent.StatelessWidget {
   const ToastContainer({
     required this.child,
     this.position = ToastPosition.top,
-    this.padding = const EdgeInsets.all(16),
+    this.padding = const fluent.EdgeInsets.all(16),
     super.key,
   });
 
-  final Widget child;
+  final fluent.Widget child;
   final ToastPosition position;
-  final EdgeInsets padding;
+  final fluent.EdgeInsets padding;
 
   @override
-  Widget build(BuildContext context) {
-    return Positioned(
+  fluent.Widget build(fluent.BuildContext context) {
+    return fluent.Positioned(
       top: position == ToastPosition.top ? 0 : null,
       bottom: position == ToastPosition.bottom ? 0 : null,
       left: 0,
       right: 0,
-      child: SafeArea(
-        child: Padding(
+      child: fluent.SafeArea(
+        child: fluent.Padding(
           padding: padding,
-          child: Align(
+          child: fluent.Align(
             alignment: position == ToastPosition.top
-                ? Alignment.topCenter
-                : Alignment.bottomCenter,
+                ? fluent.Alignment.topCenter
+                : fluent.Alignment.bottomCenter,
             child: child,
           ),
         ),

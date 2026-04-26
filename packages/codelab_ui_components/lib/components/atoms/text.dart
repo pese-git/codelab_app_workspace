@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart' as fluent;
 
 import '../theme/tokens.dart';
 
@@ -39,7 +39,7 @@ enum TextVariant {
 }
 
 /// A themed text component with semantic variants.
-class AppText extends StatelessWidget {
+class AppText extends fluent.StatelessWidget {
   const AppText(
     this.text, {
     this.variant = TextVariant.body,
@@ -58,16 +58,16 @@ class AppText extends StatelessWidget {
   final TextVariant variant;
 
   /// Text color (overrides theme default)
-  final Color? color;
+  final fluent.Color? color;
 
   /// Maximum lines
   final int? maxLines;
 
   /// Overflow behavior
-  final TextOverflow? overflow;
+  final fluent.TextOverflow? overflow;
 
   /// Text alignment
-  final TextAlign? textAlign;
+  final fluent.TextAlign? textAlign;
 
   /// Whether text is selectable
   final bool selectable;
@@ -171,7 +171,7 @@ class AppText extends StatelessWidget {
     super.key,
   }) : variant = TextVariant.code;
 
-  TextStyle _getStyle(LightColors colors) {
+  fluent.TextStyle _getStyle(LightColors colors) {
     final effectiveColor = color ?? colors.textBase;
 
     switch (variant) {
@@ -201,15 +201,15 @@ class AppText extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
     final style = _getStyle(colors);
 
     if (selectable) {
-      return SelectableText(
+      return fluent.SelectableText(
         text,
         style: style,
         maxLines: maxLines,
@@ -217,7 +217,7 @@ class AppText extends StatelessWidget {
       );
     }
 
-    return Text(
+    return fluent.Text(
       text,
       style: style,
       maxLines: maxLines,

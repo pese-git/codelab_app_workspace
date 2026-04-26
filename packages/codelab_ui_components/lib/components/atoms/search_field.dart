@@ -1,10 +1,9 @@
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
-import 'package:flutter/material.dart';
 
 import '../theme/tokens.dart';
 
 /// A search input field component.
-class SearchField extends StatefulWidget {
+class SearchField extends fluent.StatefulWidget {
   const SearchField({
     this.controller,
     this.value,
@@ -18,19 +17,19 @@ class SearchField extends StatefulWidget {
   });
 
   /// Text controller
-  final TextEditingController? controller;
+  final fluent.TextEditingController? controller;
 
   /// Current value
   final String? value;
 
   /// Value change callback
-  final ValueChanged<String>? onChanged;
+  final fluent.ValueChanged<String>? onChanged;
 
   /// Submit callback
-  final ValueChanged<String>? onSubmitted;
+  final fluent.ValueChanged<String>? onSubmitted;
 
   /// Clear callback
-  final VoidCallback? onClear;
+  final fluent.VoidCallback? onClear;
 
   /// Placeholder text
   final String placeholder;
@@ -42,18 +41,18 @@ class SearchField extends StatefulWidget {
   final bool isDisabled;
 
   @override
-  State<SearchField> createState() => _SearchFieldState();
+  fluent.State<SearchField> createState() => _SearchFieldState();
 }
 
-class _SearchFieldState extends State<SearchField> {
-  late TextEditingController _controller;
+class _SearchFieldState extends fluent.State<SearchField> {
+  late fluent.TextEditingController _controller;
   bool _hasValue = false;
 
   @override
   void initState() {
     super.initState();
     _controller =
-        widget.controller ?? TextEditingController(text: widget.value);
+        widget.controller ?? fluent.TextEditingController(text: widget.value);
     _hasValue = _controller.text.isNotEmpty;
     _controller.addListener(_handleTextChange);
   }
@@ -89,9 +88,9 @@ class _SearchFieldState extends State<SearchField> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
 
@@ -102,20 +101,20 @@ class _SearchFieldState extends State<SearchField> {
       autofocus: widget.autofocus,
       onChanged: widget.onChanged,
       onSubmitted: widget.onSubmitted,
-      prefix: Padding(
-        padding: const EdgeInsets.only(left: AppSpacing.sm),
-        child: Icon(
+      prefix: fluent.Padding(
+        padding: const fluent.EdgeInsets.only(left: AppSpacing.sm),
+        child: fluent.Icon(
           fluent.FluentIcons.search,
           size: 14,
           color: colors.iconWeak,
         ),
       ),
       suffix: _hasValue
-          ? GestureDetector(
+          ? fluent.GestureDetector(
               onTap: _handleClear,
-              child: Padding(
-                padding: const EdgeInsets.only(right: AppSpacing.sm),
-                child: Icon(
+              child: fluent.Padding(
+                padding: const fluent.EdgeInsets.only(right: AppSpacing.sm),
+                child: fluent.Icon(
                   fluent.FluentIcons.chrome_close,
                   size: 12,
                   color: colors.iconWeak,
@@ -125,15 +124,15 @@ class _SearchFieldState extends State<SearchField> {
           : null,
       style: AppTypography.body(color: colors.textBase),
       placeholderStyle: AppTypography.body(color: colors.textMuted),
-      decoration: WidgetStateProperty.resolveWith((states) {
-        Color borderColor = colors.borderBase;
-        if (states.contains(WidgetState.focused)) {
+      decoration: fluent.WidgetStateProperty.resolveWith((states) {
+        fluent.Color borderColor = colors.borderBase;
+        if (states.contains(fluent.WidgetState.focused)) {
           borderColor = colors.borderFocus;
         }
-        return BoxDecoration(
+        return fluent.BoxDecoration(
           color: colors.surfaceSubtle,
           borderRadius: AppRadius.mdAll,
-          border: Border.all(color: borderColor),
+          border: fluent.Border.all(color: borderColor),
         );
       }),
     );

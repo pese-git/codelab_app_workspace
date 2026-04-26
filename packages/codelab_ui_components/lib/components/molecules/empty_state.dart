@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart' as fluent;
 
 import '../atoms/button.dart';
 import '../theme/tokens.dart';
 
 /// An empty state placeholder component.
-class EmptyState extends StatelessWidget {
+class EmptyState extends fluent.StatelessWidget {
   const EmptyState({
     required this.title,
     this.message,
@@ -24,27 +24,27 @@ class EmptyState extends StatelessWidget {
   final String? message;
 
   /// Optional icon
-  final IconData? icon;
+  final fluent.IconData? icon;
 
   /// Primary action button label
   final String? actionLabel;
 
   /// Primary action callback
-  final VoidCallback? onAction;
+  final fluent.VoidCallback? onAction;
 
   /// Secondary action label
   final String? secondaryActionLabel;
 
   /// Secondary action callback
-  final VoidCallback? onSecondaryAction;
+  final fluent.VoidCallback? onSecondaryAction;
 
   /// Compact mode (smaller)
   final bool compact;
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
 
@@ -53,39 +53,39 @@ class EmptyState extends StatelessWidget {
         ? AppTypography.subtitle(color: colors.textStrong)
         : AppTypography.title(color: colors.textStrong);
 
-    return Center(
-      child: Padding(
-        padding: EdgeInsets.all(compact ? AppSpacing.lg : AppSpacing.xxl),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
+    return fluent.Center(
+      child: fluent.Padding(
+        padding: fluent.EdgeInsets.all(compact ? AppSpacing.lg : AppSpacing.xxl),
+        child: fluent.Column(
+          mainAxisSize: fluent.MainAxisSize.min,
           children: [
             if (icon != null) ...[
-              Container(
+              fluent.Container(
                 width: iconSize,
                 height: iconSize,
-                decoration: BoxDecoration(
+                decoration: fluent.BoxDecoration(
                   color: colors.surfaceSubtle,
-                  shape: BoxShape.circle,
+                  shape: fluent.BoxShape.circle,
                 ),
-                child: Icon(
+                child: fluent.Icon(
                   icon,
                   size: iconSize * 0.5,
                   color: colors.iconMuted,
                 ),
               ),
-              SizedBox(height: compact ? AppSpacing.md : AppSpacing.lg),
+              fluent.SizedBox(height: compact ? AppSpacing.md : AppSpacing.lg),
             ],
-            Text(title, style: titleStyle, textAlign: TextAlign.center),
+            fluent.Text(title, style: titleStyle, textAlign: fluent.TextAlign.center),
             if (message != null) ...[
-              SizedBox(height: compact ? AppSpacing.xs : AppSpacing.sm),
-              Text(
+              fluent.SizedBox(height: compact ? AppSpacing.xs : AppSpacing.sm),
+              fluent.Text(
                 message!,
                 style: AppTypography.body(color: colors.textWeak),
-                textAlign: TextAlign.center,
+                textAlign: fluent.TextAlign.center,
               ),
             ],
             if (actionLabel != null) ...[
-              SizedBox(height: compact ? AppSpacing.lg : AppSpacing.xl),
+              fluent.SizedBox(height: compact ? AppSpacing.lg : AppSpacing.xl),
               AppButton.primary(
                 label: actionLabel,
                 onPressed: onAction,
@@ -93,7 +93,7 @@ class EmptyState extends StatelessWidget {
               ),
             ],
             if (secondaryActionLabel != null) ...[
-              SizedBox(height: compact ? AppSpacing.sm : AppSpacing.md),
+              fluent.SizedBox(height: compact ? AppSpacing.sm : AppSpacing.md),
               AppButton.tertiary(
                 label: secondaryActionLabel,
                 onPressed: onSecondaryAction,
@@ -108,16 +108,16 @@ class EmptyState extends StatelessWidget {
 }
 
 /// A "no results" empty state variant.
-class NoResultsState extends StatelessWidget {
+class NoResultsState extends fluent.StatelessWidget {
   const NoResultsState({this.searchQuery, this.onClearSearch, super.key});
 
   final String? searchQuery;
-  final VoidCallback? onClearSearch;
+  final fluent.VoidCallback? onClearSearch;
 
   @override
-  Widget build(BuildContext context) {
+  fluent.Widget build(fluent.BuildContext context) {
     return EmptyState(
-      icon: Icons.search_off,
+      icon: fluent.FluentIcons.search,
       title: 'No results found',
       message: searchQuery != null
           ? 'No results for "$searchQuery"'
@@ -130,16 +130,16 @@ class NoResultsState extends StatelessWidget {
 }
 
 /// An error state variant.
-class ErrorState extends StatelessWidget {
+class ErrorState extends fluent.StatelessWidget {
   const ErrorState({required this.message, this.onRetry, super.key});
 
   final String message;
-  final VoidCallback? onRetry;
+  final fluent.VoidCallback? onRetry;
 
   @override
-  Widget build(BuildContext context) {
+  fluent.Widget build(fluent.BuildContext context) {
     return EmptyState(
-      icon: Icons.error_outline,
+      icon: fluent.FluentIcons.error_badge,
       title: 'Something went wrong',
       message: message,
       actionLabel: onRetry != null ? 'Try again' : null,

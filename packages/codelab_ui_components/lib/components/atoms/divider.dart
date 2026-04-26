@@ -1,11 +1,11 @@
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart' as fluent;
 
 import '../theme/tokens.dart';
 
 /// A horizontal or vertical divider component.
-class AppDivider extends StatelessWidget {
+class AppDivider extends fluent.StatelessWidget {
   const AppDivider({
-    this.direction = Axis.horizontal,
+    this.direction = fluent.Axis.horizontal,
     this.thickness = AppDimensions.dividerThickness,
     this.indent = 0,
     this.endIndent = 0,
@@ -14,7 +14,7 @@ class AppDivider extends StatelessWidget {
   });
 
   /// Divider direction
-  final Axis direction;
+  final fluent.Axis direction;
 
   /// Line thickness
   final double thickness;
@@ -26,7 +26,7 @@ class AppDivider extends StatelessWidget {
   final double endIndent;
 
   /// Custom color
-  final Color? color;
+  final fluent.Color? color;
 
   /// Horizontal divider
   const AppDivider.horizontal({
@@ -35,7 +35,7 @@ class AppDivider extends StatelessWidget {
     this.endIndent = 0,
     this.color,
     super.key,
-  }) : direction = Axis.horizontal;
+  }) : direction = fluent.Axis.horizontal;
 
   /// Vertical divider
   const AppDivider.vertical({
@@ -44,65 +44,65 @@ class AppDivider extends StatelessWidget {
     this.endIndent = 0,
     this.color,
     super.key,
-  }) : direction = Axis.vertical;
+  }) : direction = fluent.Axis.vertical;
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
     final effectiveColor = color ?? colors.borderWeak;
 
-    if (direction == Axis.horizontal) {
-      return Padding(
-        padding: EdgeInsets.only(left: indent, right: endIndent),
-        child: Container(height: thickness, color: effectiveColor),
+    if (direction == fluent.Axis.horizontal) {
+      return fluent.Padding(
+        padding: fluent.EdgeInsets.only(left: indent, right: endIndent),
+        child: fluent.Container(height: thickness, color: effectiveColor),
       );
     }
 
-    return Padding(
-      padding: EdgeInsets.only(top: indent, bottom: endIndent),
-      child: Container(width: thickness, color: effectiveColor),
+    return fluent.Padding(
+      padding: fluent.EdgeInsets.only(top: indent, bottom: endIndent),
+      child: fluent.Container(width: thickness, color: effectiveColor),
     );
   }
 }
 
 /// A divider with a label in the middle.
-class LabeledDivider extends StatelessWidget {
+class LabeledDivider extends fluent.StatelessWidget {
   const LabeledDivider({required this.label, this.color, super.key});
 
   /// Label text
   final String label;
 
   /// Custom color
-  final Color? color;
+  final fluent.Color? color;
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
     final effectiveColor = color ?? colors.borderWeak;
 
-    return Row(
+    return fluent.Row(
       children: [
-        Expanded(
-          child: Container(
+        fluent.Expanded(
+          child: fluent.Container(
             height: AppDimensions.dividerThickness,
             color: effectiveColor,
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
-          child: Text(
+        fluent.Padding(
+          padding: const fluent.EdgeInsets.symmetric(horizontal: AppSpacing.md),
+          child: fluent.Text(
             label,
             style: AppTypography.caption(color: colors.textMuted),
           ),
         ),
-        Expanded(
-          child: Container(
+        fluent.Expanded(
+          child: fluent.Container(
             height: AppDimensions.dividerThickness,
             color: effectiveColor,
           ),

@@ -1,44 +1,44 @@
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart' as fluent;
 
 import '../theme/tokens.dart';
 
-/// Shows a snackbar message.
+/// Shows an info bar message (fluent_ui equivalent of snackbar).
 void showAppSnackbar(
-  BuildContext context, {
+  fluent.BuildContext context, {
   required String message,
   String? actionLabel,
-  VoidCallback? onAction,
+  fluent.VoidCallback? onAction,
   Duration duration = const Duration(seconds: 4),
 }) {
-  final brightness = Theme.of(context).brightness;
-  final colors = brightness == Brightness.light
+  final brightness = fluent.FluentTheme.of(context).brightness;
+  final colors = brightness == fluent.Brightness.light
       ? AppColors.light
       : AppColors.dark;
 
-  ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(
-      content: Text(
-        message,
-        style: AppTypography.body(color: colors.textOnAccent),
-      ),
-      backgroundColor: colors.accentPrimary,
-      duration: duration,
-      behavior: SnackBarBehavior.floating,
-      shape: RoundedRectangleBorder(borderRadius: AppRadius.mdAll),
-      margin: const EdgeInsets.all(AppSpacing.lg),
-      action: actionLabel != null
-          ? SnackBarAction(
-              label: actionLabel,
-              textColor: colors.textOnAccent,
-              onPressed: onAction ?? () {},
-            )
-          : null,
-    ),
+  fluent.displayInfoBar(
+    context,
+    builder: (context, close) {
+      return fluent.InfoBar(
+        title: fluent.Text(message),
+        severity: fluent.InfoBarSeverity.info,
+        action: actionLabel != null
+            ? fluent.Button(
+                child: fluent.Text(actionLabel),
+                onPressed: () {
+                  close();
+                  onAction?.call();
+                },
+              )
+            : null,
+        onClose: close,
+      );
+    },
+    duration: duration,
   );
 }
 
 /// A standalone snackbar widget.
-class AppSnackbar extends StatelessWidget {
+class AppSnackbar extends fluent.StatelessWidget {
   const AppSnackbar({
     required this.message,
     this.actionLabel,
@@ -49,51 +49,51 @@ class AppSnackbar extends StatelessWidget {
 
   final String message;
   final String? actionLabel;
-  final VoidCallback? onAction;
-  final VoidCallback? onDismiss;
+  final fluent.VoidCallback? onAction;
+  final fluent.VoidCallback? onDismiss;
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
 
-    return Container(
-      padding: const EdgeInsets.symmetric(
+    return fluent.Container(
+      padding: const fluent.EdgeInsets.symmetric(
         horizontal: AppSpacing.lg,
         vertical: AppSpacing.md,
       ),
-      decoration: BoxDecoration(
+      decoration: fluent.BoxDecoration(
         color: colors.accentPrimary,
         borderRadius: AppRadius.mdAll,
       ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
+      child: fluent.Row(
+        mainAxisSize: fluent.MainAxisSize.min,
         children: [
-          Flexible(
-            child: Text(
+          fluent.Flexible(
+            child: fluent.Text(
               message,
               style: AppTypography.body(color: colors.textOnAccent),
             ),
           ),
           if (actionLabel != null) ...[
-            const SizedBox(width: AppSpacing.lg),
-            GestureDetector(
+            const fluent.SizedBox(width: AppSpacing.lg),
+            fluent.GestureDetector(
               onTap: onAction,
-              child: Text(
+              child: fluent.Text(
                 actionLabel!,
                 style: AppTypography.bodyMedium(
                   color: colors.textOnAccent,
-                ).copyWith(decoration: TextDecoration.underline),
+                ).copyWith(decoration: fluent.TextDecoration.underline),
               ),
             ),
           ],
           if (onDismiss != null) ...[
-            const SizedBox(width: AppSpacing.md),
-            GestureDetector(
+            const fluent.SizedBox(width: AppSpacing.md),
+            fluent.GestureDetector(
               onTap: onDismiss,
-              child: Icon(Icons.close, size: 18, color: colors.iconOnAccent),
+              child: fluent.Icon(fluent.FluentIcons.chrome_close, size: 18, color: colors.iconOnAccent),
             ),
           ],
         ],

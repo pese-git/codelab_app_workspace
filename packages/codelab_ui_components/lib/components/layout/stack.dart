@@ -1,23 +1,23 @@
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart' as fluent;
 
 /// A stack layout component with alignment options.
-class AppStack extends StatelessWidget {
+class AppStack extends fluent.StatelessWidget {
   const AppStack({
     required this.children,
-    this.alignment = Alignment.topLeft,
-    this.fit = StackFit.loose,
-    this.clipBehavior = Clip.hardEdge,
+    this.alignment = fluent.Alignment.topLeft,
+    this.fit = fluent.StackFit.loose,
+    this.clipBehavior = fluent.Clip.hardEdge,
     super.key,
   });
 
-  final List<Widget> children;
-  final AlignmentGeometry alignment;
-  final StackFit fit;
-  final Clip clipBehavior;
+  final List<fluent.Widget> children;
+  final fluent.AlignmentGeometry alignment;
+  final fluent.StackFit fit;
+  final fluent.Clip clipBehavior;
 
   @override
-  Widget build(BuildContext context) {
-    return Stack(
+  fluent.Widget build(fluent.BuildContext context) {
+    return fluent.Stack(
       alignment: alignment,
       fit: fit,
       clipBehavior: clipBehavior,
@@ -27,7 +27,7 @@ class AppStack extends StatelessWidget {
 }
 
 /// A positioned child within an AppStack.
-class StackItem extends StatelessWidget {
+class StackItem extends fluent.StatelessWidget {
   const StackItem({
     required this.child,
     this.top,
@@ -38,7 +38,7 @@ class StackItem extends StatelessWidget {
     super.key,
   });
 
-  final Widget child;
+  final fluent.Widget child;
   final double? top;
   final double? right;
   final double? bottom;
@@ -46,12 +46,12 @@ class StackItem extends StatelessWidget {
   final bool fill;
 
   @override
-  Widget build(BuildContext context) {
+  fluent.Widget build(fluent.BuildContext context) {
     if (fill) {
-      return Positioned.fill(child: child);
+      return fluent.Positioned.fill(child: child);
     }
 
-    return Positioned(
+    return fluent.Positioned(
       top: top,
       right: right,
       bottom: bottom,
@@ -62,13 +62,13 @@ class StackItem extends StatelessWidget {
 }
 
 /// A z-stack with layers.
-class LayeredStack extends StatelessWidget {
+class LayeredStack extends fluent.StatelessWidget {
   const LayeredStack({required this.layers, super.key});
 
-  final List<Widget> layers;
+  final List<fluent.Widget> layers;
 
   @override
-  Widget build(BuildContext context) {
-    return Stack(fit: StackFit.expand, children: layers);
+  fluent.Widget build(fluent.BuildContext context) {
+    return fluent.Stack(fit: fluent.StackFit.expand, children: layers);
   }
 }

@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart' as fluent;
 
 import '../../theme/tokens.dart';
 
 /// Desktop shell layout component.
 /// Provides the main app structure with title bar, rail, sidebar, content, and panels.
-class DesktopShell extends StatelessWidget {
+class DesktopShell extends fluent.StatelessWidget {
   const DesktopShell({
     required this.titleBar,
     required this.content,
@@ -20,22 +20,22 @@ class DesktopShell extends StatelessWidget {
   });
 
   /// Title bar widget
-  final Widget titleBar;
+  final fluent.Widget titleBar;
 
   /// Main content area
-  final Widget content;
+  final fluent.Widget content;
 
   /// Left project rail
-  final Widget? projectRail;
+  final fluent.Widget? projectRail;
 
   /// Left sidebar
-  final Widget? sidebar;
+  final fluent.Widget? sidebar;
 
   /// Right context panel
-  final Widget? contextPanel;
+  final fluent.Widget? contextPanel;
 
   /// Bottom panel (terminal)
-  final Widget? bottomPanel;
+  final fluent.Widget? bottomPanel;
 
   /// Show/hide sidebar
   final bool showSidebar;
@@ -50,45 +50,45 @@ class DesktopShell extends StatelessWidget {
   final double bottomPanelHeight;
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
 
-    return Container(
+    return fluent.Container(
       color: colors.backgroundBase,
-      child: Column(
+      child: fluent.Column(
         children: [
           // Title bar
           titleBar,
           // Main content area
-          Expanded(
-            child: Row(
+          fluent.Expanded(
+            child: fluent.Row(
               children: [
                 // Project rail
-                ?projectRail,
+                if (projectRail != null) projectRail!,
                 // Sidebar
                 if (sidebar != null && showSidebar) sidebar!,
                 // Content + bottom panel
-                Expanded(
-                  child: Column(
+                fluent.Expanded(
+                  child: fluent.Column(
                     children: [
                       // Main content
-                      Expanded(
-                        child: Container(
+                      fluent.Expanded(
+                        child: fluent.Container(
                           color: colors.surfaceBase,
                           child: content,
                         ),
                       ),
                       // Bottom panel
                       if (bottomPanel != null && showBottomPanel)
-                        Container(
+                        fluent.Container(
                           height: bottomPanelHeight,
-                          decoration: BoxDecoration(
+                          decoration: fluent.BoxDecoration(
                             color: colors.backgroundSubtle,
-                            border: Border(
-                              top: BorderSide(color: colors.borderBase),
+                            border: fluent.Border(
+                              top: fluent.BorderSide(color: colors.borderBase),
                             ),
                           ),
                           child: bottomPanel!,
@@ -108,7 +108,7 @@ class DesktopShell extends StatelessWidget {
 }
 
 /// Simple shell layout without all panels.
-class SimpleShell extends StatelessWidget {
+class SimpleShell extends fluent.StatelessWidget {
   const SimpleShell({
     required this.child,
     this.titleBar,
@@ -116,23 +116,23 @@ class SimpleShell extends StatelessWidget {
     super.key,
   });
 
-  final Widget child;
-  final Widget? titleBar;
-  final Color? backgroundColor;
+  final fluent.Widget child;
+  final fluent.Widget? titleBar;
+  final fluent.Color? backgroundColor;
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
 
-    return Container(
+    return fluent.Container(
       color: backgroundColor ?? colors.backgroundBase,
-      child: Column(
+      child: fluent.Column(
         children: [
-          ?titleBar,
-          Expanded(child: child),
+          if (titleBar != null) titleBar!,
+          fluent.Expanded(child: child),
         ],
       ),
     );

@@ -1,24 +1,24 @@
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart' as fluent;
 
 import '../theme/tokens.dart';
 
 /// A styled scrollbar wrapper.
-class AppScrollbar extends StatelessWidget {
+class AppScrollbar extends fluent.StatelessWidget {
   const AppScrollbar({
     required this.child,
     this.controller,
     this.thumbVisibility = true,
     this.trackVisibility = false,
     this.thickness = 6,
-    this.radius = const Radius.circular(AppRadius.full),
+    this.radius = const fluent.Radius.circular(AppRadius.full),
     super.key,
   });
 
   /// Child scrollable widget
-  final Widget child;
+  final fluent.Widget child;
 
   /// Scroll controller
-  final ScrollController? controller;
+  final fluent.ScrollController? controller;
 
   /// Always show thumb
   final bool thumbVisibility;
@@ -30,63 +30,59 @@ class AppScrollbar extends StatelessWidget {
   final double thickness;
 
   /// Scrollbar radius
-  final Radius radius;
+  final fluent.Radius radius;
 
   @override
-  Widget build(BuildContext context) {
-    return Scrollbar(
+  fluent.Widget build(fluent.BuildContext context) {
+    return fluent.Scrollbar(
       controller: controller,
       thumbVisibility: thumbVisibility,
-      trackVisibility: trackVisibility,
-      thickness: thickness,
-      radius: radius,
       child: child,
     );
   }
 }
 
 /// A custom styled scrollbar with hover effect.
-class HoverScrollbar extends StatefulWidget {
+class HoverScrollbar extends fluent.StatefulWidget {
   const HoverScrollbar({
     required this.child,
     this.controller,
-    this.axis = Axis.vertical,
+    this.axis = fluent.Axis.vertical,
     super.key,
   });
 
   /// Child scrollable widget
-  final Widget child;
+  final fluent.Widget child;
 
   /// Scroll controller
-  final ScrollController? controller;
+  final fluent.ScrollController? controller;
 
   /// Scroll axis
-  final Axis axis;
+  final fluent.Axis axis;
 
   @override
-  State<HoverScrollbar> createState() => _HoverScrollbarState();
+  fluent.State<HoverScrollbar> createState() => _HoverScrollbarState();
 }
 
-class _HoverScrollbarState extends State<HoverScrollbar> {
+class _HoverScrollbarState extends fluent.State<HoverScrollbar> {
   bool _isHovering = false;
 
   @override
-  Widget build(BuildContext context) {
-    return MouseRegion(
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
+        ? AppColors.light
+        : AppColors.dark;
+
+    return fluent.MouseRegion(
       onEnter: (_) => setState(() => _isHovering = true),
       onExit: (_) => setState(() => _isHovering = false),
-      child: RawScrollbar(
+      child: fluent.RawScrollbar(
         controller: widget.controller,
         thumbVisibility: _isHovering,
         thickness: _isHovering ? 8 : 6,
-        radius: const Radius.circular(AppRadius.full),
-        thumbColor: _isHovering
-            ? Theme.of(context).brightness == Brightness.light
-                  ? AppColors.light.textMuted
-                  : AppColors.dark.textMuted
-            : Theme.of(context).brightness == Brightness.light
-            ? AppColors.light.borderStrong
-            : AppColors.dark.borderStrong,
+        radius: const fluent.Radius.circular(AppRadius.full),
+        thumbColor: _isHovering ? colors.textMuted : colors.borderStrong,
         child: widget.child,
       ),
     );

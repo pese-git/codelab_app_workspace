@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart' as fluent;
 
 import '../theme/tokens.dart';
 
 /// A skeleton loading placeholder widget.
-class Skeleton extends StatefulWidget {
+class Skeleton extends fluent.StatefulWidget {
   const Skeleton({
     this.width,
     this.height,
@@ -19,7 +19,7 @@ class Skeleton extends StatefulWidget {
   final double? height;
 
   /// Border radius
-  final BorderRadius? borderRadius;
+  final fluent.BorderRadius? borderRadius;
 
   /// Whether to animate the shimmer effect
   final bool animate;
@@ -36,7 +36,7 @@ class Skeleton extends StatefulWidget {
   factory Skeleton.circle({
     double size = AppDimensions.avatarSizeMd,
     bool animate = true,
-    Key? key,
+    fluent.Key? key,
   }) {
     return _CircleSkeleton(size: size, animate: animate, key: key);
   }
@@ -51,25 +51,26 @@ class Skeleton extends StatefulWidget {
   });
 
   @override
-  State<Skeleton> createState() => _SkeletonState();
+  fluent.State<Skeleton> createState() => _SkeletonState();
 }
 
-class _SkeletonState extends State<Skeleton>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _animation;
+class _SkeletonState extends fluent.State<Skeleton>
+    with fluent.SingleTickerProviderStateMixin {
+  late fluent.AnimationController _controller;
+  late fluent.Animation<double> _animation;
 
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
+    _controller = fluent.AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 1500),
     );
-    _animation = Tween<double>(
+    _animation = fluent.Tween<double>(
       begin: -2,
       end: 2,
-    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
+    ).animate(fluent.CurvedAnimation(
+        parent: _controller, curve: fluent.Curves.easeInOut));
     if (widget.animate) {
       _controller.repeat();
     }
@@ -94,9 +95,9 @@ class _SkeletonState extends State<Skeleton>
   }
 
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
 
@@ -104,27 +105,27 @@ class _SkeletonState extends State<Skeleton>
     final highlightColor = colors.surfaceHover;
 
     if (!widget.animate) {
-      return Container(
+      return fluent.Container(
         width: widget.width,
         height: widget.height,
-        decoration: BoxDecoration(
+        decoration: fluent.BoxDecoration(
           color: baseColor,
           borderRadius: widget.borderRadius ?? AppRadius.smAll,
         ),
       );
     }
 
-    return AnimatedBuilder(
+    return fluent.AnimatedBuilder(
       animation: _animation,
       builder: (context, child) {
-        return Container(
+        return fluent.Container(
           width: widget.width,
           height: widget.height,
-          decoration: BoxDecoration(
+          decoration: fluent.BoxDecoration(
             borderRadius: widget.borderRadius ?? AppRadius.smAll,
-            gradient: LinearGradient(
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
+            gradient: fluent.LinearGradient(
+              begin: fluent.Alignment.centerLeft,
+              end: fluent.Alignment.centerRight,
               colors: [baseColor, highlightColor, baseColor],
               stops: [0, 0.5 + _animation.value * 0.25, 1],
             ),
@@ -137,19 +138,19 @@ class _SkeletonState extends State<Skeleton>
 
 class _CircleSkeleton extends Skeleton {
   const _CircleSkeleton({required this.size, super.animate, super.key})
-    : super(width: size, height: size);
+      : super(width: size, height: size);
 
   final double size;
 
   @override
-  State<Skeleton> createState() => _CircleSkeletonState();
+  fluent.State<Skeleton> createState() => _CircleSkeletonState();
 }
 
 class _CircleSkeletonState extends _SkeletonState {
   @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colors = brightness == Brightness.light
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
         ? AppColors.light
         : AppColors.dark;
 
@@ -158,24 +159,25 @@ class _CircleSkeletonState extends _SkeletonState {
     final circleWidget = widget as _CircleSkeleton;
 
     if (!widget.animate) {
-      return Container(
+      return fluent.Container(
         width: circleWidget.size,
         height: circleWidget.size,
-        decoration: BoxDecoration(color: baseColor, shape: BoxShape.circle),
+        decoration: fluent.BoxDecoration(
+            color: baseColor, shape: fluent.BoxShape.circle),
       );
     }
 
-    return AnimatedBuilder(
+    return fluent.AnimatedBuilder(
       animation: _animation,
       builder: (context, child) {
-        return Container(
+        return fluent.Container(
           width: circleWidget.size,
           height: circleWidget.size,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            gradient: LinearGradient(
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
+          decoration: fluent.BoxDecoration(
+            shape: fluent.BoxShape.circle,
+            gradient: fluent.LinearGradient(
+              begin: fluent.Alignment.centerLeft,
+              end: fluent.Alignment.centerRight,
               colors: [baseColor, highlightColor, baseColor],
               stops: [0, 0.5 + _animation.value * 0.25, 1],
             ),
@@ -187,7 +189,7 @@ class _CircleSkeletonState extends _SkeletonState {
 }
 
 /// A skeleton group for multiple lines of text.
-class SkeletonParagraph extends StatelessWidget {
+class SkeletonParagraph extends fluent.StatelessWidget {
   const SkeletonParagraph({
     this.lines = 3,
     this.spacing = AppSpacing.sm,
@@ -205,13 +207,13 @@ class SkeletonParagraph extends StatelessWidget {
   final bool animate;
 
   @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+  fluent.Widget build(fluent.BuildContext context) {
+    return fluent.Column(
+      crossAxisAlignment: fluent.CrossAxisAlignment.start,
       children: List.generate(lines, (index) {
         final isLast = index == lines - 1;
-        return Padding(
-          padding: EdgeInsets.only(bottom: isLast ? 0 : spacing),
+        return fluent.Padding(
+          padding: fluent.EdgeInsets.only(bottom: isLast ? 0 : spacing),
           child: Skeleton.text(
             width: isLast ? 150 : double.infinity,
             animate: animate,
