@@ -7,7 +7,6 @@ import 'navigation/router.dart';
 import 'state/app_controller.dart';
 import 'state/app_scope.dart';
 import 'package:codelab_ui_components/codelab_ui_components.dart';
-import 'theme/app_theme.dart';
 
 class CodeLabAppBootstrap extends StatefulWidget {
   const CodeLabAppBootstrap({super.key});

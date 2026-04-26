@@ -1,4 +1,4 @@
-import 'package:codelab_desktop/components.dart' show SessionRegionTab;
+import 'package:codelab_ui_components/src.dart' show SessionRegionTab;
 import 'package:fluent_ui/fluent_ui.dart';
 
 import 'package:codelab_ui_components/codelab_ui_components.dart'
