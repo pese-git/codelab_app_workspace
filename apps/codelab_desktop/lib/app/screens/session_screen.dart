@@ -1,25 +1,28 @@
-import 'package:fluent_ui/fluent_ui.dart';
+import 'package:codelab_ui_components/codelab_ui_components.dart' as ui;
+import 'package:codelab_ui_components/codelab_ui_components.dart' show SessionRegionTab;
+import 'package:fluent_ui/fluent_ui.dart' as fluent;
+import 'package:go_router/go_router.dart';
 
 import '../models/workspace_models.dart';
-import '../shell/desktop_shell.dart';
 import '../state/app_scope.dart';
 
-class SessionScreen extends StatefulWidget {
+/// Session screen widget using UI components from codelab_ui_components.
+class SessionScreen extends fluent.StatefulWidget {
   const SessionScreen({required this.sessionId, super.key});
 
   final String sessionId;
 
   @override
-  State<SessionScreen> createState() => _SessionScreenState();
+  fluent.State<SessionScreen> createState() => _SessionScreenState();
 }
 
-class _SessionScreenState extends State<SessionScreen> {
+class _SessionScreenState extends fluent.State<SessionScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     final controller = CodeLabAppScope.of(context);
     if (controller.selectedSessionId != widget.sessionId) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
+      fluent.WidgetsBinding.instance.addPostFrameCallback((_) {
         if (!mounted) return;
         CodeLabAppScope.of(context).selectSession(widget.sessionId);
       });
@@ -27,509 +30,354 @@ class _SessionScreenState extends State<SessionScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  fluent.Widget build(fluent.BuildContext context) {
     final controller = CodeLabAppScope.of(context);
     final session = controller.selectedSession;
+    final project = controller.selectedProject;
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
+        ? ui.AppColors.light
+        : ui.AppColors.dark;
 
-    return DesktopShell(
-      title: session?.title ?? widget.sessionId,
-      bottomPanel: session == null ? null : _BottomTerminal(session: session),
-      child: session == null
-          ? const Center(child: Text('Session not found'))
-          : Column(
-              children: [
-                Expanded(
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Column(
-                          children: [
-                            _ConversationHeader(session: session),
-                            Expanded(
-                              child: ListView(
-                                padding: const EdgeInsets.fromLTRB(
-                                  28,
-                                  26,
-                                  28,
-                                  20,
-                                ),
-                                children: [
-                                  for (final message in session.messages)
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                        bottom: 26,
-                                      ),
-                                      child: _MessageBubble(message: message),
-                                    ),
-                                ],
-                              ),
-                            ),
-                            const Padding(
-                              padding: EdgeInsets.fromLTRB(16, 0, 16, 16),
-                              child: _ComposerPanel(),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+    return ui.DesktopShell(
+      titleBar: ui.TitleBar(
+        onToggleSidebar: controller.toggleSidebarCollapsed,
+        canBack: context.canPop(),
+        onBack: context.canPop() ? () => context.pop() : null,
+        canForward: false,
+        onSearch: () => controller.openDialog(AppDialog.commandPalette),
+        onToggleTerminal: controller.toggleBottomPanel,
+        onNewWorkspace: () => controller.openDialog(AppDialog.settings),
+        onToggleContextPanel: controller.toggleContextPanel,
+        isContextPanelVisible: controller.contextPanelVisible,
+        searchPlaceholder: 'Поиск...',
+      ),
+      projectRail: ui.ProjectRail(
+        projects: controller.projects
+            .map((p) => ui.ProjectRailItem(
+                  id: p.id,
+                  name: p.name,
+                  color: fluent.Color(p.color),
+                  initials: p.initials,
+                ))
+            .toList(),
+        selectedProjectId: project.id,
+        onProjectSelected: (id) {
+          controller.selectProject(id);
+          context.go('/');
+        },
+        onAddProject: () => controller.openDialog(AppDialog.settings),
+        onSettings: () => controller.openDialog(AppDialog.settings),
+        onHelp: () => controller.openDialog(AppDialog.help),
+      ),
+      sidebar: ui.Sidebar(
+        projectName: project.name,
+        projectPath: project.path,
+        branchName: session?.branchName ?? 'master',
+        sessions: project.sessions
+            .map((s) => ui.SidebarSession(id: s.id, title: s.title))
+            .toList(),
+        selectedSessionId: controller.selectedSession?.id,
+        onSessionSelected: (id) {
+          controller.selectSession(id);
+          context.go('/session/$id');
+        },
+        onNewWorkspace: () => controller.openDialog(AppDialog.settings),
+        onEditProject: () => controller.openDialog(AppDialog.editProject),
+        onConnectProvider: () => controller.openDialog(AppDialog.selectProvider),
+      ),
+      contextPanel: ui.ContextPanel(
+        activeTab: ui.ContextPanelTab.details,
+        onTabChanged: (tab) {},
+        title: 'Изменения',
+        items: session?.fileItems
+                .map((f) => ui.ContextPanelItem(
+                      title: f.path.split('/').last,
+                      subtitle: f.summary,
+                      trailing: f.status,
+                    ))
+                .toList() ??
+            [],
+        isEmpty: session?.fileItems.isEmpty ?? true,
+        emptyMessage: 'Нет изменений',
+      ),
+      showSidebar: !controller.sidebarCollapsed,
+      showContextPanel: controller.contextPanelVisible,
+      showBottomPanel: controller.bottomPanelVisible && session != null,
+      bottomPanel: session == null
+          ? null
+          : _BottomTerminalPanel(session: session, colors: colors),
+      content: session == null
+          ? fluent.Center(
+              child: ui.AppText.body(
+                'Сессия не найдена',
+                color: colors.textMuted,
+              ),
+            )
+          : _SessionContent(session: session, colors: colors),
     );
   }
 }
 
-class _ConversationHeader extends StatelessWidget {
-  const _ConversationHeader({required this.session});
+class _SessionContent extends fluent.StatelessWidget {
+  const _SessionContent({
+    required this.session,
+    required this.colors,
+  });
 
   final SessionModel session;
+  final ui.LightColors colors;
 
   @override
-  Widget build(BuildContext context) {
+  fluent.Widget build(fluent.BuildContext context) {
     final controller = CodeLabAppScope.of(context);
 
-    return Container(
-      height: 64,
-      padding: const EdgeInsets.symmetric(horizontal: 22),
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        border: Border(bottom: BorderSide(color: Color(0xFFE5E2DC))),
-      ),
-      child: Row(
-        children: [
-          Expanded(
-            child: Text(
-              session.title,
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-                color: Color(0xFF252522),
-              ),
-            ),
-          ),
-          GestureDetector(
-            onTap: () => controller.openDialog(AppDialog.selectModel),
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-              decoration: BoxDecoration(
-                color: const Color(0xFFF4F2EE),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Text(
-                controller.selectedModel,
-                style: const TextStyle(fontSize: 13, color: Color(0xFF5F5C57)),
-              ),
-            ),
-          ),
-          const SizedBox(width: 10),
-          GestureDetector(
-            onTap: () => controller.openDialog(AppDialog.selectProvider),
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-              decoration: BoxDecoration(
-                color: const Color(0xFFF4F2EE),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Text(
-                controller.selectedProvider,
-                style: const TextStyle(fontSize: 13, color: Color(0xFF5F5C57)),
-              ),
-            ),
-          ),
-          const SizedBox(width: 14),
-          GestureDetector(
-            onTap: () => controller.openDialog(AppDialog.forkSession),
-            child: const Icon(
-              FluentIcons.sync,
-              size: 16,
-              color: Color(0xFFD3D0CA),
-            ),
-          ),
-          const SizedBox(width: 18),
-          GestureDetector(
-            onTap: () => controller.openDialog(AppDialog.commandPalette),
-            child: const Icon(
-              FluentIcons.more,
-              size: 16,
-              color: Color(0xFF8E8C86),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
+    // Convert SessionModel messages to UI Message format
+    final messages = session.messages.map((m) {
+      ui.MessageRole role;
+      switch (m.role) {
+        case 'user':
+          role = ui.MessageRole.user;
+        case 'system':
+          role = ui.MessageRole.system;
+        default:
+          role = ui.MessageRole.assistant;
+      }
+      return ui.Message(
+        id: m.id,
+        role: role,
+        content: m.body,
+      );
+    }).toList();
 
-class _MessageBubble extends StatelessWidget {
-  const _MessageBubble({required this.message});
-
-  final MessageModel message;
-
-  @override
-  Widget build(BuildContext context) {
-    final isUser = message.role == 'user';
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return fluent.Column(
       children: [
-        if (isUser)
-          Align(
-            alignment: Alignment.centerRight,
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(14),
-                border: Border.all(color: const Color(0xFFE0DDD7)),
-              ),
-              child: Text(
-                message.body.split('.').first,
-                style: const TextStyle(fontSize: 18, color: Color(0xFF2E2D29)),
-              ),
-            ),
-          )
-        else ...[
-          Text(
-            'Исследовано  1 чтение',
-            style: const TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.w600,
-              color: Color(0xFF6F6D67),
-            ),
+        // Session header
+        ui.SessionHeader(
+          title: session.title,
+          subtitle: session.updatedLabel,
+          branchName: session.branchName,
+          onFork: () => controller.openDialog(AppDialog.forkSession),
+          onMore: () => controller.openDialog(AppDialog.commandPalette),
+        ),
+        // Messages
+        fluent.Expanded(
+          child: ui.MessageTimeline(
+            messages: messages,
+            onCopyCode: (code) {
+              // Copy code to clipboard
+            },
           ),
-          const SizedBox(height: 16),
-          Text(
-            message.body,
-            style: const TextStyle(
-              fontSize: 17,
-              height: 1.45,
-              color: Color(0xFF2C2C28),
-            ),
+        ),
+        // Composer
+        fluent.Padding(
+          padding: const fluent.EdgeInsets.fromLTRB(
+            ui.AppSpacing.md,
+            0,
+            ui.AppSpacing.md,
+            ui.AppSpacing.md,
           ),
-          if (message.tags.isNotEmpty) ...[
-            const SizedBox(height: 18),
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              children: [
-                for (final tag in message.tags)
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 5,
-                    ),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFF2F1ED),
-                      borderRadius: BorderRadius.circular(999),
-                    ),
-                    child: Text(
-                      tag,
-                      style: const TextStyle(
-                        fontSize: 12,
-                        color: Color(0xFF7E7B75),
-                      ),
-                    ),
-                  ),
-              ],
-            ),
-          ],
-        ],
+          child: ui.PromptComposer(
+            placeholder: 'Спросите что угодно...',
+            onSend: (message) {
+              // Handle send message
+            },
+          ),
+        ),
       ],
     );
   }
 }
 
-class _ComposerPanel extends StatelessWidget {
-  const _ComposerPanel();
-
-  @override
-  Widget build(BuildContext context) {
-    final controller = CodeLabAppScope.of(context);
-
-    return Container(
-      height: 182,
-      padding: const EdgeInsets.fromLTRB(18, 16, 18, 12),
-      decoration: BoxDecoration(
-        color: const Color(0xFFFBFAF7),
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: const Color(0xFFD9D6D0)),
-      ),
-      child: Column(
-        children: [
-          const Expanded(
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: Text(
-                'Спросите что угодно...',
-                style: TextStyle(fontSize: 15, color: Color(0xFFA3A19B)),
-              ),
-            ),
-          ),
-          Row(
-            children: [
-              GestureDetector(
-                onTap: () => controller.openDialog(AppDialog.selectFile),
-                child: const Icon(
-                  FluentIcons.add,
-                  size: 17,
-                  color: Color(0xFF95928C),
-                ),
-              ),
-              const Spacer(),
-              GestureDetector(
-                onTap: () => controller.openDialog(AppDialog.commandPalette),
-                child: Container(
-                  width: 44,
-                  height: 44,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFB8B5AF),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: const Icon(
-                    FluentIcons.chevron_up,
-                    size: 18,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 18),
-          Row(
-            children: [
-              GestureDetector(
-                onTap: () => controller.openDialog(AppDialog.selectModel),
-                child: const Text(
-                  'Build',
-                  style: TextStyle(fontSize: 14, color: Color(0xFF686662)),
-                ),
-              ),
-              const SizedBox(width: 6),
-              const Icon(
-                FluentIcons.chevron_down,
-                size: 10,
-                color: Color(0xFF8F8C87),
-              ),
-              const SizedBox(width: 24),
-              const Icon(
-                FluentIcons.switch_user,
-                size: 14,
-                color: Color(0xFF97948E),
-              ),
-              const SizedBox(width: 10),
-              GestureDetector(
-                onTap: () => controller.openDialog(AppDialog.selectProvider),
-                child: const Text(
-                  'Big Pickle',
-                  style: TextStyle(fontSize: 14, color: Color(0xFF686662)),
-                ),
-              ),
-              const SizedBox(width: 6),
-              const Icon(
-                FluentIcons.chevron_down,
-                size: 10,
-                color: Color(0xFF8F8C87),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _BottomTerminal extends StatelessWidget {
-  const _BottomTerminal({required this.session});
+class _BottomTerminalPanel extends fluent.StatelessWidget {
+  const _BottomTerminalPanel({
+    required this.session,
+    required this.colors,
+  });
 
   final SessionModel session;
+  final ui.LightColors colors;
 
   @override
-  Widget build(BuildContext context) {
+  fluent.Widget build(fluent.BuildContext context) {
     final controller = CodeLabAppScope.of(context);
-    final titles = {
-      SessionRegionTab.files: 'Файлы',
-      SessionRegionTab.review: 'Ревью',
-      SessionRegionTab.terminal: 'Терминал 1',
-    };
+    final currentTab = controller.sessionTab;
 
-    return Column(
+    return fluent.Column(
       children: [
-        Container(
+        // Tab bar
+        fluent.Container(
           height: 42,
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Row(
+          padding: const fluent.EdgeInsets.symmetric(
+            horizontal: ui.AppSpacing.md,
+          ),
+          decoration: fluent.BoxDecoration(
+            border: fluent.Border(
+              bottom: fluent.BorderSide(color: colors.borderWeak),
+            ),
+          ),
+          child: fluent.Row(
             children: [
-              for (final tab in SessionRegionTab.values)
-                Padding(
-                  padding: const EdgeInsets.only(right: 18),
-                  child: GestureDetector(
-                    onTap: () => controller.setSessionTab(tab),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Text(
-                          titles[tab]!,
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
-                            color: controller.sessionTab == tab
-                                ? const Color(0xFF2E2E2A)
-                                : const Color(0xFF9A9792),
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                        Container(
-                          height: 2,
-                          width: 72,
-                          color: controller.sessionTab == tab
-                              ? const Color(0xFF2E2E2A)
-                              : Colors.transparent,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              const Spacer(),
-              const SizedBox(width: 10),
-              GestureDetector(
+              _TabButton(
+                label: 'Файлы',
+                isSelected: currentTab == SessionRegionTab.files,
+                onTap: () => controller.setSessionTab(SessionRegionTab.files),
+                colors: colors,
+              ),
+              const fluent.SizedBox(width: ui.AppSpacing.lg),
+              _TabButton(
+                label: 'Ревью',
+                isSelected: currentTab == SessionRegionTab.review,
+                onTap: () => controller.setSessionTab(SessionRegionTab.review),
+                colors: colors,
+              ),
+              const fluent.SizedBox(width: ui.AppSpacing.lg),
+              _TabButton(
+                label: 'Терминал',
+                isSelected: currentTab == SessionRegionTab.terminal,
+                onTap: () => controller.setSessionTab(SessionRegionTab.terminal),
+                colors: colors,
+              ),
+              const fluent.Spacer(),
+              fluent.GestureDetector(
                 onTap: controller.toggleBottomPanel,
-                child: const Icon(
-                  FluentIcons.chrome_close,
-                  size: 11,
-                  color: Color(0xFF8E8B86),
+                child: ui.AppIcon.sm(
+                  ui.AppIcons.close,
+                  color: colors.iconMuted,
                 ),
               ),
-              const SizedBox(width: 18),
-              GestureDetector(
-                onTap: () =>
-                    controller.setSessionTab(SessionRegionTab.terminal),
-                child: const Icon(
-                  FluentIcons.add,
-                  size: 16,
-                  color: Color(0xFF8E8B86),
+              const fluent.SizedBox(width: ui.AppSpacing.md),
+              fluent.GestureDetector(
+                onTap: () => controller.setSessionTab(SessionRegionTab.terminal),
+                child: ui.AppIcon.sm(
+                  ui.AppIcons.add,
+                  color: colors.iconMuted,
                 ),
               ),
             ],
           ),
         ),
-        Container(height: 1, color: const Color(0xFFE1DED8)),
-        Expanded(child: _BottomPanelBody(session: session)),
+        // Content
+        fluent.Expanded(
+          child: _BottomPanelContent(
+            session: session,
+            tab: currentTab,
+            colors: colors,
+          ),
+        ),
       ],
     );
   }
 }
 
-class _BottomPanelBody extends StatelessWidget {
-  const _BottomPanelBody({required this.session});
+class _TabButton extends fluent.StatelessWidget {
+  const _TabButton({
+    required this.label,
+    required this.isSelected,
+    required this.onTap,
+    required this.colors,
+  });
 
-  final SessionModel session;
+  final String label;
+  final bool isSelected;
+  final fluent.VoidCallback onTap;
+  final ui.LightColors colors;
 
   @override
-  Widget build(BuildContext context) {
-    final controller = CodeLabAppScope.of(context);
+  fluent.Widget build(fluent.BuildContext context) {
+    return fluent.GestureDetector(
+      onTap: onTap,
+      child: fluent.Column(
+        mainAxisAlignment: fluent.MainAxisAlignment.end,
+        children: [
+          ui.AppText(
+            label,
+            variant: ui.TextVariant.label,
+            color: isSelected ? colors.textStrong : colors.textMuted,
+          ),
+          const fluent.SizedBox(height: ui.AppSpacing.sm),
+          fluent.Container(
+            height: 2,
+            width: 72,
+            color: isSelected ? colors.accentPrimary : fluent.Colors.transparent,
+          ),
+        ],
+      ),
+    );
+  }
+}
 
-    switch (controller.sessionTab) {
+class _BottomPanelContent extends fluent.StatelessWidget {
+  const _BottomPanelContent({
+    required this.session,
+    required this.tab,
+    required this.colors,
+  });
+
+  final SessionModel session;
+  final SessionRegionTab tab;
+  final ui.LightColors colors;
+
+  @override
+  fluent.Widget build(fluent.BuildContext context) {
+    switch (tab) {
       case SessionRegionTab.files:
-        return ListView(
-          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
-          children: [
-            for (final item in session.fileItems)
-              Padding(
-                padding: const EdgeInsets.only(bottom: 10),
-                child: _TerminalCard(
-                  title: item.path,
-                  subtitle: item.summary,
-                  trailing: item.status.isEmpty ? 'tracked' : item.status,
-                ),
-              ),
-          ],
+        return ui.FileList(
+          nodes: session.fileItems
+              .map((f) => ui.FileNode(
+                    id: f.path,
+                    label: f.path.split('/').last,
+                    badge: f.path,
+                    isFolder: false,
+                  ))
+              .toList(),
+          expandedNodes: const {},
+          onNodeToggle: (id) {},
         );
       case SessionRegionTab.review:
-        return ListView(
-          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
-          children: [
-            for (final item in session.reviewItems)
-              Padding(
-                padding: const EdgeInsets.only(bottom: 10),
-                child: _TerminalCard(
-                  title: item.title,
-                  subtitle: item.summary,
-                  trailing: item.severity,
-                ),
-              ),
-          ],
+        return ui.ReviewList(
+          items: session.reviewItems
+              .map((r) => ui.ReviewItem(
+                    id: r.title,
+                    title: r.title,
+                    summary: r.summary,
+                    severity: r.severity//_parseSeverity(r.severity),
+                  ))
+              .toList(),
+          onItemTap: (item) {},
         );
       case SessionRegionTab.terminal:
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
-          child: Align(
-            alignment: Alignment.topLeft,
-            child: Text(
-              'penkovsky_sa@MacBook-Pro-Sergey-2 acp-protocol % flutter analyze\n${session.terminalEntries.map((item) => item.command).join('\n')}',
-              style: const TextStyle(
-                fontFamily: 'monospace',
-                fontSize: 17,
-                color: Color(0xFF20201D),
+        return ui.TerminalPanelShell(
+          title: 'Terminal 1',
+          onClose: () => CodeLabAppScope.of(context).toggleBottomPanel(),
+          child: fluent.Padding(
+            padding: const fluent.EdgeInsets.all(ui.AppSpacing.md),
+            child: fluent.Align(
+              alignment: fluent.Alignment.topLeft,
+              child: ui.AppText(
+                'penkovsky_sa@MacBook-Pro % flutter analyze\n${session.terminalEntries.map((e) => e.command).join('\n')}',
+                variant: ui.TextVariant.code,
+                color: colors.textBase,
               ),
             ),
           ),
         );
     }
   }
-}
-
-class _TerminalCard extends StatelessWidget {
-  const _TerminalCard({
-    required this.title,
-    required this.subtitle,
-    required this.trailing,
-  });
-
-  final String title;
-  final String subtitle;
-  final String trailing;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: const Color(0xFFFBFAF7),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: const Color(0xFFE0DDD7)),
-      ),
-      child: Row(
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: Color(0xFF2E2D29),
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  subtitle,
-                  style: const TextStyle(
-                    fontSize: 12,
-                    color: Color(0xFF8E8B86),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Text(
-            trailing,
-            style: const TextStyle(fontSize: 12, color: Color(0xFF8E8B86)),
-          ),
-        ],
-      ),
-    );
+/*
+  ui.ReviewSeverity _parseSeverity(String severity) {
+    switch (severity.toLowerCase()) {
+      case 'critical':
+        return ui.ReviewSeverity.critical;
+      case 'high':
+        return ui.ReviewSeverity.high;
+      case 'medium':
+        return ui.ReviewSeverity.medium;
+      case 'low':
+        return ui.ReviewSeverity.low;
+      default:
+        return ui.ReviewSeverity.info;
+    }
   }
+  */
 }

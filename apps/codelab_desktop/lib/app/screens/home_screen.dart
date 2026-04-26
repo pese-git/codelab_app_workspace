@@ -1,204 +1,298 @@
-import 'package:fluent_ui/fluent_ui.dart';
+import 'package:codelab_ui_components/codelab_ui_components.dart';
+import 'package:fluent_ui/fluent_ui.dart' as fluent;
+import 'package:go_router/go_router.dart';
 
 import '../models/workspace_models.dart';
-import '../shell/desktop_shell.dart';
 import '../state/app_scope.dart';
 
-class HomeScreen extends StatelessWidget {
+/// Home screen widget using UI components from codelab_ui_components.
+class HomeScreen extends fluent.StatelessWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  fluent.Widget build(fluent.BuildContext context) {
     final controller = CodeLabAppScope.of(context);
     final project = controller.selectedProject;
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
+        ? AppColors.light
+        : AppColors.dark;
 
     return DesktopShell(
-      title: 'Home',
-      isHome: true,
-      child: Column(
-        children: [
-          Expanded(
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    width: 68,
-                    height: 68,
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: const Color(0xFF2A2420),
-                        width: 8,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 34),
-                  const Text(
-                    'Создавайте что угодно',
-                    style: TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.w700,
-                      color: Color(0xFF252522),
-                    ),
-                  ),
-                  const SizedBox(height: 30),
-                  Text(
-                    '/Users/penkovsky_sa/Projects/OpenIdeaLab/CodeLab/${project.name.toLowerCase().replaceAll(' ', '_')}',
-                    style: const TextStyle(
-                      fontSize: 16,
-                      color: Color(0xFF94928D),
-                    ),
-                  ),
-                  const SizedBox(height: 22),
-                  const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        FluentIcons.branch_fork2,
-                        size: 14,
-                        color: Color(0xFFA2A09B),
-                      ),
-                      SizedBox(width: 10),
-                      Text(
-                        'Основная ветка (master)',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Color(0xFF9A9892),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 24),
-                  const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        'Последнее изменение ',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Color(0xFF9D9B96),
-                        ),
-                      ),
-                      Text(
-                        '45 минут назад',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Color(0xFF2D2D29),
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-          const Padding(
-            padding: EdgeInsets.fromLTRB(16, 0, 16, 14),
-            child: _PromptComposer(
-              placeholder:
-                  'Спросите что угодно... "Рефакторить эту функцию для лучшей читаемости"',
-            ),
-          ),
-        ],
+      titleBar: TitleBar(
+        onToggleSidebar: controller.toggleSidebarCollapsed,
+        canBack: context.canPop(),
+        onBack: context.canPop() ? () => context.pop() : null,
+        canForward: false,
+        onSearch: () => controller.openDialog(AppDialog.commandPalette),
+        onToggleTerminal: controller.toggleBottomPanel,
+        onNewWorkspace: () => controller.openDialog(AppDialog.settings),
+        onToggleContextPanel: controller.toggleContextPanel,
+        isContextPanelVisible: controller.contextPanelVisible,
+        searchPlaceholder: 'Поиск в проекте...',
       ),
+      projectRail: ProjectRail(
+        projects: controller.projects
+            .map((p) => ProjectRailItem(
+                  id: p.id,
+                  name: p.name,
+                  color: fluent.Color(p.color),
+                  initials: p.initials,
+                ))
+            .toList(),
+        selectedProjectId: project.id,
+        onProjectSelected: (id) {
+          controller.selectProject(id);
+          context.go('/');
+        },
+        onAddProject: () => controller.openDialog(AppDialog.settings),
+        onSettings: () => controller.openDialog(AppDialog.settings),
+        onHelp: () => controller.openDialog(AppDialog.help),
+      ),
+      sidebar: Sidebar(
+        projectName: project.name,
+        projectPath: '/Users/.../CodeLab/${project.name.toLowerCase().replaceAll(' ', '_')}',
+        branchName: 'master',
+        sessions: project.sessions
+            .map((s) => SidebarSession(
+                  id: s.id,
+                  title: s.title,
+                ))
+            .toList(),
+        selectedSessionId: controller.selectedSession?.id,
+        onSessionSelected: (id) {
+          controller.selectSession(id);
+          //context.go(CodeLabRoutes.sessionPath(project.id, id));
+        },
+        onNewWorkspace: () => controller.openDialog(AppDialog.settings),
+        onEditProject: () => controller.openDialog(AppDialog.editProject),
+        onConnectProvider: () => controller.openDialog(AppDialog.selectProvider),
+      ),
+      contextPanel: ContextPanel(
+        activeTab: ContextPanelTab.details,
+        onTabChanged: (tab) {},
+        title: 'Обзор',
+        isEmpty: true,
+        emptyMessage: 'Выберите сессию для просмотра изменений',
+      ),
+      showSidebar: !controller.sidebarCollapsed,
+      showContextPanel: controller.contextPanelVisible,
+      content: _HomeContent(project: project, colors: colors),
     );
   }
 }
 
-class _PromptComposer extends StatelessWidget {
-  const _PromptComposer({required this.placeholder});
+class _HomeContent extends fluent.StatelessWidget {
+  const _HomeContent({
+    required this.project,
+    required this.colors,
+  });
 
-  final String placeholder;
+  final ProjectModel project;
+  final LightColors colors;
 
   @override
-  Widget build(BuildContext context) {
+  fluent.Widget build(fluent.BuildContext context) {
     final controller = CodeLabAppScope.of(context);
 
-    return Container(
+    return fluent.Column(
+      children: [
+        fluent.Expanded(
+          child: fluent.Center(
+            child: fluent.Column(
+              mainAxisAlignment: fluent.MainAxisAlignment.center,
+              children: [
+                // Logo container
+                Surface(
+                  width: 68,
+                  height: 68,
+                  borderColor: colors.accentPrimary,
+                  borderRadius: fluent.BorderRadius.zero,
+                  color: fluent.Colors.transparent,
+                  child: const fluent.SizedBox.shrink(),
+                ),
+                const fluent.SizedBox(height: AppSpacing.xl),
+                // Title
+                AppText.display(
+                  'Создавайте что угодно',
+                  color: colors.textStrong,
+                ),
+                const fluent.SizedBox(height: AppSpacing.xl),
+                // Project path
+                AppText.subtitle(
+                  '/Users/penkovsky_sa/Projects/OpenIdeaLab/CodeLab/${project.name.toLowerCase().replaceAll(' ', '_')}',
+                  color: colors.textMuted,
+                ),
+                const fluent.SizedBox(height: AppSpacing.lg),
+                // Branch info
+                fluent.Row(
+                  mainAxisAlignment: fluent.MainAxisAlignment.center,
+                  children: [
+                    AppIcon.sm(
+                      AppIcons.branch,
+                      color: colors.iconMuted,
+                    ),
+                    const fluent.SizedBox(width: AppSpacing.sm),
+                    AppText.body(
+                      'Основная ветка (master)',
+                      color: colors.textMuted,
+                    ),
+                  ],
+                ),
+                const fluent.SizedBox(height: AppSpacing.lg),
+                // Last modified info
+                fluent.Row(
+                  mainAxisAlignment: fluent.MainAxisAlignment.center,
+                  mainAxisSize: fluent.MainAxisSize.min,
+                  children: [
+                    AppText.subtitle(
+                      'Последнее изменение ',
+                      color: colors.textMuted,
+                    ),
+                    AppText(
+                      '45 минут назад',
+                      variant: TextVariant.subtitle,
+                      color: colors.textStrong,
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+        fluent.Padding(
+          padding: const fluent.EdgeInsets.fromLTRB(
+            AppSpacing.md,
+            0,
+            AppSpacing.md,
+            AppSpacing.md,
+          ),
+          child: _HomePromptComposer(
+            placeholder:
+                'Спросите что угодно... "Рефакторить эту функцию для лучшей читаемости"',
+            onSend: (message) {
+              // Navigate to first session
+              if (project.sessions.isNotEmpty) {
+                final sessionId = project.sessions.first.id;
+                controller.selectSession(sessionId);
+                //context.go(CodeLabRoutes.sessionPath(project.id, sessionId));
+              }
+            },
+            onAddFile: () => controller.openDialog(AppDialog.selectFile),
+            onSelectModel: () => controller.openDialog(AppDialog.selectModel),
+            onSelectProvider: () =>
+                controller.openDialog(AppDialog.selectProvider),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+/// Custom prompt composer for home screen using UI components.
+class _HomePromptComposer extends fluent.StatelessWidget {
+  const _HomePromptComposer({
+    required this.placeholder,
+    required this.onSend,
+    this.onAddFile,
+    this.onSelectModel,
+    this.onSelectProvider,
+  });
+
+  final String placeholder;
+  final void Function(String) onSend;
+  final fluent.VoidCallback? onAddFile;
+  final fluent.VoidCallback? onSelectModel;
+  final fluent.VoidCallback? onSelectProvider;
+
+  @override
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
+        ? AppColors.light
+        : AppColors.dark;
+
+    return Surface(
       height: 184,
-      padding: const EdgeInsets.fromLTRB(18, 16, 18, 12),
-      decoration: BoxDecoration(
-        color: const Color(0xFFFBFAF7),
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: const Color(0xFFD8D6D0)),
+      padding: const fluent.EdgeInsets.fromLTRB(
+        AppSpacing.lg,
+        AppSpacing.md,
+        AppSpacing.lg,
+        AppSpacing.sm,
       ),
-      child: Column(
+      borderRadius: AppRadius.xxlAll,
+      borderColor: colors.borderBase,
+      color: colors.surfaceBase,
+      child: fluent.Column(
         children: [
-          Expanded(
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: Text(
+          fluent.Expanded(
+            child: fluent.Align(
+              alignment: fluent.Alignment.topLeft,
+              child: AppText.body(
                 placeholder,
-                style: const TextStyle(fontSize: 14, color: Color(0xFFA0A09A)),
+                color: colors.textMuted,
               ),
             ),
           ),
-          Row(
+          fluent.Row(
             children: [
-              GestureDetector(
-                onTap: () => controller.openDialog(AppDialog.selectFile),
-                child: const Icon(
-                  FluentIcons.add,
-                  size: 17,
-                  color: Color(0xFF94918B),
+              fluent.GestureDetector(
+                onTap: onAddFile,
+                child: AppIcon.md(
+                  AppIcons.add,
+                  color: colors.iconMuted,
                 ),
               ),
-              const Spacer(),
-              GestureDetector(
-                onTap: () => controller.openDialog(AppDialog.commandPalette),
-                child: Container(
+              const fluent.Spacer(),
+              fluent.GestureDetector(
+                onTap: () => onSend(''),
+                child: Surface(
                   width: 44,
                   height: 44,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFB6B3AE),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: const Icon(
-                    FluentIcons.chevron_up,
-                    size: 18,
-                    color: Colors.white,
+                  borderRadius: AppRadius.lgAll,
+                  color: colors.accentSubtle,
+                  child: fluent.Center(
+                    child: AppIcon.md(
+                      AppIcons.chevronUp,
+                      color: colors.iconBase,
+                    ),
                   ),
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 18),
-          Row(
+          const fluent.SizedBox(height: AppSpacing.lg),
+          fluent.Row(
             children: [
-              GestureDetector(
-                onTap: () => controller.openDialog(AppDialog.selectModel),
-                child: const Text(
+              fluent.GestureDetector(
+                onTap: onSelectModel,
+                child: AppText.body(
                   'Build',
-                  style: TextStyle(fontSize: 14, color: Color(0xFF66645F)),
+                  color: colors.textWeak,
                 ),
               ),
-              const SizedBox(width: 6),
-              const Icon(
-                FluentIcons.chevron_down,
-                size: 10,
-                color: Color(0xFF8D8A85),
+              const fluent.SizedBox(width: AppSpacing.xs),
+              AppIcon.sm(
+                AppIcons.chevronDown,
+                color: colors.iconMuted,
               ),
-              const SizedBox(width: 24),
-              const Icon(
-                FluentIcons.switch_user,
-                size: 14,
-                color: Color(0xFF97948F),
+              const fluent.SizedBox(width: AppSpacing.lg),
+              AppIcon.sm(
+                fluent.FluentIcons.contact,
+                color: colors.iconMuted,
               ),
-              const SizedBox(width: 10),
-              GestureDetector(
-                onTap: () => controller.openDialog(AppDialog.selectProvider),
-                child: const Text(
+              const fluent.SizedBox(width: AppSpacing.sm),
+              fluent.GestureDetector(
+                onTap: onSelectProvider,
+                child: AppText.body(
                   'Big Pickle',
-                  style: TextStyle(fontSize: 14, color: Color(0xFF66645F)),
+                  color: colors.textWeak,
                 ),
               ),
-              const SizedBox(width: 6),
-              const Icon(
-                FluentIcons.chevron_down,
-                size: 10,
-                color: Color(0xFF8D8A85),
+              const fluent.SizedBox(width: AppSpacing.xs),
+              AppIcon.sm(
+                AppIcons.chevronDown,
+                color: colors.iconMuted,
               ),
             ],
           ),

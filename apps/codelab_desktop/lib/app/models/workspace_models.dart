@@ -1,6 +1,6 @@
-enum SessionRegionTab { files, review, terminal }
+//enum SessionRegionTab { files, review, terminal }
 
-enum ContextPanelTab { details, activity, agent }
+//enum ContextPanelTab { details, activity, agent }
 
 enum AppDialog {
   settings,

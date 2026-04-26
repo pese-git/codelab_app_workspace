@@ -1,8 +1,8 @@
+import 'package:codelab_desktop/app/screens/session_screen.dart';
 import 'package:flutter/foundation.dart';
 import 'package:go_router/go_router.dart';
 
 import '../screens/home_screen.dart';
-import '../screens/session_screen.dart';
 import '../state/app_controller.dart';
 
 /// Контроллер истории навигации поверх GoRouter.
