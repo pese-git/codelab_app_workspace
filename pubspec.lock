@@ -762,6 +762,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.4.1"
+  structured_log:
+    dependency: transitive
+    description:
+      name: structured_log
+      sha256: "29d6f1668a67c7fd9bb3f9c1ee720005764793d4ae2aeb019a1acf70601f6836"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.0"
   term_glyph:
     dependency: transitive
     description:

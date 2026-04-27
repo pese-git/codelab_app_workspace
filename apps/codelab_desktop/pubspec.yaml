@@ -46,6 +46,7 @@ dependencies:
   flutter_bloc: ^9.1.1
   codelab_ui_components:
     path: ../../packages/codelab_ui_components
+  structured_log: ^0.1.0
 
 
 dev_dependencies:
