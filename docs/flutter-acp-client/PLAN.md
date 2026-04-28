@@ -5,6 +5,20 @@
 Реализация Flutter-клиента для протокола **Agent Client Protocol (ACP)** на основе JSON-RPC 2.0.
 Клиент обеспечивает двустороннюю коммуникацию с AI-агентом через WebSocket: управление сессиями, потоковую передачу сообщений, обработку разрешений и исполнение инструментов (файловая система, терминал).
 
+## Целевой модуль
+
+**Вся реализация ведётся внутри существующего модуля `apps/codelab_desktop`.**
+Никакой новый Flutter-проект НЕ создаётся. Все файлы, зависимости и изменения применяются к `apps/codelab_desktop`.
+
+| Параметр | Значение |
+|---|---|
+| Базовый модуль | `apps/codelab_desktop` |
+| Рабочая директория | `apps/codelab_desktop/lib/` |
+| Pubspec | `apps/codelab_desktop/pubspec.yaml` |
+| Entry point | `apps/codelab_desktop/lib/main.dart` |
+| Роутер | `apps/codelab_desktop/lib/app/navigation/router.dart` |
+| Bootstrap | `apps/codelab_desktop/lib/app/app.dart` (`CodeLabAppBootstrap`) |
+
 ## Существующие ресурсы проекта
 
 | Пакет | Путь | Содержимое |
