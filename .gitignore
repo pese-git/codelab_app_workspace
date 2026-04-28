@@ -1,4 +1,6 @@
 .DS_Store
+**/build/
+
 .dart_tool/
 
 
@@ -16,3 +18,6 @@ melos_codelab_app_workspace.iml
 # FVM Version Cache
 .fvm/
 reference
+
+
+.opencode/
