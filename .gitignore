@@ -1,3 +1,10 @@
+.DS_Store
+.dart_tool/
+
+
+.idea/
+.vscode/
+
 .dart_tool
 .vscode
 .idea
