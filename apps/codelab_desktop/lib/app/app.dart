@@ -7,6 +7,8 @@ import 'navigation/router.dart';
 import 'state/app_controller.dart';
 import 'state/app_scope.dart';
 import 'package:codelab_ui_components/codelab_ui_components.dart';
+import '../core/di/injection.dart';
+import '../core/di/di_scope_widget.dart';
 
 class CodeLabAppBootstrap extends StatefulWidget {
   const CodeLabAppBootstrap({super.key});
@@ -39,18 +41,21 @@ class _CodeLabAppBootstrapState extends State<CodeLabAppBootstrap> {
 
   @override
   Widget build(BuildContext context) {
-    return CodeLabAppScope(
-      controller: _controller,
-      child: FluentApp.router(
-        title: 'CodeLab Desktop',
-        debugShowCheckedModeBanner: false,
-        themeMode: ThemeMode.light,
-        theme: AppTheme.light,
-        darkTheme: AppTheme.dark,
-        routerConfig: _router,
-        builder: (context, child) {
-          return DialogHost(child: child ?? const SizedBox.shrink());
-        },
+    return DiScope(
+      scope: rootScope,
+      child: CodeLabAppScope(
+        controller: _controller,
+        child: FluentApp.router(
+          title: 'CodeLab Desktop',
+          debugShowCheckedModeBanner: false,
+          themeMode: ThemeMode.light,
+          theme: AppTheme.light,
+          darkTheme: AppTheme.dark,
+          routerConfig: _router,
+          builder: (context, child) {
+            return DialogHost(child: child ?? const SizedBox.shrink());
+          },
+        ),
       ),
     );
   }
