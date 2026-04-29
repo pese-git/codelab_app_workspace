@@ -1,24 +1,26 @@
 import '../../domain/entities/acp_message.dart';
+import '../../domain/entities/initialize_result.dart';
+import '../../domain/entities/session_list.dart';
+import '../../domain/entities/session_setup.dart';
 import '../../core/error/failures.dart';
-import '../../application/dto/session_dto.dart';
 
 class AcpMessageParser {
-  InitializeResultDto parseInitializeResult(AcpMessage message) {
+  InitializeResult parseInitializeResult(AcpMessage message) {
     final result = _extractResultMap(message, 'initialize');
-    return InitializeResultDto.fromJson(result);
+    return InitializeResult.fromJson(result);
   }
 
-  SessionListResultDto parseSessionListResult(AcpMessage message) {
+  SessionListResult parseSessionListResult(AcpMessage message) {
     final result = _extractResultMap(message, 'session/list');
-    return SessionListResultDto.fromJson(result);
+    return SessionListResult.fromJson(result);
   }
 
-  SessionSetupResultDto parseSessionSetupResult(
+  SessionSetupResult parseSessionSetupResult(
     AcpMessage message, {
     required String methodName,
   }) {
     final result = _extractResultMap(message, methodName);
-    return SessionSetupResultDto.fromJson(result);
+    return SessionSetupResult.fromJson(result);
   }
 
   Map<String, dynamic> _extractResultMap(AcpMessage message, String method) {

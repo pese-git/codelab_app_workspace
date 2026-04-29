@@ -1,5 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import 'plan.dart';
+import 'tool_call.dart';
+
 part 'session_update.freezed.dart';
 part 'session_update.g.dart';
 
@@ -132,9 +135,9 @@ class SessionUpdateParser {
       'current_mode_update' => CurrentModeUpdate.fromJson(payload.raw),
       'available_commands_update' =>
         AvailableCommandsUpdate.fromJson(payload.raw),
-      'tool_call' => null,
-      'tool_call_update' => null,
-      'plan' => null,
+      'tool_call' => ToolCallCreatedUpdate.fromJson(payload.raw),
+      'tool_call_update' => ToolCallStateUpdate.fromJson(payload.raw),
+      'plan' => PlanUpdate.fromJson(payload.raw),
       _ => null,
     };
   }

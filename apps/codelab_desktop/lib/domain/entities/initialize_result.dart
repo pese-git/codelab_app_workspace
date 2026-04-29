@@ -3,6 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'capabilities.dart';
 
 part 'initialize_result.freezed.dart';
+part 'initialize_result.g.dart';
 
 @freezed
 abstract class AuthMethod with _$AuthMethod {
@@ -12,6 +13,9 @@ abstract class AuthMethod with _$AuthMethod {
     String? description,
     String? type,
   }) = _AuthMethod;
+
+  factory AuthMethod.fromJson(Map<String, dynamic> json) =>
+      _$AuthMethodFromJson(json);
 }
 
 @freezed
@@ -22,4 +26,7 @@ abstract class InitializeResult with _$InitializeResult {
     Map<String, dynamic>? agentInfo,
     @Default([]) List<AuthMethod> authMethods,
   }) = _InitializeResult;
+
+  factory InitializeResult.fromJson(Map<String, dynamic> json) =>
+      _$InitializeResultFromJson(json);
 }
