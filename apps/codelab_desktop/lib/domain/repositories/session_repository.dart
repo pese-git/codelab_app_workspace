@@ -1,6 +1,9 @@
-abstract class SessionRepository {
-  Future<void> saveSession(String sessionId, Map<String, dynamic> data);
-  Future<Map<String, dynamic>?> loadSession(String sessionId);
-  Future<List<String>> listSessions();
-  Future<void> deleteSession(String sessionId);
+import '../entities/session.dart';
+
+abstract interface class SessionRepository {
+  Future<void> save(Session session);
+  Future<Session?> load(String sessionId);
+  Future<void> delete(String sessionId);
+  Future<List<Session>> getAll();
+  Future<void> clear();
 }

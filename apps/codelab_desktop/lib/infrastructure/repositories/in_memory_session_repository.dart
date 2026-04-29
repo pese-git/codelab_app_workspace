@@ -1,25 +1,31 @@
+import '../../domain/entities/session.dart';
 import '../../domain/repositories/session_repository.dart';
 
 class InMemorySessionRepository implements SessionRepository {
-  final Map<String, Map<String, dynamic>> _sessions = {};
+  final Map<String, Session> _sessions = {};
 
   @override
-  Future<void> saveSession(String sessionId, Map<String, dynamic> data) async {
-    _sessions[sessionId] = data;
+  Future<void> save(Session session) async {
+    _sessions[session.id] = session;
   }
 
   @override
-  Future<Map<String, dynamic>?> loadSession(String sessionId) async {
+  Future<Session?> load(String sessionId) async {
     return _sessions[sessionId];
   }
 
   @override
-  Future<List<String>> listSessions() async {
-    return _sessions.keys.toList();
+  Future<void> delete(String sessionId) async {
+    _sessions.remove(sessionId);
   }
 
   @override
-  Future<void> deleteSession(String sessionId) async {
-    _sessions.remove(sessionId);
+  Future<List<Session>> getAll() async {
+    return _sessions.values.toList();
+  }
+
+  @override
+  Future<void> clear() async {
+    _sessions.clear();
   }
 }

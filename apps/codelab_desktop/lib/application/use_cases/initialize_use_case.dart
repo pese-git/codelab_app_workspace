@@ -9,6 +9,6 @@ class InitializeUseCase {
     required String serverHost,
     required int serverPort,
   }) async {
-    await transport.connect(host: serverHost, port: serverPort);
+    await transport.connect();
   }
 }

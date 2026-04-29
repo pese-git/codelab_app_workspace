@@ -1,16 +1,12 @@
-import '../../domain/services/transport_service.dart';
+import '../../domain/entities/session.dart';
 import '../../domain/repositories/session_repository.dart';
 
 class LoadSessionUseCase {
-  LoadSessionUseCase({
-    required this.transport,
-    required this.sessionRepo,
-  });
+  LoadSessionUseCase({required this.sessionRepo});
 
-  final TransportService transport;
   final SessionRepository sessionRepo;
 
-  Future<Map<String, dynamic>?> execute(String sessionId) async {
-    return sessionRepo.loadSession(sessionId);
+  Future<Session?> execute(String sessionId) async {
+    return sessionRepo.load(sessionId);
   }
 }

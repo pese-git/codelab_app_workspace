@@ -1,7 +1,7 @@
-import '../../domain/entities/acp_message.dart';
-import '../../domain/entities/initialize_result.dart';
-import '../../domain/entities/session_list.dart';
-import '../../domain/entities/session_setup.dart';
+import '../dto/acp_message.dart';
+import '../dto/initialize_result.dart';
+import '../dto/session_list.dart';
+import '../dto/session_setup.dart';
 import '../../core/error/failures.dart';
 
 class AcpMessageParser {

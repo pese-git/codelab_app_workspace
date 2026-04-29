@@ -1,3 +1,4 @@
+import '../../domain/entities/session.dart';
 import '../../domain/services/transport_service.dart';
 import '../../domain/repositories/session_repository.dart';
 
@@ -10,10 +11,21 @@ class CreateSessionUseCase {
   final TransportService transport;
   final SessionRepository sessionRepo;
 
-  Future<String> execute({required String cwd}) async {
-    final response = await transport.sendRequest('session/new', {'cwd': cwd});
+  Future<Session> execute({required String cwd}) async {
+    final response = await transport.requestWithCallbacks(
+      method: 'session/new',
+      params: {'cwd': cwd},
+    );
     final sessionId = response['sessionId'] as String;
-    await sessionRepo.saveSession(sessionId, {'cwd': cwd});
-    return sessionId;
+    final session = Session.create(
+      serverHost: 'localhost',
+      serverPort: 0,
+      clientCapabilities: {},
+      serverCapabilities: transport.getServerCapabilities(),
+      sessionId: sessionId,
+      cwd: cwd,
+    );
+    await sessionRepo.save(session);
+    return session;
   }
 }
