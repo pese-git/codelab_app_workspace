@@ -64,6 +64,7 @@ class AppModule extends Module {
     bind<ListSessionsUseCase>()
         .toProvide(
           () => ListSessionsUseCase(
+            transport: currentScope.resolve<TransportService>(),
             sessionRepo: currentScope.resolve<SessionRepository>(),
           ),
         );
@@ -71,6 +72,7 @@ class AppModule extends Module {
     bind<LoadSessionUseCase>()
         .toProvide(
           () => LoadSessionUseCase(
+            transport: currentScope.resolve<TransportService>(),
             sessionRepo: currentScope.resolve<SessionRepository>(),
           ),
         );
