@@ -1,41 +1,58 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:uuid/uuid.dart';
-
-part 'acp_message.freezed.dart';
 
 const _uuid = Uuid();
 
 typedef JsonRpcId = Object;
 
-@freezed
-abstract class JsonRpcError with _$JsonRpcError {
-  const factory JsonRpcError({
-    required int code,
-    required String message,
-    Object? data,
-  }) = _JsonRpcError;
+class JsonRpcError {
+  const JsonRpcError({
+    required this.code,
+    required this.message,
+    this.data,
+  });
+
+  final int code;
+  final String message;
+  final Object? data;
+
+  factory JsonRpcError.fromJson(Map<String, dynamic> json) {
+    return JsonRpcError(
+      code: json['code'] as int,
+      message: json['message'] as String,
+      data: json['data'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'code': code,
+      'message': message,
+      if (data != null) 'data': data,
+    };
+  }
 }
 
-@freezed
-sealed class AcpMessage with _$AcpMessage {
-  const factory AcpMessage.request({
+sealed class AcpMessage {
+  const AcpMessage();
+
+  static const String jsonrpcVersion = '2.0';
+
+  factory AcpMessage.request({
     required String method,
     required JsonRpcId id,
     Map<String, dynamic>? params,
   }) = AcpRequest;
 
-  const factory AcpMessage.notification({
+  factory AcpMessage.notification({
     required String method,
     Map<String, dynamic>? params,
   }) = AcpNotification;
 
-  const factory AcpMessage.response({
+  factory AcpMessage.response({
     required JsonRpcId id,
     Object? result,
     JsonRpcError? error,
   }) = AcpResponse;
-
-  static const String jsonrpcVersion = '2.0';
 
   factory AcpMessage.requestWithAutoId(
     String method, {
@@ -66,11 +83,7 @@ sealed class AcpMessage with _$AcpMessage {
     final id = json['id'];
     final errorJson = json['error'] as Map<String, dynamic>?;
     final error = errorJson != null
-        ? JsonRpcError(
-            code: errorJson['code'] as int,
-            message: errorJson['message'] as String,
-            data: errorJson['data'],
-          )
+        ? JsonRpcError.fromJson(errorJson)
         : null;
 
     if (method != null && id != null) {
@@ -95,33 +108,70 @@ sealed class AcpMessage with _$AcpMessage {
     );
   }
 
-  Map<String, dynamic> toJson() {
-    final payload = <String, dynamic>{'jsonrpc': jsonrpcVersion};
+  Map<String, dynamic> toJson();
+}
 
-    return switch (this) {
-      AcpRequest(:final method, :final id, :final params) => {
-          ...payload,
-          'id': id,
-          'method': method,
-          if (params != null) 'params': params,
-        },
-      AcpNotification(:final method, :final params) => {
-          ...payload,
-          'method': method,
-          if (params != null) 'params': params,
-        },
-      AcpResponse(:final id, :final result, :final error) => {
-          ...payload,
-          'id': id,
-          if (error != null)
-            'error': {
-              'code': error.code,
-              'message': error.message,
-              'data': error.data,
-            }
-          else
-            'result': result,
-        },
+final class AcpRequest extends AcpMessage {
+  const AcpRequest({
+    required this.method,
+    required this.id,
+    this.params,
+  });
+
+  final String method;
+  final JsonRpcId id;
+  final Map<String, dynamic>? params;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      'jsonrpc': AcpMessage.jsonrpcVersion,
+      'id': id,
+      'method': method,
+      if (params != null) 'params': params,
+    };
+  }
+}
+
+final class AcpNotification extends AcpMessage {
+  const AcpNotification({
+    required this.method,
+    this.params,
+  });
+
+  final String method;
+  final Map<String, dynamic>? params;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      'jsonrpc': AcpMessage.jsonrpcVersion,
+      'method': method,
+      if (params != null) 'params': params,
+    };
+  }
+}
+
+final class AcpResponse extends AcpMessage {
+  const AcpResponse({
+    required this.id,
+    this.result,
+    this.error,
+  });
+
+  final JsonRpcId id;
+  final Object? result;
+  final JsonRpcError? error;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      'jsonrpc': AcpMessage.jsonrpcVersion,
+      'id': id,
+      if (error != null)
+        'error': error!.toJson()
+      else
+        'result': result,
     };
   }
 }
