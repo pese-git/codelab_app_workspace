@@ -1,16 +1,20 @@
+import 'package:codelab_ui_components/codelab_ui_components.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
-import 'dialogs/dialog_host.dart';
-import 'mock/mock_data.dart';
-import 'navigation/router.dart';
-import 'state/app_controller.dart';
-import 'state/app_scope.dart';
-import 'package:codelab_ui_components/codelab_ui_components.dart';
-import '../core/di/injection.dart';
 import '../core/di/di_scope_widget.dart';
+import '../core/di/injection.dart';
 import '../presentation/blocs/session/session_bloc.dart';
+import 'keyboard/app_shortcuts.dart';
+import 'mock/mock_data.dart';
+import 'navigation/navigation_controller.dart';
+import 'navigation/router.dart';
+import 'overlay/overlay_controller.dart';
+import 'overlay/overlay_host.dart' as app_overlay;
+import 'shell/window_shell.dart';
+import 'state/workspace_controller.dart';
 
 class CodeLabAppBootstrap extends StatefulWidget {
   const CodeLabAppBootstrap({super.key});
@@ -20,24 +24,37 @@ class CodeLabAppBootstrap extends StatefulWidget {
 }
 
 class _CodeLabAppBootstrapState extends State<CodeLabAppBootstrap> {
-  late final CodeLabAppController _controller;
+  late final WorkspaceController _workspaceController;
+  late final OverlayController _overlayController;
+  late final NavigationController _navigationController;
   late final GoRouter _router;
-  late final HistoryController _historyController;
 
   @override
   void initState() {
     super.initState();
-    _controller = CodeLabAppController(seedWorkspace: buildMockWorkspace());
-    final result = buildRouter(_controller);
-    _router = result.router;
-    _historyController = result.history;
+
+    _workspaceController = WorkspaceController(
+      seedWorkspace: buildMockWorkspace(),
+    );
+    _overlayController = OverlayController();
+
+    final tempRouter = GoRouter(
+      initialLocation: '/',
+      refreshListenable: _workspaceController,
+      routes: [],
+    );
+    _navigationController = NavigationController(tempRouter);
+
+    final routerResult = buildRouter(_navigationController);
+    _router = routerResult.router;
   }
 
   @override
   void dispose() {
-    _historyController.dispose();
+    _navigationController.dispose();
     _router.dispose();
-    _controller.dispose();
+    _overlayController.dispose();
+    _workspaceController.dispose();
     super.dispose();
   }
 
@@ -45,16 +62,16 @@ class _CodeLabAppBootstrapState extends State<CodeLabAppBootstrap> {
   Widget build(BuildContext context) {
     return DiScope(
       scope: rootScope,
-      child: BlocProvider(
-        create: (_) => SessionBloc(
-          initializeUseCase: resolve(),
-          createSessionUseCase: resolve(),
-          loadSessionUseCase: resolve(),
-          listSessionsUseCase: resolve(),
-          transport: resolve(),
-        ),
-        child: CodeLabAppScope(
-          controller: _controller,
+      child: MultiProvider(
+        providers: [
+          ChangeNotifierProvider.value(value: _workspaceController),
+          ChangeNotifierProvider.value(value: _overlayController),
+          ChangeNotifierProvider.value(value: _navigationController),
+          BlocProvider<SessionBloc>(
+            create: (_) => rootScope.resolve<SessionBloc>(),
+          ),
+        ],
+        child: AppShortcuts(
           child: FluentApp.router(
             title: 'CodeLab Desktop',
             debugShowCheckedModeBanner: false,
@@ -63,7 +80,11 @@ class _CodeLabAppBootstrapState extends State<CodeLabAppBootstrap> {
             darkTheme: AppTheme.dark,
             routerConfig: _router,
             builder: (context, child) {
-              return DialogHost(child: child ?? const SizedBox.shrink());
+              return app_overlay.OverlayHost(
+                child: WindowShell(
+                  child: child ?? const SizedBox.shrink(),
+                ),
+              );
             },
           ),
         ),

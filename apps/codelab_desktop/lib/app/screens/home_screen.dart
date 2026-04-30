@@ -1,17 +1,19 @@
 import 'package:codelab_ui_components/codelab_ui_components.dart';
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../models/workspace_models.dart';
-import '../state/app_scope.dart';
+import '../overlay/overlay_controller.dart';
+import '../state/workspace_controller.dart';
 
-/// Home screen widget using UI components from codelab_ui_components.
 class HomeScreen extends fluent.StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   fluent.Widget build(fluent.BuildContext context) {
-    final controller = CodeLabAppScope.of(context);
+    final controller = context.watch<WorkspaceController>();
+    final overlayController = context.read<OverlayController>();
     final project = controller.selectedProject;
     final brightness = fluent.FluentTheme.of(context).brightness;
     final colors = brightness == fluent.Brightness.light
@@ -24,9 +26,9 @@ class HomeScreen extends fluent.StatelessWidget {
         canBack: context.canPop(),
         onBack: context.canPop() ? () => context.pop() : null,
         canForward: false,
-        onSearch: () => controller.openDialog(AppDialog.commandPalette),
+        onSearch: () => overlayController.show(AppOverlay.commandPalette),
         onToggleTerminal: controller.toggleBottomPanel,
-        onNewWorkspace: () => controller.openDialog(AppDialog.settings),
+        onNewWorkspace: () => overlayController.show(AppOverlay.settings),
         onToggleContextPanel: controller.toggleContextPanel,
         isContextPanelVisible: controller.contextPanelVisible,
         searchPlaceholder: 'Поиск в проекте...',
@@ -47,9 +49,9 @@ class HomeScreen extends fluent.StatelessWidget {
           controller.selectProject(id);
           context.go('/');
         },
-        onAddProject: () => controller.openDialog(AppDialog.settings),
-        onSettings: () => controller.openDialog(AppDialog.settings),
-        onHelp: () => controller.openDialog(AppDialog.help),
+        onAddProject: () => overlayController.show(AppOverlay.settings),
+        onSettings: () => overlayController.show(AppOverlay.settings),
+        onHelp: () => overlayController.show(AppOverlay.help),
       ),
       sidebar: Sidebar(
         projectName: project.name,
@@ -62,12 +64,12 @@ class HomeScreen extends fluent.StatelessWidget {
         selectedSessionId: controller.selectedSession?.id,
         onSessionSelected: (id) {
           controller.selectSession(id);
-          //context.go(CodeLabRoutes.sessionPath(project.id, id));
+          context.go('/session/$id');
         },
-        onNewWorkspace: () => controller.openDialog(AppDialog.settings),
-        onEditProject: () => controller.openDialog(AppDialog.editProject),
+        onNewWorkspace: () => overlayController.show(AppOverlay.settings),
+        onEditProject: () => overlayController.show(AppOverlay.editProject),
         onConnectProvider: () =>
-            controller.openDialog(AppDialog.selectProvider),
+            overlayController.show(AppOverlay.selectProvider),
       ),
       contextPanel: ContextPanel(
         activeTab: ContextPanelTab.details,
@@ -91,7 +93,8 @@ class _HomeContent extends fluent.StatelessWidget {
 
   @override
   fluent.Widget build(fluent.BuildContext context) {
-    final controller = CodeLabAppScope.of(context);
+    final controller = context.watch<WorkspaceController>();
+    final overlayController = context.read<OverlayController>();
 
     return fluent.Column(
       children: [
@@ -101,7 +104,6 @@ class _HomeContent extends fluent.StatelessWidget {
               child: fluent.Column(
                 mainAxisAlignment: fluent.MainAxisAlignment.center,
                 children: [
-                  // Logo container
                   Surface(
                     width: 68,
                     height: 68,
@@ -111,19 +113,16 @@ class _HomeContent extends fluent.StatelessWidget {
                     child: const fluent.SizedBox.shrink(),
                   ),
                   const fluent.SizedBox(height: AppSpacing.xl),
-                  // Title
                   AppText.display(
                     'Создавайте что угодно',
                     color: colors.textStrong,
                   ),
                   const fluent.SizedBox(height: AppSpacing.xl),
-                  // Project path
                   AppText.subtitle(
                     '/Users/CodeLab/${project.name.toLowerCase().replaceAll(' ', '_')}',
                     color: colors.textMuted,
                   ),
                   const fluent.SizedBox(height: AppSpacing.lg),
-                  // Branch info
                   fluent.Row(
                     mainAxisAlignment: fluent.MainAxisAlignment.center,
                     children: [
@@ -136,7 +135,6 @@ class _HomeContent extends fluent.StatelessWidget {
                     ],
                   ),
                   const fluent.SizedBox(height: AppSpacing.lg),
-                  // Last modified info
                   fluent.Row(
                     mainAxisAlignment: fluent.MainAxisAlignment.center,
                     children: [
@@ -171,17 +169,16 @@ class _HomeContent extends fluent.StatelessWidget {
             placeholder:
                 'Спросите что угодно... "Рефакторить эту функцию для лучшей читаемости"',
             onSend: (message) {
-              // Navigate to first session
               if (project.sessions.isNotEmpty) {
                 final sessionId = project.sessions.first.id;
                 controller.selectSession(sessionId);
-                //context.go(CodeLabRoutes.sessionPath(project.id, sessionId));
+                context.go('/session/$sessionId');
               }
             },
-            onAddFile: () => controller.openDialog(AppDialog.selectFile),
-            onSelectModel: () => controller.openDialog(AppDialog.selectModel),
+            onAddFile: () => overlayController.show(AppOverlay.selectFile),
+            onSelectModel: () => overlayController.show(AppOverlay.selectModel),
             onSelectProvider: () =>
-                controller.openDialog(AppDialog.selectProvider),
+                overlayController.show(AppOverlay.selectProvider),
           ),
         ),
       ],
@@ -189,7 +186,6 @@ class _HomeContent extends fluent.StatelessWidget {
   }
 }
 
-/// Custom prompt composer for home screen using UI components.
 class _HomePromptComposer extends fluent.StatelessWidget {
   const _HomePromptComposer({
     required this.placeholder,

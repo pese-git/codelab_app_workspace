@@ -6,16 +6,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../models/workspace_models.dart';
-import '../state/app_scope.dart';
-import '../../core/di/di_scope_widget.dart';
-import '../../core/di/injection.dart';
-import '../../core/di/session_module.dart';
+import '../overlay/overlay_controller.dart';
+import '../state/workspace_controller.dart';
 import '../../presentation/blocs/chat/chat_bloc.dart';
 import '../../presentation/blocs/chat/chat_event.dart';
-import '../../presentation/blocs/permission/permission_bloc.dart';
-import '../../presentation/blocs/terminal/terminal_bloc.dart';
 
-/// Session screen widget using UI components from codelab_ui_components.
 class SessionScreen extends fluent.StatefulWidget {
   const SessionScreen({required this.sessionId, super.key});
 
@@ -29,18 +24,19 @@ class _SessionScreenState extends fluent.State<SessionScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    final controller = CodeLabAppScope.of(context);
+    final controller = context.read<WorkspaceController>();
     if (controller.selectedSessionId != widget.sessionId) {
       fluent.WidgetsBinding.instance.addPostFrameCallback((_) {
         if (!mounted) return;
-        CodeLabAppScope.of(context).selectSession(widget.sessionId);
+        context.read<WorkspaceController>().selectSession(widget.sessionId);
       });
     }
   }
 
   @override
   fluent.Widget build(fluent.BuildContext context) {
-    final controller = CodeLabAppScope.of(context);
+    final controller = context.watch<WorkspaceController>();
+    final overlayController = context.read<OverlayController>();
     final session = controller.selectedSession;
     final project = controller.selectedProject;
     final brightness = fluent.FluentTheme.of(context).brightness;
@@ -48,33 +44,15 @@ class _SessionScreenState extends fluent.State<SessionScreen> {
         ? ui.AppColors.light
         : ui.AppColors.dark;
 
-    return DiScope(
-      scope: rootScope.openSubScope('session:${widget.sessionId}')..installModules([SessionModule(sessionId: widget.sessionId)]),
-      child: MultiBlocProvider(
-        providers: [
-          BlocProvider(
-            create: (ctx) {
-              final bloc = ChatBloc(sendPromptUseCase: ctx.resolve());
-              bloc.add(ChatEvent.sessionOpened(sessionId: widget.sessionId));
-              return bloc;
-            },
-          ),
-          BlocProvider(
-            create: (_) => PermissionBloc(),
-          ),
-          BlocProvider(
-            create: (_) => TerminalBloc(),
-          ),
-        ],
-        child: ui.DesktopShell(
+    return ui.DesktopShell(
       titleBar: ui.TitleBar(
         onToggleSidebar: controller.toggleSidebarCollapsed,
         canBack: context.canPop(),
         onBack: context.canPop() ? () => context.pop() : null,
         canForward: false,
-        onSearch: () => controller.openDialog(AppDialog.commandPalette),
+        onSearch: () => overlayController.show(AppOverlay.commandPalette),
         onToggleTerminal: controller.toggleBottomPanel,
-        onNewWorkspace: () => controller.openDialog(AppDialog.settings),
+        onNewWorkspace: () => overlayController.show(AppOverlay.settings),
         onToggleContextPanel: controller.toggleContextPanel,
         isContextPanelVisible: controller.contextPanelVisible,
         searchPlaceholder: 'Поиск...',
@@ -95,9 +73,9 @@ class _SessionScreenState extends fluent.State<SessionScreen> {
           controller.selectProject(id);
           context.go('/');
         },
-        onAddProject: () => controller.openDialog(AppDialog.settings),
-        onSettings: () => controller.openDialog(AppDialog.settings),
-        onHelp: () => controller.openDialog(AppDialog.help),
+        onAddProject: () => overlayController.show(AppOverlay.settings),
+        onSettings: () => overlayController.show(AppOverlay.settings),
+        onHelp: () => overlayController.show(AppOverlay.help),
       ),
       sidebar: ui.Sidebar(
         projectName: project.name,
@@ -111,10 +89,10 @@ class _SessionScreenState extends fluent.State<SessionScreen> {
           controller.selectSession(id);
           context.go('/session/$id');
         },
-        onNewWorkspace: () => controller.openDialog(AppDialog.settings),
-        onEditProject: () => controller.openDialog(AppDialog.editProject),
+        onNewWorkspace: () => overlayController.show(AppOverlay.settings),
+        onEditProject: () => overlayController.show(AppOverlay.editProject),
         onConnectProvider: () =>
-            controller.openDialog(AppDialog.selectProvider),
+            overlayController.show(AppOverlay.selectProvider),
       ),
       contextPanel: ui.ContextPanel(
         activeTab: ui.ContextPanelTab.details,
@@ -148,8 +126,6 @@ class _SessionScreenState extends fluent.State<SessionScreen> {
               ),
             )
           : _SessionContent(session: session, colors: colors),
-        ),
-      ),
     );
   }
 }
@@ -162,9 +138,8 @@ class _SessionContent extends fluent.StatelessWidget {
 
   @override
   fluent.Widget build(fluent.BuildContext context) {
-    final controller = CodeLabAppScope.of(context);
+    final overlayController = context.read<OverlayController>();
 
-    // Convert SessionModel messages to UI Message format
     final messages = session.messages.map((m) {
       ui.MessageRole role;
       switch (m.role) {
@@ -180,24 +155,19 @@ class _SessionContent extends fluent.StatelessWidget {
 
     return fluent.Column(
       children: [
-        // Session header
         ui.SessionHeader(
           title: session.title,
           subtitle: session.updatedLabel,
           branchName: session.branchName,
-          onFork: () => controller.openDialog(AppDialog.forkSession),
-          onMore: () => controller.openDialog(AppDialog.commandPalette),
+          onFork: () => overlayController.show(AppOverlay.forkSession),
+          onMore: () => overlayController.show(AppOverlay.commandPalette),
         ),
-        // Messages
         fluent.Expanded(
           child: ui.MessageTimeline(
             messages: messages,
-            onCopyCode: (code) {
-              // Copy code to clipboard
-            },
+            onCopyCode: (code) {},
           ),
         ),
-        // Composer
         fluent.Padding(
           padding: const fluent.EdgeInsets.fromLTRB(
             ui.AppSpacing.md,
@@ -208,7 +178,9 @@ class _SessionContent extends fluent.StatelessWidget {
           child: ui.PromptComposer(
             placeholder: 'Спросите что угодно...',
             onSend: (message) {
-              // Handle send message
+              context.read<ChatBloc>().add(
+                    const ChatEvent.cleared(),
+                  );
             },
           ),
         ),
@@ -225,12 +197,11 @@ class _BottomTerminalPanel extends fluent.StatelessWidget {
 
   @override
   fluent.Widget build(fluent.BuildContext context) {
-    final controller = CodeLabAppScope.of(context);
+    final controller = context.watch<WorkspaceController>();
     final currentTab = controller.sessionTab;
 
     return fluent.Column(
       children: [
-        // Tab bar
         fluent.Container(
           height: 42,
           padding: const fluent.EdgeInsets.symmetric(
@@ -281,7 +252,6 @@ class _BottomTerminalPanel extends fluent.StatelessWidget {
             ],
           ),
         ),
-        // Content
         fluent.Expanded(
           child: _BottomPanelContent(
             session: session,
@@ -323,9 +293,7 @@ class _TabButton extends fluent.StatelessWidget {
           fluent.Container(
             height: 2,
             width: 72,
-            color: isSelected
-                ? colors.accentPrimary
-                : fluent.Colors.transparent,
+            color: isSelected ? colors.accentPrimary : fluent.Colors.transparent,
           ),
         ],
       ),
@@ -370,7 +338,7 @@ class _BottomPanelContent extends fluent.StatelessWidget {
                   id: r.title,
                   title: r.title,
                   summary: r.summary,
-                  severity: r.severity, //_parseSeverity(r.severity),
+                  severity: r.severity,
                 ),
               )
               .toList(),
@@ -379,7 +347,7 @@ class _BottomPanelContent extends fluent.StatelessWidget {
       case SessionRegionTab.terminal:
         return ui.TerminalPanelShell(
           title: 'Terminal 1',
-          onClose: () => CodeLabAppScope.of(context).toggleBottomPanel(),
+          onClose: () => context.read<WorkspaceController>().toggleBottomPanel(),
           child: fluent.Padding(
             padding: const fluent.EdgeInsets.all(ui.AppSpacing.md),
             child: fluent.Align(
@@ -394,21 +362,4 @@ class _BottomPanelContent extends fluent.StatelessWidget {
         );
     }
   }
-
-  /*
-  ui.ReviewSeverity _parseSeverity(String severity) {
-    switch (severity.toLowerCase()) {
-      case 'critical':
-        return ui.ReviewSeverity.critical;
-      case 'high':
-        return ui.ReviewSeverity.high;
-      case 'medium':
-        return ui.ReviewSeverity.medium;
-      case 'low':
-        return ui.ReviewSeverity.low;
-      default:
-        return ui.ReviewSeverity.info;
-    }
-  }
-  */
 }
