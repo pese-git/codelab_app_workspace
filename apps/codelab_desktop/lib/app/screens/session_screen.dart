@@ -2,10 +2,16 @@ import 'package:codelab_ui_components/codelab_ui_components.dart' as ui;
 import 'package:codelab_ui_components/codelab_ui_components.dart'
     show SessionRegionTab;
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../models/workspace_models.dart';
 import '../state/app_scope.dart';
+import '../../core/di/di_scope_widget.dart';
+import '../../core/di/injection.dart';
+import '../../core/di/session_module.dart';
+import '../../presentation/blocs/chat/chat_bloc.dart';
+import '../../presentation/blocs/chat/chat_event.dart';
 
 /// Session screen widget using UI components from codelab_ui_components.
 class SessionScreen extends fluent.StatefulWidget {
@@ -40,7 +46,15 @@ class _SessionScreenState extends fluent.State<SessionScreen> {
         ? ui.AppColors.light
         : ui.AppColors.dark;
 
-    return ui.DesktopShell(
+    return DiScope(
+      scope: rootScope.openSubScope('session:${widget.sessionId}')..installModules([SessionModule(sessionId: widget.sessionId)]),
+      child: BlocProvider(
+        create: (ctx) {
+          final bloc = ChatBloc(sendPromptUseCase: ctx.resolve());
+          bloc.add(ChatEvent.sessionOpened(sessionId: widget.sessionId));
+          return bloc;
+        },
+        child: ui.DesktopShell(
       titleBar: ui.TitleBar(
         onToggleSidebar: controller.toggleSidebarCollapsed,
         canBack: context.canPop(),
@@ -122,6 +136,8 @@ class _SessionScreenState extends fluent.State<SessionScreen> {
               ),
             )
           : _SessionContent(session: session, colors: colors),
+        ),
+      ),
     );
   }
 }
