@@ -1,6 +1,11 @@
 import '../../domain/entities/session.dart';
 import '../../domain/repositories/session_repository.dart';
 
+/// In-memory реализация SessionRepository
+///
+/// Хранит сессии в памяти. При перезапуске данные теряются.
+/// Для персистентности заменить на LocalStorageSessionRepository.
+/// Регистрируется в AppModule как singleton SessionRepository.
 class InMemorySessionRepository implements SessionRepository {
   final Map<String, Session> _sessions = {};
 
@@ -21,7 +26,7 @@ class InMemorySessionRepository implements SessionRepository {
 
   @override
   Future<List<Session>> getAll() async {
-    return _sessions.values.toList();
+    return List.unmodifiable(_sessions.values);
   }
 
   @override

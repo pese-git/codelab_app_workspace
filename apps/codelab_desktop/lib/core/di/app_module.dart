@@ -1,7 +1,9 @@
 import 'package:cherrypick/cherrypick.dart';
 
+import '../../domain/repositories/chat_history_repository.dart';
 import '../../domain/repositories/session_repository.dart';
 import '../../domain/services/transport_service.dart';
+import '../../infrastructure/repositories/in_memory_chat_history_repository.dart';
 import '../../infrastructure/repositories/in_memory_session_repository.dart';
 import '../../infrastructure/services/acp_transport_service.dart';
 import '../../infrastructure/services/permission_handler.dart';
@@ -16,6 +18,10 @@ class AppModule extends Module {
   void builder(Scope currentScope) {
     bind<SessionRepository>()
         .toProvide(() => InMemorySessionRepository())
+        .singleton();
+
+    bind<ChatHistoryRepository>()
+        .toProvide(() => InMemoryChatHistoryRepository())
         .singleton();
 
     bind<PermissionHandler>()
