@@ -13,6 +13,7 @@ import '../../core/di/session_module.dart';
 import '../../presentation/blocs/chat/chat_bloc.dart';
 import '../../presentation/blocs/chat/chat_event.dart';
 import '../../presentation/blocs/permission/permission_bloc.dart';
+import '../../presentation/blocs/terminal/terminal_bloc.dart';
 
 /// Session screen widget using UI components from codelab_ui_components.
 class SessionScreen extends fluent.StatefulWidget {
@@ -60,6 +61,9 @@ class _SessionScreenState extends fluent.State<SessionScreen> {
           ),
           BlocProvider(
             create: (_) => PermissionBloc(),
+          ),
+          BlocProvider(
+            create: (_) => TerminalBloc(),
           ),
         ],
         child: ui.DesktopShell(
