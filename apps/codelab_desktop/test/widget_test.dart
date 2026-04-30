@@ -1,7 +1,7 @@
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:codelab_desktop/app/app.dart';
+import 'package:codelab_desktop/app/bootstrap/app.dart';
 
 void main() {
   testWidgets('renders home screen', (WidgetTester tester) async {

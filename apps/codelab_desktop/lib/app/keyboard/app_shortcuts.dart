@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 
 import '../navigation/navigation_controller.dart';
 import '../overlay/overlay_controller.dart';
-import '../state/workspace_controller.dart';
+import '../../features/workspace/application/workspace_controller.dart';
 
 class AppShortcuts extends StatelessWidget {
   const AppShortcuts({required this.child, super.key});

@@ -11,30 +11,80 @@ workspace:
   - apps/codelab_ui_widgetbook
 
 melos:
-
   sdkPath: .fvm/flutter_sdk
 
   scripts:
-    bootstrap:
-      description: Install dependencies for all packages via FVM Flutter SDK
-      run: dart run melos exec -c 4 -- fvm flutter pub get
+    #bootstrap:
+    #  description: Install dependencies for all packages
+    #  run: flutter pub get
+    #  exec:
+    #    concurrency: 4
+    #    failFast: true
 
     clean:
-      description: Clean build artifacts in all packages
-      run: dart run melos exec -c 4 -- fvm flutter clean
+      description: Clean all packages
+      run: flutter clean
+      exec:
+        concurrency: 4
 
     analyze:
-      description: Run static analysis for all packages
-      run: dart run melos exec -c 4 -- fvm flutter analyze
+      description: Run static analysis
+      run: flutter analyze
+      exec:
+        concurrency: 4
+        failFast: true
 
     format:
-      description: Format Dart code in all packages
-      run: dart run melos exec -- fvm dart format .
+      description: Format Dart code
+      run: dart format .
+      exec:
+        concurrency: 4
 
     test:
-      description: Run tests for all packages
-      run: dart run melos exec -c 2 -- fvm flutter test
+      description: Run tests in all packages
+      run: flutter test
+      exec:
+        concurrency: 2
+        failFast: true
 
-    build:
-      description: Build all packages
-      run: dart run melos exec -c 4 -- fvm flutter build
+    gen:
+      description: Run build_runner code generation
+      run: dart run build_runner build --delete-conflicting-outputs
+      exec:
+        concurrency: 2
+        orderDependents: true
+
+    fix:
+      description: Apply automatic Dart fixes
+      run: dart fix --apply
+      exec:
+        concurrency: 2
+
+    build_macos:
+      description: Build macOS desktop apps
+      run: flutter build macos
+      exec:
+        concurrency: 1
+      packageFilters:
+        flutter: true
+
+    build_linux:
+      description: Build Linux desktop apps
+      run: flutter build linux
+      exec:
+        concurrency: 1
+      packageFilters:
+        flutter: true
+
+    build_windows:
+      description: Build Windows desktop apps
+      run: flutter build windows
+      exec:
+        concurrency: 1
+      packageFilters:
+        flutter: true
+
+command:
+  bootstrap:
+    usePubspecOverrides: true
+    runPubGetInParallel: true

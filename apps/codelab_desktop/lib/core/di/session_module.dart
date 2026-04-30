@@ -1,6 +1,6 @@
 import 'package:cherrypick/cherrypick.dart';
 
-import '../../application/use_cases/send_prompt_use_case.dart';
+import '../../features/session/application/use_cases/send_prompt_use_case.dart';
 import '../../infrastructure/handlers/file_system_handler.dart';
 import '../../infrastructure/handlers/terminal_handler.dart';
 import '../../domain/repositories/session_repository.dart';

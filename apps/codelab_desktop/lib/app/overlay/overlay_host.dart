@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../models/workspace_models.dart';
-import '../state/workspace_controller.dart';
+import '../../features/workspace/application/workspace_controller.dart';
 import 'overlay_controller.dart';
 
 class OverlayHost extends StatelessWidget {
