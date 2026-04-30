@@ -21,17 +21,19 @@ class SessionHost extends StatefulWidget {
 
 class _SessionHostState extends State<SessionHost> {
   late final Scope _scope;
+  bool _initialized = false;
 
   @override
-  void initState() {
-    super.initState();
-
-    final root = context.resolve<Scope>();
-
-    _scope = root.openSubScope('session:${widget.sessionId}')
-      ..installModules([
-        SessionModule(sessionId: widget.sessionId),
-      ]);
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_initialized) {
+      final root = context.resolve<Scope>();
+      _scope = root.openSubScope('session:${widget.sessionId}')
+        ..installModules([
+          SessionModule(sessionId: widget.sessionId),
+        ]);
+      _initialized = true;
+    }
   }
 
   @override
