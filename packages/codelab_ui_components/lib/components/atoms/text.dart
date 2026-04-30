@@ -1,4 +1,5 @@
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
+import 'package:flutter/widget_previews.dart';
 
 import '../theme/tokens.dart';
 
@@ -40,37 +41,6 @@ enum TextVariant {
 
 /// A themed text component with semantic variants.
 class AppText extends fluent.StatelessWidget {
-  const AppText(
-    this.text, {
-    this.variant = TextVariant.body,
-    this.color,
-    this.maxLines,
-    this.overflow,
-    this.textAlign,
-    this.selectable = false,
-    super.key,
-  });
-
-  /// Text content
-  final String text;
-
-  /// Text variant
-  final TextVariant variant;
-
-  /// Text color (overrides theme default)
-  final fluent.Color? color;
-
-  /// Maximum lines
-  final int? maxLines;
-
-  /// Overflow behavior
-  final fluent.TextOverflow? overflow;
-
-  /// Text alignment
-  final fluent.TextAlign? textAlign;
-
-  /// Whether text is selectable
-  final bool selectable;
 
   /// Caption text (12px)
   const AppText.caption(
@@ -170,6 +140,37 @@ class AppText extends fluent.StatelessWidget {
     this.selectable = false,
     super.key,
   }) : variant = TextVariant.code;
+  const AppText(
+    this.text, {
+    this.variant = TextVariant.body,
+    this.color,
+    this.maxLines,
+    this.overflow,
+    this.textAlign,
+    this.selectable = false,
+    super.key,
+  });
+
+  /// Text content
+  final String text;
+
+  /// Text variant
+  final TextVariant variant;
+
+  /// Text color (overrides theme default)
+  final fluent.Color? color;
+
+  /// Maximum lines
+  final int? maxLines;
+
+  /// Overflow behavior
+  final fluent.TextOverflow? overflow;
+
+  /// Text alignment
+  final fluent.TextAlign? textAlign;
+
+  /// Whether text is selectable
+  final bool selectable;
 
   fluent.TextStyle _getStyle(LightColors colors) {
     final effectiveColor = color ?? colors.textBase;
@@ -225,4 +226,57 @@ class AppText extends fluent.StatelessWidget {
       textAlign: textAlign,
     );
   }
+}
+
+// MARK: - Previews
+
+@Preview(name: 'Display')
+@Preview(name: 'Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewTextDisplay() {
+  return const AppText.display('Display 28px');
+}
+
+@Preview(name: 'Headline')
+fluent.Widget previewTextHeadline() {
+  return const AppText.headline('Headline 24px');
+}
+
+@Preview(name: 'Title')
+fluent.Widget previewTextTitle() {
+  return const AppText.title('Title 18px');
+}
+
+@Preview(name: 'Subtitle')
+fluent.Widget previewTextSubtitle() {
+  return const AppText.subtitle('Subtitle 16px');
+}
+
+@Preview(name: 'Label')
+fluent.Widget previewTextLabel() {
+  return const AppText.label('Label 15px');
+}
+
+@Preview(name: 'Body')
+fluent.Widget previewTextBody() {
+  return const AppText.body('Body 14px regular');
+}
+
+@Preview(name: 'Body Medium')
+fluent.Widget previewTextBodyMedium() {
+  return const AppText('Body 14px medium', variant: TextVariant.bodyMedium);
+}
+
+@Preview(name: 'Small')
+fluent.Widget previewTextSmall() {
+  return const AppText.small('Small 13px');
+}
+
+@Preview(name: 'Caption')
+fluent.Widget previewTextCaption() {
+  return const AppText.caption('Caption 12px');
+}
+
+@Preview(name: 'Code')
+fluent.Widget previewTextCode() {
+  return const AppText.code('const x = 42;');
 }

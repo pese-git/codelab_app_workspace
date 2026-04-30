@@ -1,4 +1,5 @@
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
+import 'package:flutter/widget_previews.dart';
 
 import '../../theme/tokens.dart';
 
@@ -156,4 +157,54 @@ class _RailProjectButton extends fluent.StatelessWidget {
       ),
     );
   }
+}
+
+// MARK: - Previews
+
+@Preview(name: 'Default')
+@Preview(name: 'Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewProjectRailDefault() {
+  return ProjectRail(
+    projects: const [
+      ProjectRailItem(
+        id: 'project-1',
+        name: 'My App',
+        color: fluent.Color(0xFF0078D4),
+        initials: 'MA',
+      ),
+      ProjectRailItem(
+        id: 'project-2',
+        name: 'Dashboard',
+        color: fluent.Color(0xFF107C10),
+        initials: 'D',
+      ),
+      ProjectRailItem(
+        id: 'project-3',
+        name: 'API Service',
+        color: fluent.Color(0xFFD13438),
+        initials: 'API',
+      ),
+    ],
+    selectedProjectId: 'project-1',
+    onProjectSelected: (_) {},
+    onAddProject: () {},
+    onSettings: () {},
+    onHelp: () {},
+  );
+}
+
+@Preview(name: 'Single Project')
+fluent.Widget previewProjectRailSingle() {
+  return ProjectRail(
+    projects: const [
+      ProjectRailItem(
+        id: 'solo',
+        name: 'Solo Project',
+        color: fluent.Color(0xFF8764B8),
+        initials: 'SP',
+      ),
+    ],
+    selectedProjectId: 'solo',
+    onProjectSelected: (_) {},
+  );
 }

@@ -1,5 +1,6 @@
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
 import 'package:flutter/services.dart';
+import 'package:flutter/widget_previews.dart';
 
 import '../theme/tokens.dart';
 
@@ -163,4 +164,29 @@ class InlineCode extends fluent.StatelessWidget {
       ),
     );
   }
+}
+
+// MARK: - Previews
+
+@Preview(name: 'Default')
+@Preview(name: 'Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewCodeBlockDefault() {
+  return const CodeBlock(
+    code: 'void main() {\n  print("Hello, World!");\n}',
+    language: 'dart',
+  );
+}
+
+@Preview(name: 'With Line Numbers')
+fluent.Widget previewCodeBlockLineNumbers() {
+  return const CodeBlock(
+    code: 'fn main() {\n    println!("Hello!");\n    let x = 42;\n}',
+    language: 'rust',
+    showLineNumbers: true,
+  );
+}
+
+@Preview(name: 'Inline Code')
+fluent.Widget previewInlineCode() {
+  return const InlineCode('flutter_widget_preview');
 }

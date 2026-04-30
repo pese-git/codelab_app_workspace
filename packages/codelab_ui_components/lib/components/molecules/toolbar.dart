@@ -1,4 +1,5 @@
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
+import 'package:flutter/widget_previews.dart';
 
 import '../atoms/icon_button.dart';
 import '../theme/tokens.dart';
@@ -123,4 +124,63 @@ class ToolbarWidget extends ToolbarItem {
   const ToolbarWidget({required this.child});
 
   final fluent.Widget child;
+}
+
+// MARK: - Previews
+
+@Preview(name: 'Default')
+@Preview(name: 'Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewToolbarDefault() {
+  return const Toolbar(
+    items: [
+      ToolbarButton(
+        icon: fluent.FluentIcons.bold,
+        onPressed: null,
+        tooltip: 'Bold',
+      ),
+      ToolbarButton(
+        icon: fluent.FluentIcons.italic,
+        onPressed: null,
+        tooltip: 'Italic',
+      ),
+      ToolbarButton(
+        icon: fluent.FluentIcons.underline,
+        onPressed: null,
+        tooltip: 'Underline',
+      ),
+      ToolbarDivider(),
+      ToolbarButton(
+        icon: fluent.FluentIcons.align_left,
+        onPressed: null,
+        tooltip: 'Align Left',
+      ),
+      ToolbarButton(
+        icon: fluent.FluentIcons.align_center,
+        onPressed: null,
+        tooltip: 'Align Center',
+      ),
+      ToolbarButton(
+        icon: fluent.FluentIcons.align_right,
+        onPressed: null,
+        tooltip: 'Align Right',
+      ),
+    ],
+  );
+}
+
+@Preview(name: 'With Spacer')
+fluent.Widget previewToolbarWithSpacer() {
+  return const Toolbar(
+    items: [
+      ToolbarButton(
+        icon: fluent.FluentIcons.save,
+        onPressed: null,
+        tooltip: 'Save',
+      ),
+      ToolbarSpacer(),
+      ToolbarWidget(
+        child: fluent.Text('Last saved: 2 min ago'),
+      ),
+    ],
+  );
 }

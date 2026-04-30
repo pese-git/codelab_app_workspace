@@ -1,4 +1,5 @@
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
+import 'package:flutter/widget_previews.dart';
 
 import '../../theme/tokens.dart';
 
@@ -65,4 +66,31 @@ class SessionTabs extends fluent.StatelessWidget {
         return 'Terminal';
     }
   }
+}
+
+// MARK: - Previews
+
+@Preview(name: 'Files Active')
+@Preview(name: 'Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewSessionTabsFiles() {
+  return SessionTabs(
+    activeTab: SessionRegionTab.files,
+    onTabChanged: (tab) {},
+  );
+}
+
+@Preview(name: 'Review Active')
+fluent.Widget previewSessionTabsReview() {
+  return SessionTabs(
+    activeTab: SessionRegionTab.review,
+    onTabChanged: (tab) {},
+  );
+}
+
+@Preview(name: 'Terminal Active')
+fluent.Widget previewSessionTabsTerminal() {
+  return SessionTabs(
+    activeTab: SessionRegionTab.terminal,
+    onTabChanged: (tab) {},
+  );
 }

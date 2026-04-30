@@ -1,4 +1,5 @@
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
+import 'package:flutter/widget_previews.dart';
 
 import '../../theme/tokens.dart';
 
@@ -319,3 +320,65 @@ class ContextPanelItem {
   final String subtitle;
   final String trailing;
 }
+
+// MARK: - Previews
+
+@Preview(name: 'Default')
+@Preview(name: 'Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewContextPanelDefault() {
+  return ContextPanel(
+    activeTab: ContextPanelTab.details,
+    onTabChanged: (_) {},
+    items: const [
+      ContextPanelItem(
+        title: 'main.dart',
+        subtitle: 'lib/src/main.dart',
+        trailing: 'M',
+      ),
+      ContextPanelItem(
+        title: 'utils.dart',
+        subtitle: 'lib/src/utils/utils.dart',
+        trailing: 'A',
+      ),
+      ContextPanelItem(
+        title: 'config.yaml',
+        subtitle: 'config/config.yaml',
+        trailing: 'D',
+      ),
+    ],
+    onItemTap: (_) {},
+  );
+}
+
+@Preview(name: 'Empty')
+fluent.Widget previewContextPanelEmpty() {
+  return const ContextPanel(
+    activeTab: ContextPanelTab.details,
+    onTabChanged: _onTabChanged,
+    isEmpty: true,
+  );
+}
+
+@Preview(name: 'Activity Tab')
+fluent.Widget previewContextPanelActivity() {
+  return ContextPanel(
+    activeTab: ContextPanelTab.activity,
+    onTabChanged: (_) {},
+    title: 'Activity',
+    items: const [
+      ContextPanelItem(
+        title: 'File created',
+        subtitle: 'main.dart was added to the project',
+        trailing: '2m ago',
+      ),
+      ContextPanelItem(
+        title: 'Code modified',
+        subtitle: 'Updated widget tree in home_screen.dart',
+        trailing: '5m ago',
+      ),
+    ],
+    onItemTap: (_) {},
+  );
+}
+
+void _onTabChanged(ContextPanelTab tab) {}

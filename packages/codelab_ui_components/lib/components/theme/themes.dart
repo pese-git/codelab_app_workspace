@@ -38,7 +38,7 @@ fluent.FluentThemeData buildAppTheme({
 abstract final class AppTheme {
   /// Light FluentUI theme data
   static fluent.FluentThemeData get light =>
-      buildAppTheme(brightness: fluent.Brightness.light);
+      buildAppTheme();
 
   /// Dark FluentUI theme data
   static fluent.FluentThemeData get dark =>
@@ -68,9 +68,6 @@ extension AppThemeExtension on fluent.BuildContext {
 
 /// Helper class for theme-aware color access.
 class ThemeColors {
-  const ThemeColors._(this._colors);
-
-  final LightColors _colors;
 
   /// Create from BuildContext
   factory ThemeColors.of(fluent.BuildContext context) {
@@ -88,6 +85,9 @@ class ThemeColors {
         : AppColors.dark;
     return ThemeColors._(colors);
   }
+  const ThemeColors._(this._colors);
+
+  final LightColors _colors;
 
   // Background colors
   fluent.Color get backgroundBase => _colors.backgroundBase;

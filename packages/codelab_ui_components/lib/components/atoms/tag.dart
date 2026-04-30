@@ -1,4 +1,5 @@
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
+import 'package:flutter/widget_previews.dart';
 
 import '../theme/tokens.dart';
 
@@ -141,4 +142,36 @@ class TagGroup extends fluent.StatelessWidget {
       }).toList(),
     );
   }
+}
+
+// MARK: - Previews
+
+@Preview(name: 'Default')
+@Preview(name: 'Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewTagDefault() {
+  return const Tag(label: 'Tag');
+}
+
+@Preview(name: 'Selected')
+fluent.Widget previewTagSelected() {
+  return const Tag(label: 'Selected', isSelected: true);
+}
+
+@Preview(name: 'With Icon')
+fluent.Widget previewTagWithIcon() {
+  return const Tag(label: 'Feature', icon: fluent.FluentIcons.flag);
+}
+
+@Preview(name: 'Removable')
+fluent.Widget previewTagRemovable() {
+  return Tag(label: 'Filter', onRemove: () {});
+}
+
+@Preview(name: 'Group')
+fluent.Widget previewTagGroup() {
+  return TagGroup(
+    tags: const ['React', 'Flutter', 'Vue', 'Svelte'],
+    selectedIndex: 1,
+    onTagSelected: (_) {},
+  );
 }

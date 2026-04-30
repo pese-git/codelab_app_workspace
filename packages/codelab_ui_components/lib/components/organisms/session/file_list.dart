@@ -1,4 +1,5 @@
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
+import 'package:flutter/widget_previews.dart';
 
 import '../../theme/tokens.dart';
 
@@ -154,4 +155,61 @@ class _FileNodeRow extends fluent.StatelessWidget {
       ],
     );
   }
+}
+
+// MARK: - Previews
+
+@Preview(name: 'Default')
+@Preview(name: 'Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewFileListDefault() {
+  return const FileList(
+    nodes: [
+      FileNode(
+        id: 'src',
+        label: 'src',
+        isFolder: true,
+        children: [
+          FileNode(id: 'main.dart', label: 'main.dart', isFolder: false),
+          FileNode(id: 'app.dart', label: 'app.dart', isFolder: false),
+        ],
+      ),
+      FileNode(id: 'pubspec.yaml', label: 'pubspec.yaml', isFolder: false),
+      FileNode(id: 'README.md', label: 'README.md', isFolder: false, badge: 'new'),
+    ],
+    expandedNodes: {'src'},
+  );
+}
+
+@Preview(name: 'Deep Tree')
+fluent.Widget previewFileListDeepTree() {
+  return const FileList(
+    nodes: [
+      FileNode(
+        id: 'lib',
+        label: 'lib',
+        isFolder: true,
+        children: [
+          FileNode(
+            id: 'src',
+            label: 'src',
+            isFolder: true,
+            children: [
+              FileNode(id: 'main.dart', label: 'main.dart', isFolder: false),
+              FileNode(
+                id: 'models',
+                label: 'models',
+                isFolder: true,
+                children: [
+                  FileNode(id: 'user.dart', label: 'user.dart', isFolder: false, badge: 'modified'),
+                  FileNode(id: 'session.dart', label: 'session.dart', isFolder: false),
+                ],
+              ),
+            ],
+          ),
+        ],
+      ),
+      FileNode(id: 'test', label: 'test', isFolder: true),
+    ],
+    expandedNodes: {'lib', 'src'},
+  );
 }

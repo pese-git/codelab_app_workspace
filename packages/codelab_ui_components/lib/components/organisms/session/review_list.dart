@@ -1,4 +1,5 @@
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
+import 'package:flutter/widget_previews.dart';
 
 import '../../theme/tokens.dart';
 
@@ -170,4 +171,52 @@ class ReviewCard extends fluent.StatelessWidget {
       ),
     );
   }
+}
+
+// MARK: - Previews
+
+@Preview(name: 'Default')
+@Preview(name: 'Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewReviewListDefault() {
+  return const ReviewList(
+    items: [
+      ReviewItem(
+        id: '1',
+        title: 'Unused import detected',
+        summary: 'The import \'dart:math\' is not used in this file.',
+        severity: 'warning',
+      ),
+      ReviewItem(
+        id: '2',
+        title: 'Missing null check',
+        summary: 'Variable \'user\' may be null. Add a null check before accessing properties.',
+        severity: 'error',
+      ),
+      ReviewItem(
+        id: '3',
+        title: 'Consider using const',
+        summary: 'This widget can be declared as const for better performance.',
+        severity: 'info',
+      ),
+    ],
+  );
+}
+
+@Preview(name: 'Empty')
+fluent.Widget previewReviewListEmpty() {
+  return const ReviewList(items: []);
+}
+
+@Preview(name: 'Single Critical')
+fluent.Widget previewReviewListCritical() {
+  return const ReviewList(
+    items: [
+      ReviewItem(
+        id: '1',
+        title: 'Security vulnerability found',
+        summary: 'Hardcoded API key detected in source code. Move to environment variables.',
+        severity: 'critical',
+      ),
+    ],
+  );
 }

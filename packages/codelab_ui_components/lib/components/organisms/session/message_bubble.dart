@@ -1,4 +1,5 @@
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
+import 'package:flutter/widget_previews.dart';
 
 import '../../molecules/markdown_view.dart';
 import '../../theme/tokens.dart';
@@ -117,6 +118,53 @@ class _MessageContent extends fluent.StatelessWidget {
 
   @override
   fluent.Widget build(fluent.BuildContext context) {
-    return MarkdownView(data: content, selectable: true, shrinkWrap: true);
+    return MarkdownView(data: content);
   }
+}
+
+// MARK: - Previews
+
+@Preview(name: 'User')
+@Preview(name: 'Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewMessageBubbleUser() {
+  return MessageBubble(
+    message: Message(
+      id: '1',
+      role: MessageRole.user,
+      content: 'Can you help me refactor this code to use the repository pattern?',
+    ),
+  );
+}
+
+@Preview(name: 'Assistant')
+fluent.Widget previewMessageBubbleAssistant() {
+  return MessageBubble(
+    message: Message(
+      id: '2',
+      role: MessageRole.assistant,
+      content: 'Sure! Here\'s how you can implement the repository pattern:\n\n```dart\nclass UserRepository {\n  Future<User> getUser(String id) async {\n    // Implementation\n  }\n}\n```\n\nThis separates your data access logic from the rest of the application.',
+    ),
+  );
+}
+
+@Preview(name: 'System')
+fluent.Widget previewMessageBubbleSystem() {
+  return MessageBubble(
+    message: Message(
+      id: '3',
+      role: MessageRole.system,
+      content: 'Session context updated. 3 files modified.',
+    ),
+  );
+}
+
+@Preview(name: 'Long Message')
+fluent.Widget previewMessageBubbleLong() {
+  return MessageBubble(
+    message: Message(
+      id: '4',
+      role: MessageRole.assistant,
+      content: 'Here\'s a comprehensive explanation of the changes:\n\n1. **Repository Pattern**: Abstracts data access\n2. **Dependency Injection**: Makes testing easier\n3. **Error Handling**: Centralized error management\n\n```dart\nabstract class Repository<T> {\n  Future<T> getById(String id);\n  Future<List<T>> getAll();\n  Future<void> save(T entity);\n  Future<void> delete(String id);\n}\n```\n\nEach method handles its own error cases and returns appropriate results.',
+    ),
+  );
 }

@@ -1,4 +1,5 @@
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
+import 'package:flutter/widget_previews.dart';
 
 import '../theme/tokens.dart';
 
@@ -19,6 +20,22 @@ enum AppIconSize {
 
 /// A themed icon widget with standardized sizes.
 class AppIcon extends fluent.StatelessWidget {
+
+  /// Medium icon (20px) - default
+  const AppIcon.md(this.icon, {this.color, this.semanticLabel, super.key})
+    : size = AppIconSize.md;
+
+  /// Small icon (16px)
+  const AppIcon.sm(this.icon, {this.color, this.semanticLabel, super.key})
+    : size = AppIconSize.sm;
+
+  /// Large icon (24px)
+  const AppIcon.lg(this.icon, {this.color, this.semanticLabel, super.key})
+    : size = AppIconSize.lg;
+
+  /// Extra large icon (28px)
+  const AppIcon.xl(this.icon, {this.color, this.semanticLabel, super.key})
+    : size = AppIconSize.xl;
   const AppIcon(
     this.icon, {
     this.size = AppIconSize.md,
@@ -38,22 +55,6 @@ class AppIcon extends fluent.StatelessWidget {
 
   /// Semantic label for accessibility
   final String? semanticLabel;
-
-  /// Small icon (16px)
-  const AppIcon.sm(this.icon, {this.color, this.semanticLabel, super.key})
-    : size = AppIconSize.sm;
-
-  /// Medium icon (20px) - default
-  const AppIcon.md(this.icon, {this.color, this.semanticLabel, super.key})
-    : size = AppIconSize.md;
-
-  /// Large icon (24px)
-  const AppIcon.lg(this.icon, {this.color, this.semanticLabel, super.key})
-    : size = AppIconSize.lg;
-
-  /// Extra large icon (28px)
-  const AppIcon.xl(this.icon, {this.color, this.semanticLabel, super.key})
-    : size = AppIconSize.xl;
 
   double get _pixelSize {
     switch (size) {
@@ -148,4 +149,65 @@ abstract final class AppIcons {
   static const fluent.IconData expand = fluent.FluentIcons.chevron_down_small;
   static const fluent.IconData collapse =
       fluent.FluentIcons.chevron_right_small;
+}
+
+// MARK: - Previews
+
+@Preview(name: 'Default')
+@Preview(name: 'Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewIconDefault() {
+  return const fluent.Padding(
+    padding: fluent.EdgeInsets.all(AppSpacing.lg),
+    child: AppIcon(AppIcons.home),
+  );
+}
+
+@Preview(name: 'Size Variants')
+@Preview(name: 'Size Variants Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewIconSizeVariants() {
+  return const fluent.Padding(
+    padding: fluent.EdgeInsets.all(AppSpacing.lg),
+    child: fluent.Row(
+      mainAxisSize: fluent.MainAxisSize.min,
+      children: [
+        AppIcon.sm(AppIcons.home),
+        fluent.SizedBox(width: AppSpacing.md),
+        AppIcon.md(AppIcons.home),
+        fluent.SizedBox(width: AppSpacing.md),
+        AppIcon.lg(AppIcons.home),
+        fluent.SizedBox(width: AppSpacing.md),
+        AppIcon.xl(AppIcons.home),
+      ],
+    ),
+  );
+}
+
+@Preview(name: 'Custom Color')
+fluent.Widget previewIconCustomColor() {
+  return const fluent.Padding(
+    padding: fluent.EdgeInsets.all(AppSpacing.lg),
+    child: AppIcon(
+      AppIcons.success,
+      color: fluent.Color(0xFF107C10),
+    ),
+  );
+}
+
+@Preview(name: 'Action Icons')
+fluent.Widget previewIconActionIcons() {
+  return const fluent.Padding(
+    padding: fluent.EdgeInsets.all(AppSpacing.lg),
+    child: fluent.Wrap(
+      spacing: AppSpacing.lg,
+      runSpacing: AppSpacing.lg,
+      children: [
+        AppIcon(AppIcons.add),
+        AppIcon(AppIcons.edit),
+        AppIcon(AppIcons.delete),
+        AppIcon(AppIcons.save),
+        AppIcon(AppIcons.search),
+        AppIcon(AppIcons.refresh),
+      ],
+    ),
+  );
 }

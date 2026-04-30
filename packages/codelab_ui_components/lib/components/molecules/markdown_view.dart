@@ -1,4 +1,5 @@
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
+import 'package:flutter/widget_previews.dart';
 import 'package:flutter_markdown/flutter_markdown.dart' as flutter_markdown;
 
 import '../theme/markdown_styles.dart';
@@ -98,4 +99,63 @@ class AppMarkdownBody extends fluent.StatelessWidget {
       builders: builders ?? {},
     );
   }
+}
+
+// MARK: - Previews
+
+@Preview(name: 'Default')
+@Preview(name: 'Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewMarkdownViewDefault() {
+  return const MarkdownView(
+    data: '''
+# Hello World
+
+This is a **markdown** preview with some _formatted text_.
+
+- Item one
+- Item two
+- Item three
+''',
+  );
+}
+
+@Preview(name: 'With Link')
+fluent.Widget previewMarkdownViewWithLink() {
+  return MarkdownView(
+    data: '''
+## Documentation
+
+Visit the [official docs](https://example.com) for more information.
+
+> This is a blockquote with important information.
+''',
+    onTapLink: (text, href, title) {},
+  );
+}
+
+@Preview(name: 'Code Block')
+fluent.Widget previewMarkdownViewCode() {
+  return const MarkdownView(
+    data: '''
+### Code Example
+
+Use `inline code` for short snippets.
+
+```dart
+void main() {
+  print('Hello, world!');
+}
+```
+''',
+  );
+}
+
+@Preview(name: 'Markdown Body')
+@Preview(name: 'Markdown Body Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewAppMarkdownBody() {
+  return const AppMarkdownBody(
+    data: '''
+**Bold text** and *italic text* in a compact body.
+''',
+  );
 }

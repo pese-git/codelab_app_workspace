@@ -1,4 +1,5 @@
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
+import 'package:flutter/widget_previews.dart';
 
 import '../theme/tokens.dart';
 
@@ -207,4 +208,72 @@ class _CloseableTabState extends fluent.State<CloseableTab> {
       ),
     );
   }
+}
+
+// MARK: - Previews
+
+enum _AppTab { overview, analytics, settings, reports }
+
+@Preview(name: 'Default')
+@Preview(name: 'Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewAppTabsDefault() {
+  return AppTabs<_AppTab>(
+    tabs: const {
+      _AppTab.overview: 'Overview',
+      _AppTab.analytics: 'Analytics',
+      _AppTab.settings: 'Settings',
+    },
+    selected: _AppTab.overview,
+    onChanged: (_) {},
+  );
+}
+
+@Preview(name: 'Second Selected')
+fluent.Widget previewAppTabsSecondSelected() {
+  return AppTabs<_AppTab>(
+    tabs: const {
+      _AppTab.overview: 'Overview',
+      _AppTab.analytics: 'Analytics',
+      _AppTab.settings: 'Settings',
+    },
+    selected: _AppTab.analytics,
+    onChanged: (_) {},
+  );
+}
+
+@Preview(name: 'Scrollable')
+fluent.Widget previewAppTabsScrollable() {
+  return AppTabs<_AppTab>(
+    tabs: const {
+      _AppTab.overview: 'Overview',
+      _AppTab.analytics: 'Analytics',
+      _AppTab.settings: 'Settings',
+      _AppTab.reports: 'Reports',
+    },
+    selected: _AppTab.overview,
+    onChanged: (_) {},
+    isScrollable: true,
+  );
+}
+
+@Preview(name: 'Closeable Tab')
+@Preview(name: 'Closeable Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewCloseableTab() {
+  return CloseableTab(
+    label: 'Document.dart',
+    isSelected: true,
+    onSelect: () {},
+    onClose: () {},
+    icon: fluent.FluentIcons.code,
+  );
+}
+
+@Preview(name: 'Closeable Unselected')
+fluent.Widget previewCloseableTabUnselected() {
+  return CloseableTab(
+    label: 'README.md',
+    isSelected: false,
+    onSelect: () {},
+    onClose: () {},
+  );
 }

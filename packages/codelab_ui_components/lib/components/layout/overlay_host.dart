@@ -1,4 +1,5 @@
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
+import 'package:flutter/widget_previews.dart';
 
 import '../theme/tokens.dart';
 
@@ -150,3 +151,83 @@ class ToastContainer extends fluent.StatelessWidget {
 }
 
 enum ToastPosition { top, bottom }
+
+// MARK: - Previews
+
+@Preview(name: 'Default')
+@Preview(name: 'Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewOverlayHostDefault() {
+  return fluent.SizedBox(
+    width: 400,
+    height: 300,
+    child: OverlayHost(
+      child: fluent.Container(
+        color: fluent.Colors.grey[100],
+        alignment: fluent.Alignment.center,
+        child: const fluent.Text('Main Content'),
+      ),
+    ),
+  );
+}
+
+@Preview(name: 'Modal Default')
+@Preview(name: 'Modal Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewModalOverlayDefault() {
+  return fluent.SizedBox(
+    width: 400,
+    height: 300,
+    child: ModalOverlay(
+      child: fluent.Container(
+        width: 250,
+        padding: const fluent.EdgeInsets.all(16),
+        decoration: fluent.BoxDecoration(
+          color: const fluent.Color.fromARGB(255, 255, 255, 255),
+          borderRadius: AppRadius.lgAll,
+        ),
+        child: fluent.Column(
+          mainAxisSize: fluent.MainAxisSize.min,
+          children: [
+            const fluent.Text(
+              'Modal Title',
+              style: fluent.TextStyle(fontSize: 18),
+            ),
+            const fluent.SizedBox(height: AppSpacing.sm),
+            const fluent.Text('This is a modal overlay'),
+            const fluent.SizedBox(height: AppSpacing.md),
+            fluent.Button(
+              onPressed: () {},
+              child: const fluent.Text('Close'),
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
+}
+
+@Preview(name: 'Toast Top')
+@Preview(name: 'Toast Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewToastContainerDefault() {
+  return fluent.SizedBox(
+    width: 400,
+    height: 200,
+    child: fluent.Stack(
+      children: [
+        fluent.Container(color: const fluent.Color.fromARGB(255, 243, 244, 246)),
+        ToastContainer(
+          child: fluent.Container(
+            padding: const fluent.EdgeInsets.symmetric(
+              horizontal: AppSpacing.lg,
+              vertical: AppSpacing.sm,
+            ),
+            decoration: fluent.BoxDecoration(
+              color: const fluent.Color.fromARGB(255, 220, 252, 231),
+              borderRadius: AppRadius.mdAll,
+            ),
+            child: const fluent.Text('Success! Operation completed.'),
+          ),
+        ),
+      ],
+    ),
+  );
+}

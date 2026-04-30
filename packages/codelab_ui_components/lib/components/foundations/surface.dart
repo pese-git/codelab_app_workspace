@@ -1,4 +1,5 @@
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
+import 'package:flutter/widget_previews.dart';
 
 import '../theme/tokens.dart';
 
@@ -87,7 +88,7 @@ class Surface extends fluent.StatelessWidget {
         boxShadow = shadows.xl;
     }
 
-    fluent.Widget result = fluent.Container(
+    final fluent.Widget result = fluent.Container(
       width: width,
       height: height,
       constraints: constraints,
@@ -164,4 +165,81 @@ class OutlinedSurface extends fluent.StatelessWidget {
       child: child,
     );
   }
+}
+
+// MARK: - Previews
+
+@Preview(name: 'Default')
+@Preview(name: 'Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewSurfaceDefault() {
+  return const fluent.Padding(
+    padding: fluent.EdgeInsets.all(AppSpacing.lg),
+    child: Surface(
+      width: 280,
+      height: 160,
+      padding: fluent.EdgeInsets.all(AppSpacing.lg),
+      child: fluent.Text('Surface content goes here'),
+    ),
+  );
+}
+
+@Preview(name: 'With Elevation')
+@Preview(name: 'With Elevation Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewSurfaceElevation() {
+  return const fluent.Padding(
+    padding: fluent.EdgeInsets.all(AppSpacing.lg),
+    child: Surface(
+      width: 280,
+      height: 160,
+      elevation: 4,
+      padding: fluent.EdgeInsets.all(AppSpacing.lg),
+      child: fluent.Text('Elevated surface with shadow'),
+    ),
+  );
+}
+
+@Preview(name: 'With Border')
+fluent.Widget previewSurfaceBorder() {
+  return fluent.Padding(
+    padding: const fluent.EdgeInsets.all(AppSpacing.lg),
+    child: Surface(
+      width: 280,
+      height: 160,
+      borderColor: fluent.Colors.blue,
+      padding: const fluent.EdgeInsets.all(AppSpacing.lg),
+      child: const fluent.Text('Surface with colored border'),
+    ),
+  );
+}
+
+@Preview(name: 'Elevated Surface')
+@Preview(name: 'Elevated Surface Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewElevatedSurface() {
+  return const fluent.Padding(
+    padding: fluent.EdgeInsets.all(AppSpacing.lg),
+    child: fluent.SizedBox(
+      width: 280,
+      height: 160,
+      child: ElevatedSurface(
+        padding: fluent.EdgeInsets.all(AppSpacing.lg),
+        child: fluent.Text('Elevated surface component'),
+      ),
+    ),
+  );
+}
+
+@Preview(name: 'Outlined Surface')
+@Preview(name: 'Outlined Surface Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewOutlinedSurface() {
+  return const fluent.Padding(
+    padding: fluent.EdgeInsets.all(AppSpacing.lg),
+    child: fluent.SizedBox(
+      width: 280,
+      height: 160,
+      child: OutlinedSurface(
+        padding: fluent.EdgeInsets.all(AppSpacing.lg),
+        child: fluent.Text('Outlined surface component'),
+      ),
+    ),
+  );
 }

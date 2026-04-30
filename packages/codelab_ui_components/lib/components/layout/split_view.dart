@@ -1,4 +1,5 @@
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
+import 'package:flutter/widget_previews.dart';
 
 import '../theme/tokens.dart';
 
@@ -140,4 +141,70 @@ class ThreePanelLayout extends fluent.StatelessWidget {
       ],
     );
   }
+}
+
+// MARK: - Previews
+
+@Preview(name: 'Default')
+@Preview(name: 'Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewSplitViewDefault() {
+  return const fluent.SizedBox(
+    height: 250,
+    child: SplitView(
+      first: fluent.Card(
+        child: fluent.Text('Left Panel'),
+      ),
+      second: fluent.Card(
+        child: fluent.Text('Right Panel'),
+      ),
+    ),
+  );
+}
+
+@Preview(name: 'Vertical')
+fluent.Widget previewSplitViewVertical() {
+  return const fluent.SizedBox(
+    height: 300,
+    child: SplitView(
+      axis: fluent.Axis.vertical,
+      initialRatio: 0.6,
+      first: fluent.Card(
+        child: fluent.Text('Top Panel'),
+      ),
+      second: fluent.Card(
+        child: fluent.Text('Bottom Panel'),
+      ),
+    ),
+  );
+}
+
+@Preview(name: 'Three Panel Default')
+@Preview(name: 'Three Panel Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewThreePanelDefault() {
+  return const fluent.SizedBox(
+    height: 250,
+    child: ThreePanelLayout(
+      left: fluent.Card(
+        child: fluent.Text('Navigation'),
+      ),
+      center: fluent.Card(
+        child: fluent.Text('Main Content'),
+      ),
+      right: fluent.Card(
+        child: fluent.Text('Details'),
+      ),
+    ),
+  );
+}
+
+@Preview(name: 'Three Panel Center Only')
+fluent.Widget previewThreePanelCenterOnly() {
+  return const fluent.SizedBox(
+    height: 250,
+    child: ThreePanelLayout(
+      center: fluent.Card(
+        child: fluent.Text('Full Width Content'),
+      ),
+    ),
+  );
 }

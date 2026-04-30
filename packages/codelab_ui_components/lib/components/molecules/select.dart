@@ -1,4 +1,5 @@
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
+import 'package:flutter/widget_previews.dart';
 
 import '../theme/tokens.dart';
 import 'dropdown.dart';
@@ -195,4 +196,71 @@ class MultiSelect<T> extends fluent.StatelessWidget {
       ],
     );
   }
+}
+
+// MARK: - Previews
+
+enum _Country { us, uk, de, fr }
+
+@Preview(name: 'Default')
+@Preview(name: 'Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewSelectFieldDefault() {
+  return SelectField<_Country>(
+    items: const [
+      DropdownItem(value: _Country.us, label: 'United States'),
+      DropdownItem(value: _Country.uk, label: 'United Kingdom'),
+      DropdownItem(value: _Country.de, label: 'Germany'),
+      DropdownItem(value: _Country.fr, label: 'France'),
+    ],
+    value: _Country.us,
+    onChanged: (_) {},
+    label: 'Country',
+    placeholder: 'Select a country',
+  );
+}
+
+@Preview(name: 'With Error')
+fluent.Widget previewSelectFieldError() {
+  return SelectField<_Country>(
+    items: const [
+      DropdownItem(value: _Country.us, label: 'United States'),
+      DropdownItem(value: _Country.uk, label: 'United Kingdom'),
+    ],
+    value: null,
+    onChanged: (_) {},
+    label: 'Country',
+    isRequired: true,
+    error: 'Please select a country',
+  );
+}
+
+@Preview(name: 'Disabled')
+fluent.Widget previewSelectFieldDisabled() {
+  return SelectField<_Country>(
+    items: const [
+      DropdownItem(value: _Country.us, label: 'United States'),
+    ],
+    value: _Country.us,
+    onChanged: (_) {},
+    label: 'Country',
+    isDisabled: true,
+    helper: 'Contact support to change',
+  );
+}
+
+@Preview(name: 'Multi Select')
+@Preview(name: 'Multi Select Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewMultiSelect() {
+  return MultiSelect<_Country>(
+    items: const [
+      DropdownItem(value: _Country.us, label: 'United States'),
+      DropdownItem(value: _Country.uk, label: 'United Kingdom'),
+      DropdownItem(value: _Country.de, label: 'Germany'),
+      DropdownItem(value: _Country.fr, label: 'France'),
+    ],
+    selectedValues: {_Country.us, _Country.uk},
+    onChanged: (_) {},
+    label: 'Regions',
+    placeholder: 'Select regions...',
+  );
 }

@@ -1,4 +1,5 @@
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
+import 'package:flutter/widget_previews.dart';
 
 import '../theme/tokens.dart';
 
@@ -130,4 +131,36 @@ class CheckboxGroup extends fluent.StatelessWidget {
       }).toList(),
     );
   }
+}
+
+// MARK: - Previews
+
+@Preview(name: 'Unchecked')
+@Preview(name: 'Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewCheckboxUnchecked() {
+  return AppCheckbox(value: false, onChanged: (_) {});
+}
+
+@Preview(name: 'Checked')
+fluent.Widget previewCheckboxChecked() {
+  return AppCheckbox(value: true, onChanged: (_) {});
+}
+
+@Preview(name: 'With Label')
+fluent.Widget previewCheckboxWithLabel() {
+  return AppCheckbox(value: true, onChanged: (_) {}, label: 'Accept terms');
+}
+
+@Preview(name: 'Disabled')
+fluent.Widget previewCheckboxDisabled() {
+  return const AppCheckbox(value: false, onChanged: null, isDisabled: true, label: 'Disabled');
+}
+
+@Preview(name: 'Group')
+fluent.Widget previewCheckboxGroup() {
+  return CheckboxGroup(
+    options: const ['Option A', 'Option B', 'Option C'],
+    selectedValues: const {0, 2},
+    onChanged: (_) {},
+  );
 }

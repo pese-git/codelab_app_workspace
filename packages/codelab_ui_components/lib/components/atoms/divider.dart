@@ -1,9 +1,28 @@
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
+import 'package:flutter/widget_previews.dart';
 
 import '../theme/tokens.dart';
 
 /// A horizontal or vertical divider component.
 class AppDivider extends fluent.StatelessWidget {
+
+  /// Horizontal divider
+  const AppDivider.horizontal({
+    this.thickness = AppDimensions.dividerThickness,
+    this.indent = 0,
+    this.endIndent = 0,
+    this.color,
+    super.key,
+  }) : direction = fluent.Axis.horizontal;
+
+  /// Vertical divider
+  const AppDivider.vertical({
+    this.thickness = AppDimensions.dividerThickness,
+    this.indent = 0,
+    this.endIndent = 0,
+    this.color,
+    super.key,
+  }) : direction = fluent.Axis.vertical;
   const AppDivider({
     this.direction = fluent.Axis.horizontal,
     this.thickness = AppDimensions.dividerThickness,
@@ -27,24 +46,6 @@ class AppDivider extends fluent.StatelessWidget {
 
   /// Custom color
   final fluent.Color? color;
-
-  /// Horizontal divider
-  const AppDivider.horizontal({
-    this.thickness = AppDimensions.dividerThickness,
-    this.indent = 0,
-    this.endIndent = 0,
-    this.color,
-    super.key,
-  }) : direction = fluent.Axis.horizontal;
-
-  /// Vertical divider
-  const AppDivider.vertical({
-    this.thickness = AppDimensions.dividerThickness,
-    this.indent = 0,
-    this.endIndent = 0,
-    this.color,
-    super.key,
-  }) : direction = fluent.Axis.vertical;
 
   @override
   fluent.Widget build(fluent.BuildContext context) {
@@ -110,4 +111,22 @@ class LabeledDivider extends fluent.StatelessWidget {
       ],
     );
   }
+}
+
+// MARK: - Previews
+
+@Preview(name: 'Horizontal')
+@Preview(name: 'Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewDividerHorizontal() {
+  return const AppDivider();
+}
+
+@Preview(name: 'Vertical')
+fluent.Widget previewDividerVertical() {
+  return const AppDivider(direction: fluent.Axis.vertical);
+}
+
+@Preview(name: 'Labeled')
+fluent.Widget previewLabeledDivider() {
+  return const LabeledDivider(label: 'Section');
 }

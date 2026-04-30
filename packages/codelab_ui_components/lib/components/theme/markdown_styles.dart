@@ -84,7 +84,6 @@ abstract final class AppMarkdownStyles {
         bottom: AppSpacing.xs,
       ),
       h6: AppTypography.style(
-        size: AppTypography.fontSize14,
         weight: AppTypography.semiBold,
         color: baseTextColor,
       ),
@@ -142,14 +141,14 @@ abstract final class AppMarkdownStyles {
       // Horizontal rules
       horizontalRuleDecoration: fluent.BoxDecoration(
         border: fluent.Border(
-          top: fluent.BorderSide(color: colors.borderWeak, width: 1),
+          top: fluent.BorderSide(color: colors.borderWeak),
         ),
       ),
 
       // Tables
       tableHead: AppTypography.bodyMedium(color: baseTextColor),
       tableBody: AppTypography.body(color: baseTextColor),
-      tableBorder: fluent.TableBorder.all(color: colors.borderWeak, width: 1),
+      tableBorder: fluent.TableBorder.all(color: colors.borderWeak),
       tableColumnWidth: const fluent.IntrinsicColumnWidth(),
       tableCellsPadding: const fluent.EdgeInsets.symmetric(
         horizontal: AppSpacing.sm,

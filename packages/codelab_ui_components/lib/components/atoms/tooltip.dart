@@ -1,4 +1,6 @@
+import 'package:codelab_ui_components/components/atoms/text.dart';
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
+import 'package:flutter/widget_previews.dart';
 
 import '../theme/tokens.dart';
 
@@ -32,7 +34,6 @@ class AppTooltip extends fluent.StatelessWidget {
   fluent.Widget build(fluent.BuildContext context) {
     return fluent.Tooltip(
       message: message,
-      displayHorizontally: false,
       child: child,
     );
   }
@@ -60,7 +61,6 @@ class RichTooltip extends fluent.StatelessWidget {
   fluent.Widget build(fluent.BuildContext context) {
     return fluent.Tooltip(
       message: message,
-      displayHorizontally: false,
       child: child,
     );
   }
@@ -100,4 +100,28 @@ class HelpTooltip extends fluent.StatelessWidget {
       ),
     );
   }
+}
+
+// MARK: - Previews
+
+@Preview(name: 'Tooltip')
+@Preview(name: 'Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewTooltip() {
+  return const AppTooltip(
+    message: 'This is a tooltip',
+    child: AppText('Hover me'),
+  );
+}
+
+@Preview(name: 'Rich Tooltip')
+fluent.Widget previewRichTooltip() {
+  return const RichTooltip(
+    message: 'Rich tooltip content',
+    child: AppText('Hover me'),
+  );
+}
+
+@Preview(name: 'Help Icon')
+fluent.Widget previewHelpTooltip() {
+  return const HelpTooltip(message: 'Need help? Click here for more info.');
 }

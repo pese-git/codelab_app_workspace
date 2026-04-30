@@ -1,4 +1,5 @@
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
+import 'package:flutter/widget_previews.dart';
 
 import '../../foundations/loaders.dart';
 import '../../theme/tokens.dart';
@@ -193,4 +194,50 @@ class TerminalError extends fluent.StatelessWidget {
       ),
     );
   }
+}
+
+// MARK: - Previews
+
+@Preview(name: 'Default')
+@Preview(name: 'Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewTerminalPanelShellDefault() {
+  return TerminalPanelShell(
+    child: fluent.Container(
+      padding: const fluent.EdgeInsets.all(AppSpacing.md),
+      child: fluent.Text(
+        '\$ flutter run\nLaunching lib/main.dart on macOS...\nRunning with sound null safety\n\nApplication started.',
+        style: AppTypography.small(color: fluent.Colors.green),
+      ),
+    ),
+    onClose: () {},
+    onMinimize: () {},
+    onMaximize: () {},
+  );
+}
+
+@Preview(name: 'Loading')
+fluent.Widget previewTerminalLoading() {
+  return const TerminalLoading();
+}
+
+@Preview(name: 'Error')
+fluent.Widget previewTerminalError() {
+  return TerminalError(
+    error: 'Failed to start terminal: No shell found',
+    onRetry: () {},
+  );
+}
+
+@Preview(name: 'Without Actions')
+fluent.Widget previewTerminalPanelShellNoActions() {
+  return TerminalPanelShell(
+    title: 'Output',
+    child: fluent.Container(
+      padding: const fluent.EdgeInsets.all(AppSpacing.md),
+      child: fluent.Text(
+        'Build completed successfully.',
+        style: AppTypography.small(color: fluent.Colors.green),
+      ),
+    ),
+  );
 }

@@ -1,4 +1,5 @@
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
+import 'package:flutter/widget_previews.dart';
 
 import '../theme/tokens.dart';
 
@@ -135,4 +136,46 @@ class ToastAction {
 
   final String label;
   final fluent.VoidCallback onTap;
+}
+
+// MARK: - Previews
+
+@Preview(name: 'Info')
+@Preview(name: 'Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewToastInfo() {
+  return const Toast(
+    message: 'A new update is available for download.',
+  );
+}
+
+@Preview(name: 'Success')
+fluent.Widget previewToastSuccess() {
+  return Toast(
+    title: 'Success',
+    message: 'Your changes have been saved successfully.',
+    variant: ToastVariant.success,
+    action: ToastAction(label: 'Undo', onTap: () {}),
+    onDismiss: () {},
+  );
+}
+
+@Preview(name: 'Warning')
+fluent.Widget previewToastWarning() {
+  return const Toast(
+    title: 'Warning',
+    message: 'Your session will expire in 5 minutes.',
+    variant: ToastVariant.warning,
+  );
+}
+
+@Preview(name: 'Error')
+@Preview(name: 'Error Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewToastError() {
+  return Toast(
+    title: 'Error',
+    message: 'Failed to connect to the server. Please try again.',
+    variant: ToastVariant.error,
+    action: ToastAction(label: 'Retry', onTap: () {}),
+    onDismiss: () {},
+  );
 }

@@ -1,4 +1,5 @@
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
+import 'package:flutter/widget_previews.dart';
 
 import '../theme/tokens.dart';
 
@@ -72,7 +73,7 @@ class AppTextArea extends fluent.StatelessWidget {
         : AppColors.dark;
     final hasError = error != null && error!.isNotEmpty;
 
-    fluent.Widget textArea = fluent.TextBox(
+    final fluent.Widget textArea = fluent.TextBox(
       controller: controller,
       focusNode: focusNode,
       placeholder: placeholder,
@@ -133,4 +134,34 @@ class AppTextArea extends fluent.StatelessWidget {
 
     return textArea;
   }
+}
+
+// MARK: - Previews
+
+@Preview(name: 'Default')
+@Preview(name: 'Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewTextAreaDefault() {
+  return const AppTextArea(placeholder: 'Enter description...');
+}
+
+@Preview(name: 'With Label')
+fluent.Widget previewTextAreaWithLabel() {
+  return const AppTextArea(
+    label: 'Description',
+    placeholder: 'Enter description...',
+    helper: 'Max 500 characters',
+  );
+}
+
+@Preview(name: 'With Error')
+fluent.Widget previewTextAreaWithError() {
+  return const AppTextArea(
+    label: 'Description',
+    error: 'This field is required',
+  );
+}
+
+@Preview(name: 'Disabled')
+fluent.Widget previewTextAreaDisabled() {
+  return const AppTextArea(value: 'Read only content', isDisabled: true);
 }

@@ -1,4 +1,5 @@
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
+import 'package:flutter/widget_previews.dart';
 
 import '../foundations/loaders.dart';
 import '../theme/tokens.dart';
@@ -32,44 +33,6 @@ enum ButtonSize {
 
 /// A styled button component with multiple variants.
 class AppButton extends fluent.StatelessWidget {
-  const AppButton({
-    required this.onPressed,
-    this.label,
-    this.icon,
-    this.variant = ButtonVariant.primary,
-    this.size = ButtonSize.md,
-    this.isLoading = false,
-    this.isDisabled = false,
-    this.fullWidth = false,
-    super.key,
-  }) : assert(
-         label != null || icon != null,
-         'Either label or icon must be provided',
-       );
-
-  /// Button press callback (null for disabled state)
-  final fluent.VoidCallback? onPressed;
-
-  /// Button label text
-  final String? label;
-
-  /// Optional leading icon
-  final fluent.IconData? icon;
-
-  /// Button variant
-  final ButtonVariant variant;
-
-  /// Button size
-  final ButtonSize size;
-
-  /// Show loading state
-  final bool isLoading;
-
-  /// Disabled state (also disabled when isLoading)
-  final bool isDisabled;
-
-  /// Expand to full width
-  final bool fullWidth;
 
   /// Primary button factory
   const AppButton.primary({
@@ -118,6 +81,44 @@ class AppButton extends fluent.StatelessWidget {
     this.fullWidth = false,
     super.key,
   }) : variant = ButtonVariant.destructive;
+  const AppButton({
+    required this.onPressed,
+    this.label,
+    this.icon,
+    this.variant = ButtonVariant.primary,
+    this.size = ButtonSize.md,
+    this.isLoading = false,
+    this.isDisabled = false,
+    this.fullWidth = false,
+    super.key,
+  }) : assert(
+         label != null || icon != null,
+         'Either label or icon must be provided',
+       );
+
+  /// Button press callback (null for disabled state)
+  final fluent.VoidCallback? onPressed;
+
+  /// Button label text
+  final String? label;
+
+  /// Optional leading icon
+  final fluent.IconData? icon;
+
+  /// Button variant
+  final ButtonVariant variant;
+
+  /// Button size
+  final ButtonSize size;
+
+  /// Show loading state
+  final bool isLoading;
+
+  /// Disabled state (also disabled when isLoading)
+  final bool isDisabled;
+
+  /// Expand to full width
+  final bool fullWidth;
 
   double get _height {
     switch (size) {
@@ -250,4 +251,47 @@ class AppButton extends fluent.StatelessWidget {
       ),
     );
   }
+}
+
+// MARK: - Previews
+
+@Preview(name: 'Primary')
+@Preview(name: 'Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewButtonPrimary() {
+  return AppButton(label: 'Primary', onPressed: () {});
+}
+
+@Preview(name: 'Secondary')
+fluent.Widget previewButtonSecondary() {
+  return AppButton(label: 'Secondary', onPressed: () {}, variant: ButtonVariant.secondary);
+}
+
+@Preview(name: 'Tertiary')
+fluent.Widget previewButtonTertiary() {
+  return AppButton(label: 'Tertiary', onPressed: () {}, variant: ButtonVariant.tertiary);
+}
+
+@Preview(name: 'Destructive')
+fluent.Widget previewButtonDestructive() {
+  return AppButton(label: 'Delete', onPressed: () {}, variant: ButtonVariant.destructive);
+}
+
+@Preview(name: 'Disabled')
+fluent.Widget previewButtonDisabled() {
+  return const AppButton(label: 'Disabled', onPressed: null);
+}
+
+@Preview(name: 'Loading')
+fluent.Widget previewButtonLoading() {
+  return AppButton(label: 'Loading', onPressed: () {}, isLoading: true);
+}
+
+@Preview(name: 'Icon Only')
+fluent.Widget previewButtonIconOnly() {
+  return AppButton(icon: fluent.FluentIcons.add, onPressed: () {});
+}
+
+@Preview(name: 'Icon + Label')
+fluent.Widget previewButtonIconLabel() {
+  return AppButton(label: 'Add Item', icon: fluent.FluentIcons.add, onPressed: () {});
 }

@@ -1,4 +1,5 @@
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
+import 'package:flutter/widget_previews.dart';
 
 import '../theme/tokens.dart';
 
@@ -153,4 +154,69 @@ class CheckableListItem extends fluent.StatelessWidget {
       ),
     );
   }
+}
+
+// MARK: - Previews
+
+@Preview(name: 'Default')
+@Preview(name: 'Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewListItemDefault() {
+  return const ListItem(
+    title: 'Project Alpha',
+    subtitle: 'Last edited 2 hours ago',
+    leading: fluent.Icon(fluent.FluentIcons.folder_horizontal, size: 20),
+    trailing: fluent.Icon(fluent.FluentIcons.chevron_right, size: 16),
+  );
+}
+
+@Preview(name: 'Selected')
+fluent.Widget previewListItemSelected() {
+  return const ListItem(
+    title: 'Selected Item',
+    subtitle: 'This item is currently selected',
+    isSelected: true,
+    leading: fluent.Icon(fluent.FluentIcons.check_mark, size: 20),
+  );
+}
+
+@Preview(name: 'Disabled')
+fluent.Widget previewListItemDisabled() {
+  return const ListItem(
+    title: 'Disabled Item',
+    subtitle: 'This item cannot be selected',
+    isDisabled: true,
+    leading: fluent.Icon(fluent.FluentIcons.lock, size: 20),
+  );
+}
+
+@Preview(name: 'Checkable Unchecked')
+@Preview(name: 'Checkable Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewCheckableListItemUnchecked() {
+  return CheckableListItem(
+    title: 'Enable notifications',
+    subtitle: 'Receive push notifications',
+    isChecked: false,
+    onChanged: (_) {},
+  );
+}
+
+@Preview(name: 'Checkable Checked')
+fluent.Widget previewCheckableListItemChecked() {
+  return CheckableListItem(
+    title: 'Enable notifications',
+    subtitle: 'Receive push notifications',
+    isChecked: true,
+    onChanged: (_) {},
+  );
+}
+
+@Preview(name: 'Checkable Disabled')
+fluent.Widget previewCheckableListItemDisabled() {
+  return CheckableListItem(
+    title: 'Legacy feature',
+    subtitle: 'No longer available',
+    isChecked: false,
+    isDisabled: true,
+    onChanged: (_) {},
+  );
 }

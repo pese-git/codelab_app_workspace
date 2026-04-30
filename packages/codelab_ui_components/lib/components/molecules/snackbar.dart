@@ -1,4 +1,5 @@
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
+import 'package:flutter/widget_previews.dart';
 
 import '../theme/tokens.dart';
 
@@ -15,7 +16,6 @@ void showAppSnackbar(
     builder: (context, close) {
       return fluent.InfoBar(
         title: fluent.Text(message),
-        severity: fluent.InfoBarSeverity.info,
         action: actionLabel != null
             ? fluent.Button(
                 child: fluent.Text(actionLabel),
@@ -99,4 +99,32 @@ class AppSnackbar extends fluent.StatelessWidget {
       ),
     );
   }
+}
+
+// MARK: - Previews
+
+@Preview(name: 'Default')
+@Preview(name: 'Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewSnackbarDefault() {
+  return const AppSnackbar(
+    message: 'Changes saved successfully',
+  );
+}
+
+@Preview(name: 'With Action')
+fluent.Widget previewSnackbarWithAction() {
+  return AppSnackbar(
+    message: 'File uploaded',
+    actionLabel: 'View',
+    onAction: () {},
+    onDismiss: () {},
+  );
+}
+
+@Preview(name: 'With Dismiss Only')
+fluent.Widget previewSnackbarWithDismiss() {
+  return AppSnackbar(
+    message: 'New version available',
+    onDismiss: () {},
+  );
 }

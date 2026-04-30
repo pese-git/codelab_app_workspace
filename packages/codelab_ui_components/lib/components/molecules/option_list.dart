@@ -1,4 +1,5 @@
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
+import 'package:flutter/widget_previews.dart';
 
 import '../theme/tokens.dart';
 
@@ -174,4 +175,65 @@ class OptionItem<T> {
   final String? description;
   final fluent.IconData? icon;
   final bool isDisabled;
+}
+
+// MARK: - Previews
+
+enum _SampleOption { all, active, archived }
+
+@Preview(name: 'Default')
+@Preview(name: 'Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewOptionListDefault() {
+  return OptionList<_SampleOption>(
+    options: const [
+      OptionItem(value: _SampleOption.all, label: 'All Items'),
+      OptionItem(value: _SampleOption.active, label: 'Active Only'),
+      OptionItem(value: _SampleOption.archived, label: 'Archived'),
+    ],
+    selected: {_SampleOption.active},
+    onSelect: (_) {},
+  );
+}
+
+@Preview(name: 'Multi Select')
+fluent.Widget previewOptionListMulti() {
+  return OptionList<_SampleOption>(
+    options: const [
+      OptionItem(value: _SampleOption.all, label: 'All Items'),
+      OptionItem(value: _SampleOption.active, label: 'Active Only'),
+      OptionItem(value: _SampleOption.archived, label: 'Archived'),
+    ],
+    selected: {_SampleOption.all, _SampleOption.active},
+    onSelect: (_) {},
+    multiSelect: true,
+  );
+}
+
+@Preview(name: 'With Icons and Descriptions')
+@Preview(name: 'With Icons Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewOptionListWithIcons() {
+  return OptionList<_SampleOption>(
+    options: const [
+      OptionItem(
+        value: _SampleOption.all,
+        label: 'All Items',
+        description: 'Show all items including archived',
+        icon: fluent.FluentIcons.all_apps,
+      ),
+      OptionItem(
+        value: _SampleOption.active,
+        label: 'Active Only',
+        description: 'Only currently active items',
+        icon: fluent.FluentIcons.check_mark,
+      ),
+      OptionItem(
+        value: _SampleOption.archived,
+        label: 'Archived',
+        description: 'Items that have been archived',
+        icon: fluent.FluentIcons.archive,
+      ),
+    ],
+    selected: {_SampleOption.all},
+    onSelect: (_) {},
+  );
 }

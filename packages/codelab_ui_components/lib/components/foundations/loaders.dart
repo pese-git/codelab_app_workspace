@@ -1,4 +1,5 @@
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
+import 'package:flutter/widget_previews.dart';
 
 import '../theme/tokens.dart';
 
@@ -281,4 +282,96 @@ class _DotsLoaderState extends fluent.State<DotsLoader>
       }),
     );
   }
+}
+
+// MARK: - Previews
+
+@Preview(name: 'Progress Ring Default')
+@Preview(name: 'Progress Ring Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewProgressRingDefault() {
+  return const fluent.Padding(
+    padding: fluent.EdgeInsets.all(AppSpacing.lg),
+    child: AppProgressRing(),
+  );
+}
+
+@Preview(name: 'Progress Ring Determinate')
+fluent.Widget previewProgressRingDeterminate() {
+  return const fluent.Padding(
+    padding: fluent.EdgeInsets.all(AppSpacing.lg),
+    child: AppProgressRing(value: 0.65, size: 48, strokeWidth: 4),
+  );
+}
+
+@Preview(name: 'Progress Bar Default')
+@Preview(name: 'Progress Bar Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewProgressBarDefault() {
+  return const fluent.Padding(
+    padding: fluent.EdgeInsets.all(AppSpacing.lg),
+    child: fluent.SizedBox(
+      width: 200,
+      child: AppProgressBar(value: 0.45),
+    ),
+  );
+}
+
+@Preview(name: 'Progress Bar Indeterminate')
+fluent.Widget previewProgressBarIndeterminate() {
+  return const fluent.Padding(
+    padding: fluent.EdgeInsets.all(AppSpacing.lg),
+    child: fluent.SizedBox(
+      width: 200,
+      child: AppProgressBar(),
+    ),
+  );
+}
+
+@Preview(name: 'Loading Indicator Default')
+@Preview(name: 'Loading Indicator Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewLoadingIndicatorDefault() {
+  return const fluent.Padding(
+    padding: fluent.EdgeInsets.all(AppSpacing.lg),
+    child: LoadingIndicator(message: 'Loading data...'),
+  );
+}
+
+@Preview(name: 'Loading Indicator No Message')
+fluent.Widget previewLoadingIndicatorNoMessage() {
+  return const fluent.Padding(
+    padding: fluent.EdgeInsets.all(AppSpacing.lg),
+    child: LoadingIndicator(),
+  );
+}
+
+@Preview(name: 'Loading Overlay Default')
+@Preview(name: 'Loading Overlay Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewLoadingOverlayDefault() {
+  return LoadingOverlay(
+    isLoading: true,
+    message: 'Saving changes...',
+    child: fluent.Container(
+      width: 300,
+      height: 200,
+      padding: const fluent.EdgeInsets.all(AppSpacing.lg),
+      child: const fluent.Text('Content behind overlay'),
+    ),
+  );
+}
+
+@Preview(name: 'Button Loader Default')
+@Preview(name: 'Button Loader Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewButtonLoaderDefault() {
+  return const fluent.Padding(
+    padding: fluent.EdgeInsets.all(AppSpacing.lg),
+    child: ButtonLoader(),
+  );
+}
+
+@Preview(name: 'Dots Loader Default')
+@Preview(name: 'Dots Loader Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewDotsLoaderDefault() {
+  return const fluent.Padding(
+    padding: fluent.EdgeInsets.all(AppSpacing.lg),
+    child: DotsLoader(),
+  );
 }

@@ -1,4 +1,5 @@
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
+import 'package:flutter/widget_previews.dart';
 
 import '../theme/tokens.dart';
 
@@ -87,4 +88,39 @@ class _HoverScrollbarState extends fluent.State<HoverScrollbar> {
       ),
     );
   }
+}
+
+// MARK: - Previews
+
+@Preview(name: 'Default')
+@Preview(name: 'Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewScrollbarDefault() {
+  return AppScrollbar(
+    child: fluent.ListView.builder(
+      itemCount: 20,
+      itemBuilder: (context, index) {
+        return fluent.Container(
+          height: 40,
+          alignment: fluent.Alignment.center,
+          child: fluent.Text('Item $index'),
+        );
+      },
+    ),
+  );
+}
+
+@Preview(name: 'Hover')
+fluent.Widget previewHoverScrollbar() {
+  return HoverScrollbar(
+    child: fluent.ListView.builder(
+      itemCount: 20,
+      itemBuilder: (context, index) {
+        return fluent.Container(
+          height: 40,
+          alignment: fluent.Alignment.center,
+          child: fluent.Text('Item $index'),
+        );
+      },
+    ),
+  );
 }

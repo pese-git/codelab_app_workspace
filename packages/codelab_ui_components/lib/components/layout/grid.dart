@@ -1,4 +1,5 @@
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
+import 'package:flutter/widget_previews.dart';
 
 import '../theme/tokens.dart';
 
@@ -110,4 +111,74 @@ class MasonryGrid extends fluent.StatelessWidget {
       }).toList(),
     );
   }
+}
+
+// MARK: - Previews
+
+@Preview(name: 'Default')
+@Preview(name: 'Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewGridDefault() {
+  return fluent.SizedBox(
+    height: 300,
+    child: AppGrid(
+      columns: 3,
+      children: List.generate(
+        6,
+        (index) => fluent.Container(
+          decoration: fluent.BoxDecoration(
+            color: const fluent.Color.fromARGB(255, 240, 240, 240),
+            borderRadius: AppRadius.mdAll,
+          ),
+          alignment: fluent.Alignment.center,
+          child: fluent.Text('Item ${index + 1}'),
+        ),
+      ),
+    ),
+  );
+}
+
+@Preview(name: 'Responsive Default')
+@Preview(name: 'Responsive Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewResponsiveGridDefault() {
+  return fluent.SizedBox(
+    height: 300,
+    child: ResponsiveGrid(
+      minChildWidth: 150,
+      children: List.generate(
+        8,
+        (index) => fluent.Container(
+          height: 80,
+          decoration: fluent.BoxDecoration(
+            color: const fluent.Color.fromARGB(255, 219, 234, 254),
+            borderRadius: AppRadius.mdAll,
+          ),
+          alignment: fluent.Alignment.center,
+          child: fluent.Text('Card ${index + 1}'),
+        ),
+      ),
+    ),
+  );
+}
+
+@Preview(name: 'Masonry Default')
+@Preview(name: 'Masonry Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewMasonryGridDefault() {
+  return fluent.SizedBox(
+    height: 300,
+    child: MasonryGrid(
+      columns: 3,
+      children: List.generate(
+        9,
+        (index) => fluent.Container(
+          height: 60 + (index % 3) * 30,
+          decoration: fluent.BoxDecoration(
+            color: const fluent.Color.fromARGB(255, 220, 252, 231),
+            borderRadius: AppRadius.mdAll,
+          ),
+          alignment: fluent.Alignment.center,
+          child: fluent.Text('Item ${index + 1}'),
+        ),
+      ),
+    ),
+  );
 }

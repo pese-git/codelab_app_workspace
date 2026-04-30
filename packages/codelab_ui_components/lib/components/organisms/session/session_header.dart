@@ -1,4 +1,5 @@
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
+import 'package:flutter/widget_previews.dart';
 
 import '../../atoms/icon_button.dart';
 import '../../theme/tokens.dart';
@@ -116,4 +117,39 @@ class SessionHeader extends fluent.StatelessWidget {
       ),
     );
   }
+}
+
+// MARK: - Previews
+
+@Preview(name: 'Default')
+@Preview(name: 'Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewSessionHeaderDefault() {
+  return SessionHeader(
+    title: 'Implement user authentication',
+    subtitle: 'Updated 2 minutes ago',
+    branchName: 'feature/auth-flow',
+    onFork: () {},
+    onShare: () {},
+    onMore: () {},
+  );
+}
+
+@Preview(name: 'With Back Button')
+fluent.Widget previewSessionHeaderWithBack() {
+  return SessionHeader(
+    title: 'Refactor database layer',
+    subtitle: '3 files modified',
+    branchName: 'fix/db-optimization',
+    onBack: () {},
+    onFork: () {},
+    onShare: () {},
+    onMore: () {},
+  );
+}
+
+@Preview(name: 'Minimal')
+fluent.Widget previewSessionHeaderMinimal() {
+  return const SessionHeader(
+    title: 'Quick task',
+  );
 }

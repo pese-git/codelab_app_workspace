@@ -352,19 +352,19 @@ abstract final class AppTypography {
 
   /// Caption text style (12px, regular)
   static fluent.TextStyle caption({fluent.Color? color}) =>
-      style(size: fontSize12, weight: regular, color: color);
+      style(size: fontSize12, color: color);
 
   /// Small text style (13px, regular)
   static fluent.TextStyle small({fluent.Color? color}) =>
-      style(size: fontSize13, weight: regular, color: color);
+      style(size: fontSize13, color: color);
 
   /// Body text style (14px, regular)
   static fluent.TextStyle body({fluent.Color? color}) =>
-      style(size: fontSize14, weight: regular, color: color);
+      style(color: color);
 
   /// Body medium text style (14px, medium)
   static fluent.TextStyle bodyMedium({fluent.Color? color}) =>
-      style(size: fontSize14, weight: medium, color: color);
+      style(weight: medium, color: color);
 
   /// Label text style (15px, medium)
   static fluent.TextStyle label({fluent.Color? color}) =>
@@ -400,8 +400,6 @@ abstract final class AppTypography {
 
   /// Code text style (14px, regular, monospace)
   static fluent.TextStyle code({fluent.Color? color}) => style(
-    size: fontSize14,
-    weight: regular,
     fontFamily: fontFamilyMono,
     height: lineHeightRelaxed,
     color: color,
@@ -410,7 +408,6 @@ abstract final class AppTypography {
   /// Code small text style (12px, regular, monospace)
   static fluent.TextStyle codeSmall({fluent.Color? color}) => style(
     size: fontSize12,
-    weight: regular,
     fontFamily: fontFamilyMono,
     height: lineHeightRelaxed,
     color: color,
@@ -457,51 +454,51 @@ final class LightShadows {
 
   /// Subtle shadow for hover states
   List<fluent.BoxShadow> get subtle => [
-    fluent.BoxShadow(
-      color: const fluent.Color(0x0D000000),
+    const fluent.BoxShadow(
+      color: fluent.Color(0x0D000000),
       blurRadius: 4,
-      offset: const fluent.Offset(0, 1),
+      offset: fluent.Offset(0, 1),
     ),
   ];
 
   /// Small shadow for cards
   List<fluent.BoxShadow> get sm => [
-    fluent.BoxShadow(
-      color: const fluent.Color(0x0F000000),
+    const fluent.BoxShadow(
+      color: fluent.Color(0x0F000000),
       blurRadius: 6,
-      offset: const fluent.Offset(0, 2),
+      offset: fluent.Offset(0, 2),
     ),
   ];
 
   /// Medium shadow for dropdowns
   List<fluent.BoxShadow> get md => [
-    fluent.BoxShadow(
-      color: const fluent.Color(0x14000000),
+    const fluent.BoxShadow(
+      color: fluent.Color(0x14000000),
       blurRadius: 10,
-      offset: const fluent.Offset(0, 4),
+      offset: fluent.Offset(0, 4),
     ),
   ];
 
   /// Large shadow for panels
   List<fluent.BoxShadow> get lg => [
-    fluent.BoxShadow(
-      color: const fluent.Color(0x19000000),
+    const fluent.BoxShadow(
+      color: fluent.Color(0x19000000),
       blurRadius: 15,
-      offset: const fluent.Offset(0, 6),
+      offset: fluent.Offset(0, 6),
     ),
   ];
 
   /// Extra large shadow for dialogs
   List<fluent.BoxShadow> get xl => [
-    fluent.BoxShadow(
-      color: const fluent.Color(0x1F000000),
+    const fluent.BoxShadow(
+      color: fluent.Color(0x1F000000),
       blurRadius: 18,
-      offset: const fluent.Offset(0, 6),
+      offset: fluent.Offset(0, 6),
     ),
-    fluent.BoxShadow(
-      color: const fluent.Color(0x0A000000),
+    const fluent.BoxShadow(
+      color: fluent.Color(0x0A000000),
       blurRadius: 40,
-      offset: const fluent.Offset(0, 15),
+      offset: fluent.Offset(0, 15),
     ),
   ];
 }
@@ -513,55 +510,55 @@ final class DarkShadows extends LightShadows {
   /// Subtle shadow for hover states
   @override
   List<fluent.BoxShadow> get subtle => [
-    fluent.BoxShadow(
-      color: const fluent.Color(0x33000000),
+    const fluent.BoxShadow(
+      color: fluent.Color(0x33000000),
       blurRadius: 4,
-      offset: const fluent.Offset(0, 1),
+      offset: fluent.Offset(0, 1),
     ),
   ];
 
   /// Small shadow for cards
   @override
   List<fluent.BoxShadow> get sm => [
-    fluent.BoxShadow(
-      color: const fluent.Color(0x40000000),
+    const fluent.BoxShadow(
+      color: fluent.Color(0x40000000),
       blurRadius: 6,
-      offset: const fluent.Offset(0, 2),
+      offset: fluent.Offset(0, 2),
     ),
   ];
 
   /// Medium shadow for dropdowns
   @override
   List<fluent.BoxShadow> get md => [
-    fluent.BoxShadow(
-      color: const fluent.Color(0x4D000000),
+    const fluent.BoxShadow(
+      color: fluent.Color(0x4D000000),
       blurRadius: 10,
-      offset: const fluent.Offset(0, 4),
+      offset: fluent.Offset(0, 4),
     ),
   ];
 
   /// Large shadow for panels
   @override
   List<fluent.BoxShadow> get lg => [
-    fluent.BoxShadow(
-      color: const fluent.Color(0x59000000),
+    const fluent.BoxShadow(
+      color: fluent.Color(0x59000000),
       blurRadius: 15,
-      offset: const fluent.Offset(0, 6),
+      offset: fluent.Offset(0, 6),
     ),
   ];
 
   /// Extra large shadow for dialogs
   @override
   List<fluent.BoxShadow> get xl => [
-    fluent.BoxShadow(
-      color: const fluent.Color(0x66000000),
+    const fluent.BoxShadow(
+      color: fluent.Color(0x66000000),
       blurRadius: 18,
-      offset: const fluent.Offset(0, 6),
+      offset: fluent.Offset(0, 6),
     ),
-    fluent.BoxShadow(
-      color: const fluent.Color(0x33000000),
+    const fluent.BoxShadow(
+      color: fluent.Color(0x33000000),
       blurRadius: 40,
-      offset: const fluent.Offset(0, 15),
+      offset: fluent.Offset(0, 15),
     ),
   ];
 }

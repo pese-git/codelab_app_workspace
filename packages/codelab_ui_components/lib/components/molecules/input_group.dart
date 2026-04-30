@@ -1,4 +1,5 @@
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
+import 'package:flutter/widget_previews.dart';
 
 import '../theme/tokens.dart';
 
@@ -156,4 +157,55 @@ class FormSection extends fluent.StatelessWidget {
       ],
     );
   }
+}
+
+// MARK: - Previews
+
+@Preview(name: 'Default')
+@Preview(name: 'Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewInputGroupDefault() {
+  return const InputGroup(
+    label: 'Personal Information',
+    helper: 'Please fill in all required fields',
+    children: [
+      fluent.Text('Input 1'),
+      fluent.Text('Input 2'),
+    ],
+  );
+}
+
+@Preview(name: 'With Error')
+fluent.Widget previewInputGroupError() {
+  return const InputGroup(
+    label: 'Email Address',
+    error: 'Please enter a valid email address',
+    children: [
+      fluent.Text('user@example'),
+    ],
+  );
+}
+
+@Preview(name: 'Horizontal')
+fluent.Widget inputGroupHorizontal() {
+  return const InputGroup(
+    label: 'Date Range',
+    direction: fluent.Axis.horizontal,
+    children: [
+      fluent.Text('From'),
+      fluent.Text('To'),
+    ],
+  );
+}
+
+@Preview(name: 'Form Section')
+@Preview(name: 'Form Section Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewFormSection() {
+  return const FormSection(
+    title: 'Account Settings',
+    description: 'Manage your account preferences',
+    children: [
+      fluent.Text('Username field'),
+      fluent.Text('Email field'),
+    ],
+  );
 }

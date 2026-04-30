@@ -1,4 +1,5 @@
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
+import 'package:flutter/widget_previews.dart';
 
 import '../theme/tokens.dart';
 
@@ -145,4 +146,32 @@ class BreadcrumbItem {
 
   /// Tap callback
   final fluent.VoidCallback? onTap;
+}
+
+// MARK: - Previews
+
+@Preview(name: 'Default')
+@Preview(name: 'Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewBreadcrumbsDefault() {
+  return const Breadcrumbs(
+    items: [
+      BreadcrumbItem(label: 'Home', icon: fluent.FluentIcons.home),
+      BreadcrumbItem(label: 'Projects'),
+      BreadcrumbItem(label: 'Current Project'),
+    ],
+  );
+}
+
+@Preview(name: 'With Max Items')
+fluent.Widget previewBreadcrumbsMaxItems() {
+  return const Breadcrumbs(
+    items: [
+      BreadcrumbItem(label: 'Home'),
+      BreadcrumbItem(label: 'Level 1'),
+      BreadcrumbItem(label: 'Level 2'),
+      BreadcrumbItem(label: 'Level 3'),
+      BreadcrumbItem(label: 'Current'),
+    ],
+    maxItems: 3,
+  );
 }

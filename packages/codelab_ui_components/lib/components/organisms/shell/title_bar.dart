@@ -1,4 +1,5 @@
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
+import 'package:flutter/widget_previews.dart';
 
 import '../../theme/tokens.dart';
 
@@ -235,4 +236,37 @@ class _NavigationButton extends fluent.StatelessWidget {
       ),
     );
   }
+}
+
+// MARK: - Previews
+
+@Preview(name: 'Default')
+@Preview(name: 'Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewTitleBarDefault() {
+  return const TitleBar(
+    canBack: true,
+  );
+}
+
+@Preview(name: 'With Navigation')
+fluent.Widget previewTitleBarNavigation() {
+  return TitleBar(
+    canBack: true,
+    canForward: true,
+    onBack: () {},
+    onForward: () {},
+    onToggleSidebar: () {},
+    onToggleContextPanel: () {},
+    onSearch: () {},
+    onToggleTerminal: () {},
+    onNewWorkspace: () {},
+  );
+}
+
+@Preview(name: 'Panel Hidden')
+fluent.Widget previewTitleBarPanelHidden() {
+  return const TitleBar(
+    isContextPanelVisible: false,
+    searchPlaceholder: 'Search files...',
+  );
 }

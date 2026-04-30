@@ -1,4 +1,5 @@
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
+import 'package:flutter/widget_previews.dart';
 
 import '../../theme/tokens.dart';
 
@@ -139,4 +140,84 @@ class SimpleShell extends fluent.StatelessWidget {
       ),
     );
   }
+}
+
+// MARK: - Previews
+
+@Preview(name: 'Default')
+@Preview(name: 'Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewDesktopShellDefault() {
+  return DesktopShell(
+    titleBar: fluent.Container(
+      height: 48,
+      alignment: fluent.Alignment.center,
+      child: const fluent.Text('Title Bar'),
+    ),
+    content: const fluent.Center(
+      child: fluent.Text('Main Content Area'),
+    ),
+    projectRail: fluent.Container(
+      width: 54,
+      color: fluent.Colors.transparent,
+      child: const fluent.Center(child: fluent.Text('Rail')),
+    ),
+    sidebar: const fluent.SizedBox(
+      width: 260,
+      child: fluent.Center(child: fluent.Text('Sidebar')),
+    ),
+    contextPanel: const fluent.SizedBox(
+      width: 300,
+      child: fluent.Center(child: fluent.Text('Context Panel')),
+    ),
+  );
+}
+
+@Preview(name: 'Content Only')
+fluent.Widget previewDesktopShellContentOnly() {
+  return DesktopShell(
+    titleBar: fluent.Container(
+      height: 48,
+      alignment: fluent.Alignment.center,
+      child: const fluent.Text('Title Bar'),
+    ),
+    content: const fluent.Center(
+      child: fluent.Text('Main Content Area'),
+    ),
+    showSidebar: false,
+    showContextPanel: false,
+  );
+}
+
+@Preview(name: 'With Bottom Panel')
+fluent.Widget previewDesktopShellBottomPanel() {
+  return DesktopShell(
+    titleBar: fluent.Container(
+      height: 48,
+      alignment: fluent.Alignment.center,
+      child: const fluent.Text('Title Bar'),
+    ),
+    content: const fluent.Center(
+      child: fluent.Text('Main Content Area'),
+    ),
+    bottomPanel: const fluent.Center(
+      child: fluent.Text('Terminal / Bottom Panel'),
+    ),
+    showBottomPanel: true,
+    showSidebar: false,
+    showContextPanel: false,
+  );
+}
+
+@Preview(name: 'Simple Shell')
+fluent.Widget previewSimpleShell() {
+  return SimpleShell(
+    titleBar: fluent.Container(
+      height: 48,
+      alignment: fluent.Alignment.center,
+      child: const fluent.Text('Title Bar'),
+    ),
+    child: const fluent.Center(
+      child: fluent.Text('Simple Content'),
+    ),
+  );
 }

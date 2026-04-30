@@ -1,4 +1,5 @@
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
+import 'package:flutter/widget_previews.dart';
 
 import '../atoms/button.dart';
 import '../theme/tokens.dart';
@@ -152,4 +153,54 @@ class ErrorState extends fluent.StatelessWidget {
       onAction: onRetry,
     );
   }
+}
+
+// MARK: - Previews
+
+@Preview(name: 'Default')
+@Preview(name: 'Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewEmptyStateDefault() {
+  return EmptyState(
+    icon: fluent.FluentIcons.folder,
+    title: 'No projects yet',
+    message: 'Create your first project to get started',
+    actionLabel: 'Create Project',
+    onAction: () {},
+  );
+}
+
+@Preview(name: 'Compact')
+fluent.Widget previewEmptyStateCompact() {
+  return const EmptyState(
+    icon: fluent.FluentIcons.search,
+    title: 'No results',
+    message: 'Try adjusting your filters',
+    compact: true,
+  );
+}
+
+@Preview(name: 'With Secondary Action')
+fluent.Widget previewEmptyStateSecondaryAction() {
+  return EmptyState(
+    icon: fluent.FluentIcons.cloud,
+    title: 'Offline',
+    message: 'You are currently offline. Some features may be unavailable.',
+    actionLabel: 'Retry',
+    onAction: () {},
+    secondaryActionLabel: 'Learn more',
+    onSecondaryAction: () {},
+  );
+}
+
+@Preview(name: 'No Results')
+fluent.Widget previewNoResultsState() {
+  return const NoResultsState(searchQuery: 'flutter');
+}
+
+@Preview(name: 'Error')
+fluent.Widget previewErrorState() {
+  return ErrorState(
+    message: 'Failed to load data. Please check your connection.',
+    onRetry: () {},
+  );
 }

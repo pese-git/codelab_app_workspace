@@ -1,4 +1,5 @@
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
+import 'package:flutter/widget_previews.dart';
 
 import '../theme/tokens.dart';
 
@@ -169,4 +170,42 @@ class AppToggleIconButton extends fluent.StatelessWidget {
       onPressed: onChanged != null ? () => onChanged!(!isSelected) : null,
     );
   }
+}
+
+// MARK: - Previews
+
+@Preview(name: 'Default')
+@Preview(name: 'Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewIconButtonDefault() {
+  return AppIconButton(icon: fluent.FluentIcons.add, onPressed: () {});
+}
+
+@Preview(name: 'With Tooltip')
+fluent.Widget previewIconButtonTooltip() {
+  return AppIconButton(icon: fluent.FluentIcons.delete, onPressed: () {}, tooltip: 'Delete');
+}
+
+@Preview(name: 'Disabled')
+fluent.Widget previewIconButtonDisabled() {
+  return const AppIconButton(icon: fluent.FluentIcons.edit, onPressed: null, isDisabled: true);
+}
+
+@Preview(name: 'Toggle Unselected')
+fluent.Widget previewToggleIconButtonUnselected() {
+  return AppToggleIconButton(
+    icon: fluent.FluentIcons.heart,
+    selectedIcon: fluent.FluentIcons.heart_fill,
+    isSelected: false,
+    onChanged: (_) {},
+  );
+}
+
+@Preview(name: 'Toggle Selected')
+fluent.Widget previewToggleIconButtonSelected() {
+  return AppToggleIconButton(
+    icon: fluent.FluentIcons.heart,
+    selectedIcon: fluent.FluentIcons.heart_fill,
+    isSelected: true,
+    onChanged: (_) {},
+  );
 }

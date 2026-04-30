@@ -1,4 +1,5 @@
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
+import 'package:flutter/widget_previews.dart';
 
 import '../theme/tokens.dart';
 
@@ -25,21 +26,6 @@ enum BadgeVariant {
 
 /// A small status badge component.
 class Badge extends fluent.StatelessWidget {
-  const Badge({
-    required this.label,
-    this.variant = BadgeVariant.neutral,
-    this.size = BadgeSize.md,
-    super.key,
-  });
-
-  /// Badge text
-  final String label;
-
-  /// Badge variant
-  final BadgeVariant variant;
-
-  /// Badge size
-  final BadgeSize size;
 
   const Badge.primary(this.label, {this.size = BadgeSize.md, super.key})
     : variant = BadgeVariant.primary;
@@ -55,6 +41,21 @@ class Badge extends fluent.StatelessWidget {
 
   const Badge.info(this.label, {this.size = BadgeSize.md, super.key})
     : variant = BadgeVariant.info;
+  const Badge({
+    required this.label,
+    this.variant = BadgeVariant.neutral,
+    this.size = BadgeSize.md,
+    super.key,
+  });
+
+  /// Badge text
+  final String label;
+
+  /// Badge variant
+  final BadgeVariant variant;
+
+  /// Badge size
+  final BadgeSize size;
 
   @override
   fluent.Widget build(fluent.BuildContext context) {
@@ -219,4 +220,47 @@ class DotBadge extends fluent.StatelessWidget {
       ),
     );
   }
+}
+
+// MARK: - Previews
+
+@Preview(name: 'Neutral')
+@Preview(name: 'Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewBadgeNeutral() {
+  return const Badge(label: 'Badge');
+}
+
+@Preview(name: 'Primary')
+fluent.Widget previewBadgePrimary() {
+  return const Badge(label: 'New', variant: BadgeVariant.primary);
+}
+
+@Preview(name: 'Success')
+fluent.Widget previewBadgeSuccess() {
+  return const Badge(label: 'Active', variant: BadgeVariant.success);
+}
+
+@Preview(name: 'Warning')
+fluent.Widget previewBadgeWarning() {
+  return const Badge(label: 'Pending', variant: BadgeVariant.warning);
+}
+
+@Preview(name: 'Error')
+fluent.Widget previewBadgeError() {
+  return const Badge(label: 'Failed', variant: BadgeVariant.error);
+}
+
+@Preview(name: 'Count')
+fluent.Widget previewCountBadge() {
+  return const CountBadge(count: 12);
+}
+
+@Preview(name: 'Count Overflow')
+fluent.Widget previewCountBadgeOverflow() {
+  return const CountBadge(count: 150);
+}
+
+@Preview(name: 'Dot')
+fluent.Widget previewDotBadge() {
+  return const DotBadge();
 }

@@ -1,4 +1,5 @@
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
+import 'package:flutter/widget_previews.dart';
 
 import '../../theme/tokens.dart';
 import '../session/file_list.dart';
@@ -312,3 +313,63 @@ class SidebarSession {
   final String id;
   final String title;
 }
+
+// MARK: - Previews
+
+@Preview(name: 'Default')
+@Preview(name: 'Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewSidebarDefault() {
+  return Sidebar(
+    projectName: 'My Project',
+    projectPath: '/Users/dev/projects/my-project',
+    branchName: 'main',
+    sessions: const [
+      SidebarSession(id: 'session-1', title: 'Initial setup'),
+      SidebarSession(id: 'session-2', title: 'Add authentication'),
+      SidebarSession(id: 'session-3', title: 'Fix login bug'),
+    ],
+    selectedSessionId: 'session-2',
+    workspaceNodes: const [
+      FileNode(
+        id: 'lib',
+        label: 'lib',
+        isFolder: true,
+        children: [
+          FileNode(id: 'main.dart', label: 'main.dart', isFolder: false),
+          FileNode(id: 'app.dart', label: 'app.dart', isFolder: false),
+        ],
+      ),
+      FileNode(id: 'pubspec.yaml', label: 'pubspec.yaml', isFolder: false),
+    ],
+    expandedNodes: const {'lib'},
+    onSessionSelected: (_) {},
+    onNodeToggle: (_) {},
+    onNewWorkspace: () {},
+    onEditProject: () {},
+    onConnectProvider: () {},
+  );
+}
+
+@Preview(name: 'Minimal')
+fluent.Widget previewSidebarMinimal() {
+  return const Sidebar(
+    projectName: 'Simple Project',
+    projectPath: '/projects/simple',
+    branchName: 'develop',
+    sessions: [
+      SidebarSession(id: 's1', title: 'First session'),
+    ],
+    selectedSessionId: 's1',
+  );
+}
+
+@Preview(name: 'With Provider Card')
+fluent.Widget previewSidebarWithProvider() {
+  return const Sidebar(
+    projectName: 'AI Assistant',
+    projectPath: '/projects/ai-assistant',
+    onConnectProvider: _onConnectProvider,
+  );
+}
+
+void _onConnectProvider() {}

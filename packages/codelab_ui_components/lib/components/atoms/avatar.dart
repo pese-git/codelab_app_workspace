@@ -1,4 +1,5 @@
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
+import 'package:flutter/widget_previews.dart';
 
 import '../theme/tokens.dart';
 
@@ -253,4 +254,28 @@ class AvatarData {
 
   final String? imageUrl;
   final String? initials;
+}
+
+// MARK: - Previews
+
+@Preview(name: 'Default')
+@Preview(name: 'Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewAvatarDefault() {
+  return const Avatar(initials: 'JD');
+}
+
+@Preview(name: 'With Image')
+fluent.Widget previewAvatarImage() {
+  return const Avatar(imageUrl: 'https://via.placeholder.com/40');
+}
+
+@Preview(name: 'Stack')
+fluent.Widget previewAvatarStack() {
+  return const AvatarStack(
+    avatars: [
+      AvatarData(initials: 'JD'),
+      AvatarData(initials: 'AS'),
+      AvatarData(initials: 'MK'),
+    ],
+  );
 }

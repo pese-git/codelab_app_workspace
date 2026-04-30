@@ -1,4 +1,5 @@
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
+import 'package:flutter/widget_previews.dart';
 
 import '../theme/tokens.dart';
 
@@ -35,7 +36,7 @@ class AppToggle extends fluent.StatelessWidget {
         ? AppColors.light
         : AppColors.dark;
 
-    fluent.Widget toggle = fluent.ToggleSwitch(
+    final fluent.Widget toggle = fluent.ToggleSwitch(
       checked: value,
       onChanged: isDisabled ? null : onChanged,
     );
@@ -122,4 +123,37 @@ class LabeledToggle extends fluent.StatelessWidget {
       ],
     );
   }
+}
+
+// MARK: - Previews
+
+@Preview(name: 'Off')
+@Preview(name: 'Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewToggleOff() {
+  return AppToggle(value: false, onChanged: (_) {});
+}
+
+@Preview(name: 'On')
+fluent.Widget previewToggleOn() {
+  return AppToggle(value: true, onChanged: (_) {});
+}
+
+@Preview(name: 'With Label')
+fluent.Widget previewToggleWithLabel() {
+  return AppToggle(
+    value: true,
+    onChanged: (_) {},
+    label: 'Enable notifications',
+    description: 'Receive push notifications for updates',
+  );
+}
+
+@Preview(name: 'Disabled')
+fluent.Widget previewToggleDisabled() {
+  return const AppToggle(value: false, onChanged: null, isDisabled: true, label: 'Unavailable');
+}
+
+@Preview(name: 'Labeled Toggle')
+fluent.Widget previewLabeledToggle() {
+  return LabeledToggle(label: 'Dark Mode', value: true, onChanged: (_) {});
 }

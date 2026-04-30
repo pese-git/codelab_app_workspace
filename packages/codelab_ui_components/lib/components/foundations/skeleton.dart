@@ -1,28 +1,10 @@
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
+import 'package:flutter/widget_previews.dart';
 
 import '../theme/tokens.dart';
 
 /// A skeleton loading placeholder widget.
 class Skeleton extends fluent.StatefulWidget {
-  const Skeleton({
-    this.width,
-    this.height,
-    this.borderRadius,
-    this.animate = true,
-    super.key,
-  });
-
-  /// Width of the skeleton
-  final double? width;
-
-  /// Height of the skeleton
-  final double? height;
-
-  /// Border radius
-  final fluent.BorderRadius? borderRadius;
-
-  /// Whether to animate the shimmer effect
-  final bool animate;
 
   /// Creates a text line skeleton.
   const Skeleton.text({
@@ -49,6 +31,25 @@ class Skeleton extends fluent.StatefulWidget {
     this.animate = true,
     super.key,
   });
+  const Skeleton({
+    this.width,
+    this.height,
+    this.borderRadius,
+    this.animate = true,
+    super.key,
+  });
+
+  /// Width of the skeleton
+  final double? width;
+
+  /// Height of the skeleton
+  final double? height;
+
+  /// Border radius
+  final fluent.BorderRadius? borderRadius;
+
+  /// Whether to animate the shimmer effect
+  final bool animate;
 
   @override
   fluent.State<Skeleton> createState() => _SkeletonState();
@@ -125,8 +126,6 @@ class _SkeletonState extends fluent.State<Skeleton>
           decoration: fluent.BoxDecoration(
             borderRadius: widget.borderRadius ?? AppRadius.smAll,
             gradient: fluent.LinearGradient(
-              begin: fluent.Alignment.centerLeft,
-              end: fluent.Alignment.centerRight,
               colors: [baseColor, highlightColor, baseColor],
               stops: [0, 0.5 + _animation.value * 0.25, 1],
             ),
@@ -179,8 +178,6 @@ class _CircleSkeletonState extends _SkeletonState {
           decoration: fluent.BoxDecoration(
             shape: fluent.BoxShape.circle,
             gradient: fluent.LinearGradient(
-              begin: fluent.Alignment.centerLeft,
-              end: fluent.Alignment.centerRight,
               colors: [baseColor, highlightColor, baseColor],
               stops: [0, 0.5 + _animation.value * 0.25, 1],
             ),
@@ -225,4 +222,75 @@ class SkeletonParagraph extends fluent.StatelessWidget {
       }),
     );
   }
+}
+
+// MARK: - Previews
+
+@Preview(name: 'Default')
+@Preview(name: 'Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewSkeletonDefault() {
+  return const fluent.Padding(
+    padding: fluent.EdgeInsets.all(AppSpacing.lg),
+    child: Skeleton(width: 120, height: 120),
+  );
+}
+
+@Preview(name: 'Text Line')
+@Preview(name: 'Text Line Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewSkeletonText() {
+  return const fluent.Padding(
+    padding: fluent.EdgeInsets.all(AppSpacing.lg),
+    child: Skeleton.text(width: 200),
+  );
+}
+
+@Preview(name: 'Circle')
+@Preview(name: 'Circle Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewSkeletonCircle() {
+  return fluent.Padding(
+    padding: const fluent.EdgeInsets.all(AppSpacing.lg),
+    child: Skeleton.circle(size: 48),
+  );
+}
+
+@Preview(name: 'Rectangular')
+@Preview(name: 'Rectangular Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewSkeletonRect() {
+  return const fluent.Padding(
+    padding: fluent.EdgeInsets.all(AppSpacing.lg),
+    child: Skeleton.rect(width: 250),
+  );
+}
+
+@Preview(name: 'Paragraph')
+@Preview(name: 'Paragraph Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewSkeletonParagraph() {
+  return const fluent.Padding(
+    padding: fluent.EdgeInsets.all(AppSpacing.lg),
+    child: SkeletonParagraph(lines: 4),
+  );
+}
+
+@Preview(name: 'Card Skeleton')
+fluent.Widget previewSkeletonCard() {
+  return fluent.Padding(
+    padding: const fluent.EdgeInsets.all(AppSpacing.lg),
+    child: fluent.Column(
+      crossAxisAlignment: fluent.CrossAxisAlignment.start,
+      mainAxisSize: fluent.MainAxisSize.min,
+      children: [
+        fluent.Row(
+          children: [
+            Skeleton.circle(size: 40),
+            const fluent.SizedBox(width: AppSpacing.md),
+            const Skeleton.text(width: 120),
+          ],
+        ),
+        const fluent.SizedBox(height: AppSpacing.md),
+        const Skeleton.rect(width: 280, height: 140),
+        const fluent.SizedBox(height: AppSpacing.md),
+        const SkeletonParagraph(lines: 2),
+      ],
+    ),
+  );
 }

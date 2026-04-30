@@ -1,4 +1,5 @@
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
+import 'package:flutter/widget_previews.dart';
 
 import '../theme/tokens.dart';
 
@@ -152,4 +153,63 @@ class MenuSectionHeader extends fluent.StatelessWidget {
       ),
     );
   }
+}
+
+// MARK: - Previews
+
+@Preview(name: 'Default')
+@Preview(name: 'Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewMenuItemDefault() {
+  return MenuItem(
+    label: 'Copy',
+    icon: fluent.FluentIcons.copy,
+    shortcut: 'Ctrl+C',
+    onTap: () {},
+  );
+}
+
+@Preview(name: 'Disabled')
+fluent.Widget previewMenuItemDisabled() {
+  return const MenuItem(
+    label: 'Paste',
+    icon: fluent.FluentIcons.paste,
+    shortcut: 'Ctrl+V',
+    isDisabled: true,
+  );
+}
+
+@Preview(name: 'Destructive')
+fluent.Widget previewMenuItemDestructive() {
+  return MenuItem(
+    label: 'Delete',
+    icon: fluent.FluentIcons.delete,
+    isDestructive: true,
+    onTap: () {},
+  );
+}
+
+@Preview(name: 'Without Icon')
+fluent.Widget previewMenuItemNoIcon() {
+  return MenuItem(
+    label: 'Settings',
+    shortcut: 'Ctrl+,',
+    onTap: () {},
+  );
+}
+
+@Preview(name: 'Menu Section')
+@Preview(name: 'Menu Section Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewMenuSection() {
+  return const fluent.Column(
+    mainAxisSize: fluent.MainAxisSize.min,
+    crossAxisAlignment: fluent.CrossAxisAlignment.start,
+    children: [
+      MenuSectionHeader(title: 'Edit'),
+      MenuItem(label: 'Undo', shortcut: 'Ctrl+Z'),
+      MenuItem(label: 'Redo', shortcut: 'Ctrl+Y'),
+      MenuDivider(),
+      MenuItem(label: 'Cut', shortcut: 'Ctrl+X'),
+      MenuItem(label: 'Copy', shortcut: 'Ctrl+C'),
+    ],
+  );
 }

@@ -1,4 +1,5 @@
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
+import 'package:flutter/widget_previews.dart';
 
 import '../theme/tokens.dart';
 
@@ -175,4 +176,25 @@ class PillSegmentedControl<T> extends fluent.StatelessWidget {
       }).toList(),
     );
   }
+}
+
+// MARK: - Previews
+
+@Preview(name: 'Default')
+@Preview(name: 'Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewSegmentedControl() {
+  return SegmentedControl<String>(
+    segments: const {'all': 'All', 'open': 'Open', 'closed': 'Closed'},
+    selected: 'all',
+    onChanged: (_) {},
+  );
+}
+
+@Preview(name: 'Pill')
+fluent.Widget previewPillSegmentedControl() {
+  return PillSegmentedControl<String>(
+    segments: const {'day': 'Day', 'week': 'Week', 'month': 'Month'},
+    selected: 'week',
+    onChanged: (_) {},
+  );
 }

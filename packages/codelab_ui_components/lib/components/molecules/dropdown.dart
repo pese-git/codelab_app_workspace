@@ -1,4 +1,5 @@
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
+import 'package:flutter/widget_previews.dart';
 
 import '../theme/tokens.dart';
 
@@ -133,4 +134,58 @@ class DropdownGroup<T> {
 
   final String label;
   final List<DropdownItem<T>> items;
+}
+
+// MARK: - Previews
+
+@Preview(name: 'Default')
+@Preview(name: 'Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewDropdownDefault() {
+  return AppDropdown<String>(
+    items: const [
+      DropdownItem(value: 'option1', label: 'Option 1'),
+      DropdownItem(value: 'option2', label: 'Option 2'),
+      DropdownItem(value: 'option3', label: 'Option 3'),
+    ],
+    value: 'option1',
+    onChanged: (_) {},
+    placeholder: 'Select an option',
+  );
+}
+
+@Preview(name: 'With Icons')
+fluent.Widget previewDropdownWithIcons() {
+  return AppDropdown<String>(
+    items: const [
+      DropdownItem(value: 'asc', label: 'Ascending', icon: fluent.FluentIcons.sort_up),
+      DropdownItem(value: 'desc', label: 'Descending', icon: fluent.FluentIcons.sort_down),
+    ],
+    value: 'asc',
+    onChanged: (_) {},
+  );
+}
+
+@Preview(name: 'Grouped')
+fluent.Widget previewGroupedDropdown() {
+  return GroupedDropdown<String>(
+    groups: const [
+      DropdownGroup(
+        label: 'Fruits',
+        items: [
+          DropdownItem(value: 'apple', label: 'Apple'),
+          DropdownItem(value: 'banana', label: 'Banana'),
+        ],
+      ),
+      DropdownGroup(
+        label: 'Vegetables',
+        items: [
+          DropdownItem(value: 'carrot', label: 'Carrot'),
+          DropdownItem(value: 'broccoli', label: 'Broccoli'),
+        ],
+      ),
+    ],
+    value: 'apple',
+    onChanged: (_) {},
+    placeholder: 'Select food',
+  );
 }

@@ -1,4 +1,5 @@
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
+import 'package:flutter/widget_previews.dart';
 
 import '../theme/tokens.dart';
 
@@ -175,4 +176,74 @@ class FocusBorder extends fluent.StatelessWidget {
       child: child,
     );
   }
+}
+
+// MARK: - Previews
+
+@Preview(name: 'Default')
+@Preview(name: 'Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewFocusRingDefault() {
+  return fluent.Padding(
+    padding: const fluent.EdgeInsets.all(AppSpacing.lg),
+    child: FocusRing(
+      autofocus: true,
+      child: fluent.Container(
+        width: 200,
+        height: 48,
+        alignment: fluent.Alignment.center,
+        child: const fluent.Text('Focusable Element'),
+      ),
+    ),
+  );
+}
+
+@Preview(name: 'Custom Color')
+fluent.Widget previewFocusRingCustomColor() {
+  return fluent.Padding(
+    padding: const fluent.EdgeInsets.all(AppSpacing.lg),
+    child: FocusRing(
+      autofocus: true,
+      ringColor: fluent.Colors.red,
+      ringWidth: 3,
+      child: fluent.Container(
+        width: 200,
+        height: 48,
+        alignment: fluent.Alignment.center,
+        child: const fluent.Text('Custom Focus Ring'),
+      ),
+    ),
+  );
+}
+
+@Preview(name: 'Focus Border Default')
+@Preview(name: 'Focus Border Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewFocusBorderDefault() {
+  return fluent.Padding(
+    padding: const fluent.EdgeInsets.all(AppSpacing.lg),
+    child: FocusBorder(
+      focused: true,
+      child: fluent.Container(
+        width: 200,
+        height: 48,
+        alignment: fluent.Alignment.center,
+        child: const fluent.Text('Focused Border'),
+      ),
+    ),
+  );
+}
+
+@Preview(name: 'Focus Border Unfocused')
+fluent.Widget previewFocusBorderUnfocused() {
+  return fluent.Padding(
+    padding: const fluent.EdgeInsets.all(AppSpacing.lg),
+    child: FocusBorder(
+      focused: false,
+      child: fluent.Container(
+        width: 200,
+        height: 48,
+        alignment: fluent.Alignment.center,
+        child: const fluent.Text('Unfocused Border'),
+      ),
+    ),
+  );
 }

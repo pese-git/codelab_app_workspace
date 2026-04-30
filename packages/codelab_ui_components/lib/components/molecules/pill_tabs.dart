@@ -1,4 +1,5 @@
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
+import 'package:flutter/widget_previews.dart';
 
 import '../theme/tokens.dart';
 
@@ -172,4 +173,51 @@ class IconPillTabs<T> extends fluent.StatelessWidget {
       }).toList(),
     );
   }
+}
+
+// MARK: - Previews
+
+enum _SampleTab { all, active, archived }
+
+@Preview(name: 'Default')
+@Preview(name: 'Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewPillTabsDefault() {
+  return PillTabs<_SampleTab>(
+    tabs: const {
+      _SampleTab.all: 'All',
+      _SampleTab.active: 'Active',
+      _SampleTab.archived: 'Archived',
+    },
+    selected: _SampleTab.all,
+    onChanged: (_) {},
+  );
+}
+
+@Preview(name: 'Second Selected')
+fluent.Widget previewPillTabsSecondSelected() {
+  return PillTabs<_SampleTab>(
+    tabs: const {
+      _SampleTab.all: 'All',
+      _SampleTab.active: 'Active',
+      _SampleTab.archived: 'Archived',
+    },
+    selected: _SampleTab.active,
+    onChanged: (_) {},
+  );
+}
+
+enum _SampleIconTab { list, grid, calendar }
+
+@Preview(name: 'Icon Tabs')
+@Preview(name: 'Icon Tabs Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewIconPillTabs() {
+  return IconPillTabs<_SampleIconTab>(
+    tabs: const {
+      _SampleIconTab.list: (fluent.FluentIcons.view_list, 'List'),
+      _SampleIconTab.grid: (fluent.FluentIcons.view_dashboard, 'Grid'),
+      _SampleIconTab.calendar: (fluent.FluentIcons.calendar, 'Calendar'),
+    },
+    selected: _SampleIconTab.list,
+    onChanged: (_) {},
+  );
 }

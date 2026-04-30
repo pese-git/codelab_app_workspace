@@ -1,4 +1,5 @@
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
+import 'package:flutter/widget_previews.dart';
 
 import '../theme/tokens.dart';
 
@@ -112,7 +113,7 @@ class AppTextField extends fluent.StatelessWidget {
       suffixWidget = suffix;
     }
 
-    fluent.Widget textField = fluent.TextBox(
+    final fluent.Widget textField = fluent.TextBox(
       controller: controller,
       focusNode: focusNode,
       placeholder: placeholder,
@@ -176,4 +177,44 @@ class AppTextField extends fluent.StatelessWidget {
 
     return textField;
   }
+}
+
+// MARK: - Previews
+
+@Preview(name: 'Default')
+@Preview(name: 'Dark', brightness: fluent.Brightness.dark)
+fluent.Widget previewTextFieldDefault() {
+  return const AppTextField(placeholder: 'Enter text...');
+}
+
+@Preview(name: 'With Label')
+fluent.Widget previewTextFieldWithLabel() {
+  return const AppTextField(
+    label: 'Email',
+    placeholder: 'user@example.com',
+    prefixIcon: fluent.FluentIcons.mail,
+    helper: 'We will never share your email',
+  );
+}
+
+@Preview(name: 'With Error')
+fluent.Widget previewTextFieldWithError() {
+  return const AppTextField(
+    label: 'Email',
+    error: 'Please enter a valid email',
+  );
+}
+
+@Preview(name: 'Password')
+fluent.Widget previewTextFieldPassword() {
+  return const AppTextField(
+    label: 'Password',
+    obscureText: true,
+    suffixIcon: fluent.FluentIcons.paste_as_text,
+  );
+}
+
+@Preview(name: 'Disabled')
+fluent.Widget previewTextFieldDisabled() {
+  return const AppTextField(value: 'Disabled value', isDisabled: true);
 }
