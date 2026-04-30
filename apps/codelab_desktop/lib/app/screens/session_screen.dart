@@ -12,6 +12,7 @@ import '../../core/di/injection.dart';
 import '../../core/di/session_module.dart';
 import '../../presentation/blocs/chat/chat_bloc.dart';
 import '../../presentation/blocs/chat/chat_event.dart';
+import '../../presentation/blocs/permission/permission_bloc.dart';
 
 /// Session screen widget using UI components from codelab_ui_components.
 class SessionScreen extends fluent.StatefulWidget {
@@ -48,12 +49,19 @@ class _SessionScreenState extends fluent.State<SessionScreen> {
 
     return DiScope(
       scope: rootScope.openSubScope('session:${widget.sessionId}')..installModules([SessionModule(sessionId: widget.sessionId)]),
-      child: BlocProvider(
-        create: (ctx) {
-          final bloc = ChatBloc(sendPromptUseCase: ctx.resolve());
-          bloc.add(ChatEvent.sessionOpened(sessionId: widget.sessionId));
-          return bloc;
-        },
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (ctx) {
+              final bloc = ChatBloc(sendPromptUseCase: ctx.resolve());
+              bloc.add(ChatEvent.sessionOpened(sessionId: widget.sessionId));
+              return bloc;
+            },
+          ),
+          BlocProvider(
+            create: (_) => PermissionBloc(),
+          ),
+        ],
         child: ui.DesktopShell(
       titleBar: ui.TitleBar(
         onToggleSidebar: controller.toggleSidebarCollapsed,
