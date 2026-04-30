@@ -188,9 +188,8 @@ class _TerminalPanelState extends State<TerminalPanel> {
           searchHitBackgroundCurrent: colors.warningBase,
           searchHitForeground: colors.backgroundBase,
         ),
-        textStyle: TerminalStyle(
+        textStyle: const TerminalStyle(
           fontFamily: AppTypography.fontFamilyMono,
-          fontSize: AppTypography.fontSize13,
         ),
         padding: const EdgeInsets.all(AppSpacing.sm),
         autofocus: true,

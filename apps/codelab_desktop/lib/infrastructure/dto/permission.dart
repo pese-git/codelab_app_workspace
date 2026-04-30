@@ -50,8 +50,6 @@ abstract class RequestPermissionPayload with _$RequestPermissionPayload {
 }
 
 class RequestPermissionRequest {
-  final Object id;
-  final RequestPermissionPayload params;
 
   const RequestPermissionRequest({
     required this.id,
@@ -66,6 +64,8 @@ class RequestPermissionRequest {
       ),
     );
   }
+  final Object id;
+  final RequestPermissionPayload params;
 }
 
 sealed class PermissionOutcome {
@@ -73,9 +73,9 @@ sealed class PermissionOutcome {
 }
 
 class SelectedPermissionOutcome extends PermissionOutcome {
-  final String optionId;
 
   const SelectedPermissionOutcome({required this.optionId});
+  final String optionId;
 
   Map<String, dynamic> toJson() => {
     'outcome': 'selected',

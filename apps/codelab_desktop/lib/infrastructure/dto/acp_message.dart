@@ -5,6 +5,14 @@ const _uuid = Uuid();
 typedef JsonRpcId = Object;
 
 class JsonRpcError {
+
+  factory JsonRpcError.fromJson(Map<String, dynamic> json) {
+    return JsonRpcError(
+      code: json['code'] as int,
+      message: json['message'] as String,
+      data: json['data'],
+    );
+  }
   const JsonRpcError({
     required this.code,
     required this.message,
@@ -14,14 +22,6 @@ class JsonRpcError {
   final int code;
   final String message;
   final Object? data;
-
-  factory JsonRpcError.fromJson(Map<String, dynamic> json) {
-    return JsonRpcError(
-      code: json['code'] as int,
-      message: json['message'] as String,
-      data: json['data'],
-    );
-  }
 
   Map<String, dynamic> toJson() {
     return {
@@ -33,9 +33,6 @@ class JsonRpcError {
 }
 
 sealed class AcpMessage {
-  const AcpMessage();
-
-  static const String jsonrpcVersion = '2.0';
 
   factory AcpMessage.request({
     required String method,
@@ -107,6 +104,9 @@ sealed class AcpMessage {
       error: error,
     );
   }
+  const AcpMessage();
+
+  static const String jsonrpcVersion = '2.0';
 
   Map<String, dynamic> toJson();
 }

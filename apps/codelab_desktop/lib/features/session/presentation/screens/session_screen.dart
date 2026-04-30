@@ -49,7 +49,6 @@ class _SessionScreenState extends fluent.State<SessionScreen> {
         onToggleSidebar: controller.toggleSidebarCollapsed,
         canBack: context.canPop(),
         onBack: context.canPop() ? () => context.pop() : null,
-        canForward: false,
         onSearch: () => overlayController.show(AppOverlay.commandPalette),
         onToggleTerminal: controller.toggleBottomPanel,
         onNewWorkspace: () => overlayController.show(AppOverlay.settings),
@@ -327,7 +326,6 @@ class _BottomPanelContent extends fluent.StatelessWidget {
                 ),
               )
               .toList(),
-          expandedNodes: const {},
           onNodeToggle: (id) {},
         );
       case SessionRegionTab.review:

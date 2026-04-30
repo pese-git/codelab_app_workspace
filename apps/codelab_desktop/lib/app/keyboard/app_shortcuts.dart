@@ -16,17 +16,17 @@ class AppShortcuts extends StatelessWidget {
   Widget build(BuildContext context) {
     return Shortcuts(
       shortcuts: <ShortcutActivator, Intent>{
-        SingleActivator(LogicalKeyboardKey.keyK, control: true):
+        const SingleActivator(LogicalKeyboardKey.keyK, control: true):
             const _CommandPaletteIntent(),
-        SingleActivator(LogicalKeyboardKey.keyP, control: true):
+        const SingleActivator(LogicalKeyboardKey.keyP, control: true):
             const _QuickOpenIntent(),
-        SingleActivator(LogicalKeyboardKey.keyW, control: true):
+        const SingleActivator(LogicalKeyboardKey.keyW, control: true):
             const _CloseSessionIntent(),
-        SingleActivator(LogicalKeyboardKey.arrowLeft, alt: true):
+        const SingleActivator(LogicalKeyboardKey.arrowLeft, alt: true):
             const _BackIntent(),
-        SingleActivator(LogicalKeyboardKey.arrowRight, alt: true):
+        const SingleActivator(LogicalKeyboardKey.arrowRight, alt: true):
             const _ForwardIntent(),
-        SingleActivator(LogicalKeyboardKey.backquote, control: true):
+        const SingleActivator(LogicalKeyboardKey.backquote, control: true):
             const _ToggleTerminalIntent(),
       },
       child: Actions(

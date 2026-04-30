@@ -25,7 +25,6 @@ class HomeScreen extends fluent.StatelessWidget {
         onToggleSidebar: controller.toggleSidebarCollapsed,
         canBack: context.canPop(),
         onBack: context.canPop() ? () => context.pop() : null,
-        canForward: false,
         onSearch: () => overlayController.show(AppOverlay.commandPalette),
         onToggleTerminal: controller.toggleBottomPanel,
         onNewWorkspace: () => overlayController.show(AppOverlay.settings),

@@ -7,9 +7,9 @@ class HomeRoute extends AppRoute {
 }
 
 class SessionRoute extends AppRoute {
-  final String sessionId;
 
   const SessionRoute(this.sessionId);
+  final String sessionId;
 }
 
 class SettingsRoute extends AppRoute {
