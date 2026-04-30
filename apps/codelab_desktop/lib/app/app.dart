@@ -1,4 +1,5 @@
 import 'package:fluent_ui/fluent_ui.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import 'dialogs/dialog_host.dart';
@@ -9,6 +10,7 @@ import 'state/app_scope.dart';
 import 'package:codelab_ui_components/codelab_ui_components.dart';
 import '../core/di/injection.dart';
 import '../core/di/di_scope_widget.dart';
+import '../presentation/blocs/session/session_bloc.dart';
 
 class CodeLabAppBootstrap extends StatefulWidget {
   const CodeLabAppBootstrap({super.key});
@@ -43,18 +45,27 @@ class _CodeLabAppBootstrapState extends State<CodeLabAppBootstrap> {
   Widget build(BuildContext context) {
     return DiScope(
       scope: rootScope,
-      child: CodeLabAppScope(
-        controller: _controller,
-        child: FluentApp.router(
-          title: 'CodeLab Desktop',
-          debugShowCheckedModeBanner: false,
-          themeMode: ThemeMode.light,
-          theme: AppTheme.light,
-          darkTheme: AppTheme.dark,
-          routerConfig: _router,
-          builder: (context, child) {
-            return DialogHost(child: child ?? const SizedBox.shrink());
-          },
+      child: BlocProvider(
+        create: (_) => SessionBloc(
+          initializeUseCase: resolve(),
+          createSessionUseCase: resolve(),
+          loadSessionUseCase: resolve(),
+          listSessionsUseCase: resolve(),
+          transport: resolve(),
+        ),
+        child: CodeLabAppScope(
+          controller: _controller,
+          child: FluentApp.router(
+            title: 'CodeLab Desktop',
+            debugShowCheckedModeBanner: false,
+            themeMode: ThemeMode.light,
+            theme: AppTheme.light,
+            darkTheme: AppTheme.dark,
+            routerConfig: _router,
+            builder: (context, child) {
+              return DialogHost(child: child ?? const SizedBox.shrink());
+            },
+          ),
         ),
       ),
     );
