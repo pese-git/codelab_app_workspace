@@ -4,9 +4,12 @@ import 'package:codelab_ui_components/codelab_ui_components.dart'
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:xterm/xterm.dart';
 
 import '../../../../app/models/workspace_models.dart';
 import '../../../../app/overlay/overlay_controller.dart';
+import '../../../workspace/application/terminal_controller.dart'
+    as app_terminal;
 import '../../../workspace/application/workspace_controller.dart';
 import '../blocs/chat/chat_bloc.dart';
 import '../blocs/chat/chat_event.dart';
@@ -312,6 +315,11 @@ class _BottomPanelContent extends fluent.StatelessWidget {
   final SessionRegionTab tab;
   final ui.LightColors colors;
 
+  String _getProjectPath(fluent.BuildContext context) {
+    final controller = context.read<WorkspaceController>();
+    return controller.selectedProject?.path ?? '';
+  }
+
   @override
   fluent.Widget build(fluent.BuildContext context) {
     switch (tab) {
@@ -344,21 +352,174 @@ class _BottomPanelContent extends fluent.StatelessWidget {
           onItemTap: (item) {},
         );
       case SessionRegionTab.terminal:
-        return ui.TerminalPanelShell(
-          title: 'Terminal 1',
-          onClose: () => context.read<WorkspaceController>().toggleBottomPanel(),
-          child: fluent.Padding(
-            padding: const fluent.EdgeInsets.all(ui.AppSpacing.md),
-            child: fluent.Align(
-              alignment: fluent.Alignment.topLeft,
-              child: ui.AppText(
-                'penkovsky_sa@MacBook-Pro % flutter analyze\n${session.terminalEntries.map((e) => e.command).join('\n')}',
-                variant: ui.TextVariant.code,
-                color: colors.textBase,
-              ),
-            ),
-          ),
+        return _TerminalContent(
+          projectPath: _getProjectPath(context),
+          colors: colors,
         );
     }
+  }
+}
+
+class _TerminalContent extends fluent.StatefulWidget {
+  const _TerminalContent({required this.projectPath, required this.colors});
+
+  final String projectPath;
+  final ui.LightColors colors;
+
+  @override
+  fluent.State<_TerminalContent> createState() => _TerminalContentState();
+}
+
+class _TerminalContentState extends fluent.State<_TerminalContent> {
+  @override
+  void initState() {
+    super.initState();
+    final controller = context.read<WorkspaceController>();
+    if (controller.terminalController.sessions.isEmpty) {
+      controller.terminalController.create(
+        'Terminal 1',
+        workingDirectory: widget.projectPath,
+      );
+    }
+  }
+
+  @override
+  void didUpdateWidget(_TerminalContent oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.projectPath != widget.projectPath) {
+      final controller = context.read<WorkspaceController>();
+      if (controller.terminalController.sessions.isEmpty) {
+        controller.terminalController.create(
+          'Terminal 1',
+          workingDirectory: widget.projectPath,
+        );
+      }
+    }
+  }
+
+  @override
+  fluent.Widget build(fluent.BuildContext context) {
+    final workspaceController = context.watch<WorkspaceController>();
+    final terminalController = workspaceController.terminalController;
+    final sessions = terminalController.sessions;
+    final activeSessionId = terminalController.activeSessionId;
+
+    return fluent.Column(
+      children: [
+        ui.TerminalSessionTabs(
+          sessions: sessions
+              .map(
+                (s) => ui.TerminalSessionTabData(
+                  id: s.id,
+                  title: s.title,
+                  isActive: s.id == activeSessionId,
+                ),
+              )
+              .toList(),
+          activeSessionId: activeSessionId,
+          onTabSelected: terminalController.activate,
+          onTabClosed: terminalController.close,
+          onAddTab: () {
+            terminalController.create(
+              'Terminal ${sessions.length + 1}',
+              workingDirectory: widget.projectPath,
+            );
+          },
+        ),
+        fluent.Expanded(
+          child: activeSessionId != null
+              ? _ActiveTerminalView(
+                  sessionId: activeSessionId,
+                  terminalController: terminalController,
+                  colors: widget.colors,
+                )
+              : fluent.Center(
+                  child: ui.AppText.body(
+                    'No terminal sessions',
+                    color: widget.colors.textMuted,
+                  ),
+                ),
+        ),
+      ],
+    );
+  }
+}
+
+class _ActiveTerminalView extends fluent.StatefulWidget {
+  const _ActiveTerminalView({
+    required this.sessionId,
+    required this.terminalController,
+    required this.colors,
+  });
+
+  final String sessionId;
+  final app_terminal.TerminalController terminalController;
+  final ui.LightColors colors;
+
+  @override
+  fluent.State<_ActiveTerminalView> createState() =>
+      _ActiveTerminalViewState();
+}
+
+class _ActiveTerminalViewState extends fluent.State<_ActiveTerminalView> {
+  Terminal? _terminal;
+
+  @override
+  void initState() {
+    super.initState();
+    _terminal = widget.terminalController.getActiveTerminal();
+  }
+
+  @override
+  void didUpdateWidget(_ActiveTerminalView oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.sessionId != widget.sessionId) {
+      _terminal = widget.terminalController.getActiveTerminal();
+    }
+  }
+
+  @override
+  fluent.Widget build(fluent.BuildContext context) {
+    final terminal = _terminal;
+    if (terminal == null) {
+      return const ui.TerminalLoading();
+    }
+
+    return ui.TerminalPanelShell(
+      title: widget.terminalController.activeSession?.title ?? 'Terminal',
+      child: TerminalView(
+        terminal,
+        theme: TerminalTheme(
+          cursor: widget.colors.accentPrimary,
+          selection: widget.colors.accentSubtle.withValues(alpha: 0.3),
+          foreground: widget.colors.textBase,
+          background: widget.colors.backgroundBase,
+          black: const fluent.Color(0xFF000000),
+          white: const fluent.Color(0xFFFFFFFF),
+          red: widget.colors.errorBase,
+          green: widget.colors.successBase,
+          yellow: widget.colors.warningBase,
+          blue: widget.colors.infoBase,
+          magenta: const fluent.Color(0xFFD33682),
+          cyan: const fluent.Color(0xFF2AA198),
+          brightBlack: const fluent.Color(0xFF586E75),
+          brightWhite: const fluent.Color(0xFFFDF6E3),
+          brightRed: widget.colors.errorStrong,
+          brightGreen: widget.colors.successStrong,
+          brightYellow: widget.colors.warningStrong,
+          brightBlue: widget.colors.infoStrong,
+          brightMagenta: const fluent.Color(0xFF6C71C4),
+          brightCyan: const fluent.Color(0xFF93A1A1),
+          searchHitBackground: widget.colors.warningSubtle,
+          searchHitBackgroundCurrent: widget.colors.warningBase,
+          searchHitForeground: widget.colors.backgroundBase,
+        ),
+        textStyle: const TerminalStyle(
+          fontFamily: ui.AppTypography.fontFamilyMono,
+        ),
+        padding: const fluent.EdgeInsets.all(ui.AppSpacing.sm),
+        autofocus: true,
+      ),
+    );
   }
 }

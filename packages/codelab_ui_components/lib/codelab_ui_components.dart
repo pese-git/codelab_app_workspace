@@ -90,6 +90,7 @@ export 'components/organisms/session/session_tabs.dart';
 export 'components/organisms/session/file_list.dart';
 export 'components/organisms/session/review_list.dart';
 export 'components/organisms/session/terminal_panel_shell.dart';
+export 'components/organisms/session/terminal_session_tabs.dart';
 export 'components/organisms/session/session_header.dart';
 
 // =============================================================================

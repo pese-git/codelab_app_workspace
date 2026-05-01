@@ -2,9 +2,12 @@ import 'package:codelab_ui_components/codelab_ui_components.dart';
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:xterm/xterm.dart';
 
 import '../../../../app/models/workspace_models.dart';
 import '../../../../app/overlay/overlay_controller.dart';
+import '../../../workspace/application/terminal_controller.dart'
+    as app_terminal;
 import '../../application/workspace_controller.dart';
 
 class HomeScreen extends fluent.StatelessWidget {
@@ -81,6 +84,10 @@ class HomeScreen extends fluent.StatelessWidget {
       ),
       showSidebar: !controller.sidebarCollapsed && hasProjects,
       showContextPanel: controller.contextPanelVisible,
+      showBottomPanel: controller.bottomPanelVisible,
+      bottomPanel: hasProjects
+          ? _HomeBottomPanel(projectPath: project!.path, colors: colors)
+          : null,
       content: hasProjects
           ? _HomeContent(project: project!, colors: colors)
           : _EmptyWorkspace(onOpenProject: () => overlayController.show(AppOverlay.openProject)),
@@ -325,6 +332,150 @@ class _HomePromptComposer extends fluent.StatelessWidget {
             ],
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _HomeBottomPanel extends fluent.StatefulWidget {
+  const _HomeBottomPanel({required this.projectPath, required this.colors});
+
+  final String projectPath;
+  final LightColors colors;
+
+  @override
+  fluent.State<_HomeBottomPanel> createState() => _HomeBottomPanelState();
+}
+
+class _HomeBottomPanelState extends fluent.State<_HomeBottomPanel> {
+  @override
+  void initState() {
+    super.initState();
+    final controller = context.read<WorkspaceController>();
+    if (controller.terminalController.sessions.isEmpty) {
+      controller.terminalController.create(
+        'Terminal 1',
+        workingDirectory: widget.projectPath,
+      );
+    }
+  }
+
+  @override
+  fluent.Widget build(fluent.BuildContext context) {
+    final workspaceController = context.watch<WorkspaceController>();
+    final terminalController = workspaceController.terminalController;
+    final sessions = terminalController.sessions;
+    final activeSessionId = terminalController.activeSessionId;
+
+    return fluent.Column(
+      children: [
+        TerminalSessionTabs(
+          sessions: sessions
+              .map(
+                (s) => TerminalSessionTabData(
+                  id: s.id,
+                  title: s.title,
+                  isActive: s.id == activeSessionId,
+                ),
+              )
+              .toList(),
+          activeSessionId: activeSessionId,
+          onTabSelected: terminalController.activate,
+          onTabClosed: terminalController.close,
+          onAddTab: () {
+            terminalController.create(
+              'Terminal ${sessions.length + 1}',
+              workingDirectory: widget.projectPath,
+            );
+          },
+        ),
+        fluent.Expanded(
+          child: activeSessionId != null
+              ? _HomeTerminalView(
+                  terminalController: terminalController,
+                  colors: widget.colors,
+                )
+              : fluent.Center(
+                  child: AppText.body(
+                    'No terminal sessions',
+                    color: widget.colors.textMuted,
+                  ),
+                ),
+        ),
+      ],
+    );
+  }
+}
+
+class _HomeTerminalView extends fluent.StatefulWidget {
+  const _HomeTerminalView({
+    required this.terminalController,
+    required this.colors,
+  });
+
+  final app_terminal.TerminalController terminalController;
+  final LightColors colors;
+
+  @override
+  fluent.State<_HomeTerminalView> createState() => _HomeTerminalViewState();
+}
+
+class _HomeTerminalViewState extends fluent.State<_HomeTerminalView> {
+  Terminal? _terminal;
+
+  @override
+  void initState() {
+    super.initState();
+    _terminal = widget.terminalController.getActiveTerminal();
+  }
+
+  @override
+  void didUpdateWidget(_HomeTerminalView oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _terminal = widget.terminalController.getActiveTerminal();
+  }
+
+  @override
+  fluent.Widget build(fluent.BuildContext context) {
+    final terminal = _terminal;
+    if (terminal == null) {
+      return const TerminalLoading();
+    }
+
+    return TerminalPanelShell(
+      title: widget.terminalController.activeSession?.title ?? 'Terminal',
+      child: TerminalView(
+        terminal,
+        theme: TerminalTheme(
+          cursor: widget.colors.accentPrimary,
+          selection: widget.colors.accentSubtle.withValues(alpha: 0.3),
+          foreground: widget.colors.textBase,
+          background: widget.colors.backgroundBase,
+          black: const fluent.Color(0xFF000000),
+          white: const fluent.Color(0xFFFFFFFF),
+          red: widget.colors.errorBase,
+          green: widget.colors.successBase,
+          yellow: widget.colors.warningBase,
+          blue: widget.colors.infoBase,
+          magenta: const fluent.Color(0xFFD33682),
+          cyan: const fluent.Color(0xFF2AA198),
+          brightBlack: const fluent.Color(0xFF586E75),
+          brightWhite: const fluent.Color(0xFFFDF6E3),
+          brightRed: widget.colors.errorStrong,
+          brightGreen: widget.colors.successStrong,
+          brightYellow: widget.colors.warningStrong,
+          brightBlue: widget.colors.infoStrong,
+          brightMagenta: const fluent.Color(0xFF6C71C4),
+          brightCyan: const fluent.Color(0xFF93A1A1),
+          searchHitBackground: widget.colors.warningSubtle,
+          searchHitBackgroundCurrent: widget.colors.warningBase,
+          searchHitForeground: widget.colors.backgroundBase,
+        ),
+        textStyle: const TerminalStyle(
+          fontFamily: AppTypography.fontFamilyMono,
+        ),
+        padding: const fluent.EdgeInsets.all(AppSpacing.sm),
+        autofocus: true,
       ),
     );
   }

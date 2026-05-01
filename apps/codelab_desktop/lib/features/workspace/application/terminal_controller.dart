@@ -1,4 +1,7 @@
 import 'package:flutter/foundation.dart';
+import 'package:xterm/xterm.dart' show Terminal;
+
+import '../../../domain/services/terminal_manager.dart';
 
 @immutable
 class TerminalSession {
@@ -23,12 +26,16 @@ class TerminalSession {
 }
 
 class TerminalController extends ChangeNotifier {
+  TerminalController({TerminalManager? terminalManager})
+      : _terminalManager = terminalManager ?? TerminalManager();
+
   final List<TerminalSession> _sessions = <TerminalSession>[];
+  final TerminalManager _terminalManager;
   String? _activeSessionId;
-  int _idCounter = 0;
 
   List<TerminalSession> get sessions => List.unmodifiable(_sessions);
   String? get activeSessionId => _activeSessionId;
+  TerminalManager get terminalManager => _terminalManager;
 
   TerminalSession? get activeSession {
     if (_activeSessionId == null) return null;
@@ -36,17 +43,26 @@ class TerminalController extends ChangeNotifier {
     return idx != -1 ? _sessions[idx] : null;
   }
 
-  void create(String title) {
-    final id = 'term_${++_idCounter}';
-    final session = TerminalSession(id: id, title: title);
+  Terminal? getActiveTerminal() {
+    if (_activeSessionId == null) return null;
+    return _terminalManager.getTerminal(_activeSessionId!);
+  }
+
+  void create(String title, {String? workingDirectory}) {
+    final terminalId = _terminalManager.createSession(
+      title: title,
+      workingDirectory: workingDirectory,
+    );
+    final session = TerminalSession(id: terminalId, title: title);
     _sessions.add(session);
-    _activeSessionId = id;
+    _activeSessionId = terminalId;
     notifyListeners();
   }
 
   void close(String id) {
     final idx = _sessions.indexWhere((s) => s.id == id);
     if (idx == -1) return;
+    _terminalManager.closeSession(id);
     _sessions.removeAt(idx);
     if (_activeSessionId == id) {
       if (_sessions.isNotEmpty) {
@@ -71,12 +87,20 @@ class TerminalController extends ChangeNotifier {
     if (idx == -1) return;
     if (_sessions[idx].title == title) return;
     _sessions[idx] = _sessions[idx].copyWith(title: title);
+    _terminalManager.renameSession(id, title);
     notifyListeners();
   }
 
   void closeAll() {
+    _terminalManager.closeAll();
     _sessions.clear();
     _activeSessionId = null;
     notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    _terminalManager.dispose();
+    super.dispose();
   }
 }
