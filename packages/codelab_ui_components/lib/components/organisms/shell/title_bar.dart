@@ -12,6 +12,7 @@ class TitleBar extends fluent.StatelessWidget {
     this.canBack = false,
     this.canForward = false,
     this.onSearch,
+    this.onConnections,
     this.onToggleTerminal,
     this.onNewWorkspace,
     this.onToggleContextPanel,
@@ -26,6 +27,7 @@ class TitleBar extends fluent.StatelessWidget {
   final bool canBack;
   final bool canForward;
   final fluent.VoidCallback? onSearch;
+  final fluent.VoidCallback? onConnections;
   final fluent.VoidCallback? onToggleTerminal;
   final fluent.VoidCallback? onNewWorkspace;
   final fluent.VoidCallback? onToggleContextPanel;
@@ -99,7 +101,7 @@ class TitleBar extends fluent.StatelessWidget {
             ),
           ),
           const fluent.Spacer(),
-          _HeaderBadge(icon: fluent.FluentIcons.server_processes, onTap: () {}),
+          _HeaderBadge(icon: fluent.FluentIcons.server_processes, onTap: onConnections),
           const fluent.SizedBox(width: 10),
           _HeaderBadge(
             icon: fluent.FluentIcons.command_prompt,

@@ -4,11 +4,14 @@ import 'package:codelab_ui_components/src.dart' show ContextPanelTab;
 import 'package:flutter/foundation.dart';
 
 import '../../../app/models/workspace_models.dart';
+import 'terminal_controller.dart';
 
 class WorkspaceController extends ChangeNotifier {
   WorkspaceController({
     required WorkspaceData seedWorkspace,
-  }) : _workspace = seedWorkspace {
+    TerminalController? terminalController,
+  }) : _workspace = seedWorkspace,
+       _terminalController = terminalController ?? TerminalController() {
     _selectedProjectId = seedWorkspace.projects.first.id;
     _selectedSessionId = seedWorkspace.projects.first.sessions.first.id;
     _selectedModel = seedWorkspace.models.first;
@@ -23,6 +26,7 @@ class WorkspaceController extends ChangeNotifier {
   }
 
   final WorkspaceData _workspace;
+  final TerminalController _terminalController;
   final Set<String> _expandedNodes = <String>{};
   final Set<String> _enabledSettings = <String>{'showProgress'};
   String _selectedProjectId = '';
@@ -38,6 +42,7 @@ class WorkspaceController extends ChangeNotifier {
   String _selectedServer = '';
 
   WorkspaceData get workspace => _workspace;
+  TerminalController get terminalController => _terminalController;
   List<ProjectModel> get projects => _workspace.projects;
   List<String> get models => _workspace.models;
   List<String> get providers => _workspace.providers;
@@ -168,5 +173,11 @@ class WorkspaceController extends ChangeNotifier {
       _enabledSettings.add(key);
     }
     notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    _terminalController.dispose();
+    super.dispose();
   }
 }
