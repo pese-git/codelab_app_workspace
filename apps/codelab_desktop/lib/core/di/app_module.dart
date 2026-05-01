@@ -9,6 +9,7 @@ import '../../features/session/application/use_cases/set_session_mode_use_case.d
 import '../../features/session/application/use_cases/set_config_option_use_case.dart';
 import '../../features/session/application/use_cases/fork_session_use_case.dart';
 import '../../features/session/application/use_cases/resume_session_use_case.dart';
+import '../../features/session/presentation/blocs/session/session_bloc.dart';
 import '../../features/project/application/use_cases/open_project_use_case.dart';
 import '../../domain/repositories/chat_history_repository.dart';
 import '../../domain/repositories/project_repository.dart';
@@ -143,5 +144,17 @@ class AppModule extends Module {
             projectRepository: currentScope.resolve<ProjectRepository>(),
           ),
         );
+
+    bind<SessionBloc>()
+        .toProvide(
+          () => SessionBloc(
+            initializeUseCase: currentScope.resolve<InitializeUseCase>(),
+            createSessionUseCase: currentScope.resolve<CreateSessionUseCase>(),
+            loadSessionUseCase: currentScope.resolve<LoadSessionUseCase>(),
+            listSessionsUseCase: currentScope.resolve<ListSessionsUseCase>(),
+            transport: currentScope.resolve<TransportService>(),
+          ),
+        )
+        .singleton();
   }
 }

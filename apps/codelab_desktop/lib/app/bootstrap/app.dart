@@ -7,9 +7,12 @@ import 'package:provider/provider.dart';
 import '../../core/di/di_scope_widget.dart';
 import '../../core/di/injection.dart';
 import '../../domain/repositories/server_repository.dart';
+import '../../domain/services/transport_service.dart';
 import '../../features/server/presentation/blocs/server/server_bloc.dart';
 import '../../features/server/presentation/blocs/server/server_event.dart';
 import '../../features/session/presentation/blocs/session/session_bloc.dart';
+import '../../features/session/presentation/blocs/session/session_event.dart';
+import '../../infrastructure/transport/websocket_transport.dart';
 import '../keyboard/app_shortcuts.dart';
 import '../navigation/navigation_controller.dart';
 import '../navigation/app_router.dart';
@@ -19,6 +22,7 @@ import '../shell/window_shell.dart';
 import '../../features/workspace/application/workspace_controller.dart';
 import '../../domain/repositories/project_repository.dart';
 import '../../domain/services/directory_scanner_service.dart';
+import '../connection/connection_state_manager.dart';
 
 class CodeLabAppBootstrap extends StatefulWidget {
   const CodeLabAppBootstrap({super.key});
@@ -31,7 +35,9 @@ class _CodeLabAppBootstrapState extends State<CodeLabAppBootstrap> {
   late final WorkspaceController _workspaceController;
   late final OverlayController _overlayController;
   late final NavigationController _navigationController;
+  late final ConnectionStateManager _connectionStateManager;
   late final GoRouter _router;
+  late final SessionBloc _sessionBloc;
 
   @override
   void initState() {
@@ -42,6 +48,9 @@ class _CodeLabAppBootstrapState extends State<CodeLabAppBootstrap> {
       directoryScanner: rootScope.resolve<DirectoryScannerService>(),
     );
     _overlayController = OverlayController();
+    _connectionStateManager = ConnectionStateManager(
+      transport: rootScope.resolve<TransportService>(),
+    );
 
     final tempRouter = GoRouter(
       initialLocation: '/',
@@ -52,6 +61,24 @@ class _CodeLabAppBootstrapState extends State<CodeLabAppBootstrap> {
 
     final routerResult = buildRouter(_navigationController);
     _router = routerResult.router;
+
+    _sessionBloc = rootScope.resolve<SessionBloc>();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _initializeAcpConnection();
+    });
+  }
+
+  void _initializeAcpConnection() {
+    final config = rootScope.resolve<AcpServerConfig>();
+    _connectionStateManager.initialize();
+
+    _sessionBloc.add(
+      SessionEvent.initialize(
+        serverHost: config.host,
+        serverPort: config.port,
+      ),
+    );
   }
 
   @override
@@ -60,6 +87,8 @@ class _CodeLabAppBootstrapState extends State<CodeLabAppBootstrap> {
     _router.dispose();
     _overlayController.dispose();
     _workspaceController.dispose();
+    _connectionStateManager.dispose();
+    _sessionBloc.close();
     super.dispose();
   }
 
@@ -67,14 +96,13 @@ class _CodeLabAppBootstrapState extends State<CodeLabAppBootstrap> {
   Widget build(BuildContext context) {
     return DiScope(
       scope: rootScope,
-      child: MultiProvider(
+        child: MultiProvider(
         providers: [
           ChangeNotifierProvider.value(value: _workspaceController),
           ChangeNotifierProvider.value(value: _overlayController),
           ChangeNotifierProvider.value(value: _navigationController),
-          BlocProvider<SessionBloc>(
-            create: (_) => rootScope.resolve<SessionBloc>(),
-          ),
+          ChangeNotifierProvider.value(value: _connectionStateManager),
+          BlocProvider<SessionBloc>.value(value: _sessionBloc),
           BlocProvider<ServerBloc>(
             create: (_) => ServerBloc(
               serverRepository: rootScope.resolve<ServerRepository>(),
