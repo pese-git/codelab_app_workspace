@@ -86,7 +86,6 @@ class _SessionScreenState extends fluent.State<SessionScreen> {
         selectedSessionId: controller.selectedSession?.id,
         onSessionSelected: (id) {
           controller.selectSession(id);
-          context.go('/session/$id');
         },
         onNewWorkspace: () => overlayController.show(AppOverlay.settings),
         onEditProject: () => overlayController.show(AppOverlay.editProject),

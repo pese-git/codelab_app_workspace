@@ -63,7 +63,6 @@ class HomeScreen extends fluent.StatelessWidget {
         selectedSessionId: controller.selectedSession?.id,
         onSessionSelected: (id) {
           controller.selectSession(id);
-          context.go('/session/$id');
         },
         onNewWorkspace: () => overlayController.show(AppOverlay.settings),
         onEditProject: () => overlayController.show(AppOverlay.editProject),
@@ -171,7 +170,6 @@ class _HomeContent extends fluent.StatelessWidget {
               if (project.sessions.isNotEmpty) {
                 final sessionId = project.sessions.first.id;
                 controller.selectSession(sessionId);
-                context.go('/session/$sessionId');
               }
             },
             onAddFile: () => overlayController.show(AppOverlay.selectFile),
