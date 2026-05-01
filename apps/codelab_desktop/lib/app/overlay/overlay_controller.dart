@@ -8,6 +8,8 @@ enum AppOverlay {
   selectProvider,
   selectMcp,
   selectServer,
+  addServer,
+  editServer,
   editProject,
   forkSession,
   help,

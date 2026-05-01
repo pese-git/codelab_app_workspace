@@ -2,11 +2,13 @@ import 'package:cherrypick/cherrypick.dart';
 
 import '../../domain/repositories/chat_history_repository.dart';
 import '../../domain/repositories/project_repository.dart';
+import '../../domain/repositories/server_repository.dart';
 import '../../domain/repositories/session_repository.dart';
 import '../../domain/services/directory_scanner_service.dart';
 import '../../domain/services/transport_service.dart';
 import '../../infrastructure/repositories/in_memory_chat_history_repository.dart';
 import '../../infrastructure/repositories/in_memory_project_repository.dart';
+import '../../infrastructure/repositories/in_memory_server_repository.dart';
 import '../../infrastructure/repositories/in_memory_session_repository.dart';
 import '../../infrastructure/services/acp_transport_service.dart';
 import '../../infrastructure/services/native_directory_scanner.dart';
@@ -31,6 +33,10 @@ class AppModule extends Module {
 
     bind<ProjectRepository>()
         .toProvide(() => InMemoryProjectRepository())
+        .singleton();
+
+    bind<ServerRepository>()
+        .toProvide(() => InMemoryServerRepository())
         .singleton();
 
     bind<DirectoryScannerService>()

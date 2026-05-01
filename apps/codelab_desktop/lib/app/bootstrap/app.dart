@@ -6,6 +6,9 @@ import 'package:provider/provider.dart';
 
 import '../../core/di/di_scope_widget.dart';
 import '../../core/di/injection.dart';
+import '../../domain/repositories/server_repository.dart';
+import '../../features/server/presentation/blocs/server/server_bloc.dart';
+import '../../features/server/presentation/blocs/server/server_event.dart';
 import '../../features/session/presentation/blocs/session/session_bloc.dart';
 import '../keyboard/app_shortcuts.dart';
 import '../navigation/navigation_controller.dart';
@@ -71,6 +74,11 @@ class _CodeLabAppBootstrapState extends State<CodeLabAppBootstrap> {
           ChangeNotifierProvider.value(value: _navigationController),
           BlocProvider<SessionBloc>(
             create: (_) => rootScope.resolve<SessionBloc>(),
+          ),
+          BlocProvider<ServerBloc>(
+            create: (_) => ServerBloc(
+              serverRepository: rootScope.resolve<ServerRepository>(),
+            )..add(const ServerEvent.load()),
           ),
         ],
         child: AppShortcuts(
