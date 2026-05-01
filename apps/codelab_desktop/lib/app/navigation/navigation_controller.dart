@@ -75,7 +75,12 @@ class NavigationController extends ChangeNotifier {
 
   @override
   void dispose() {
-    _router.routerDelegate.removeListener(_onRouterChanged);
-    super.dispose();
+    if (!_disposed) {
+      _router.routerDelegate.removeListener(_onRouterChanged);
+      _disposed = true;
+      super.dispose();
+    }
   }
+
+  bool _disposed = false;
 }

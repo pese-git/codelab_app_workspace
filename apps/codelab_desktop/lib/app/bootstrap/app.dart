@@ -8,13 +8,14 @@ import '../../core/di/di_scope_widget.dart';
 import '../../core/di/injection.dart';
 import '../../features/session/presentation/blocs/session/session_bloc.dart';
 import '../keyboard/app_shortcuts.dart';
-import '../mock/mock_data.dart';
 import '../navigation/navigation_controller.dart';
 import '../navigation/app_router.dart';
 import '../overlay/overlay_controller.dart';
 import '../overlay/overlay_host.dart' as app_overlay;
 import '../shell/window_shell.dart';
 import '../../features/workspace/application/workspace_controller.dart';
+import '../../domain/repositories/project_repository.dart';
+import '../../domain/services/directory_scanner_service.dart';
 
 class CodeLabAppBootstrap extends StatefulWidget {
   const CodeLabAppBootstrap({super.key});
@@ -34,7 +35,8 @@ class _CodeLabAppBootstrapState extends State<CodeLabAppBootstrap> {
     super.initState();
 
     _workspaceController = WorkspaceController(
-      seedWorkspace: buildMockWorkspace(),
+      projectRepository: rootScope.resolve<ProjectRepository>(),
+      directoryScanner: rootScope.resolve<DirectoryScannerService>(),
     );
     _overlayController = OverlayController();
 

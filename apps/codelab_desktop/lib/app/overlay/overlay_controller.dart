@@ -13,6 +13,7 @@ enum AppOverlay {
   help,
   releaseNotes,
   commandPalette,
+  openProject,
 }
 
 class OverlayController extends ChangeNotifier {

@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 
 import '../models/workspace_models.dart';
 import '../../features/workspace/application/workspace_controller.dart';
+import '../../features/project/presentation/dialogs/open_project_dialog.dart';
 import 'overlay_controller.dart';
 
 class OverlayHost extends StatelessWidget {
@@ -81,6 +82,8 @@ class _OverlaySurface extends StatelessWidget {
       case AppOverlay.releaseNotes:
       case AppOverlay.commandPalette:
         return _GenericOverlay(overlay: overlay);
+      case AppOverlay.openProject:
+        return const OpenProjectDialog();
     }
   }
 }
@@ -503,6 +506,8 @@ class _GenericOverlay extends StatelessWidget {
         return 'Что нового';
       case AppOverlay.commandPalette:
         return 'Команды';
+      case AppOverlay.openProject:
+        return '';
       case AppOverlay.settings:
       case AppOverlay.selectModel:
       case AppOverlay.selectProvider:
@@ -528,6 +533,8 @@ class _GenericOverlay extends StatelessWidget {
         return 'Recent shipped updates for the desktop prototype.';
       case AppOverlay.commandPalette:
         return 'Search commands, routes, dialogs and recent actions.';
+      case AppOverlay.openProject:
+        return '';
       case AppOverlay.settings:
       case AppOverlay.selectModel:
       case AppOverlay.selectProvider:
@@ -667,6 +674,7 @@ class _GenericOverlay extends StatelessWidget {
       case AppOverlay.selectProvider:
       case AppOverlay.selectMcp:
       case AppOverlay.selectServer:
+      case AppOverlay.openProject:
         return const [];
     }
   }

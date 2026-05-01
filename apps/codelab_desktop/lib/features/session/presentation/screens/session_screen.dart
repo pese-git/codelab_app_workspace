@@ -67,31 +67,33 @@ class _SessionScreenState extends fluent.State<SessionScreen> {
               ),
             )
             .toList(),
-        selectedProjectId: project.id,
+        selectedProjectId: project?.id ?? '',
         onProjectSelected: (id) {
           controller.selectProject(id);
           context.go('/');
         },
-        onAddProject: () => overlayController.show(AppOverlay.settings),
+        onAddProject: () => overlayController.show(AppOverlay.openProject),
         onSettings: () => overlayController.show(AppOverlay.settings),
         onHelp: () => overlayController.show(AppOverlay.help),
       ),
-      sidebar: ui.Sidebar(
-        projectName: project.name,
-        projectPath: project.path,
-        branchName: session?.branchName ?? 'master',
-        sessions: project.sessions
-            .map((s) => ui.SidebarSession(id: s.id, title: s.title))
-            .toList(),
-        selectedSessionId: controller.selectedSession?.id,
-        onSessionSelected: (id) {
-          controller.selectSession(id);
-        },
-        onNewWorkspace: () => overlayController.show(AppOverlay.settings),
-        onEditProject: () => overlayController.show(AppOverlay.editProject),
-        onConnectProvider: () =>
-            overlayController.show(AppOverlay.selectProvider),
-      ),
+      sidebar: project != null
+          ? ui.Sidebar(
+              projectName: project.name,
+              projectPath: project.path,
+              branchName: session?.branchName ?? 'master',
+              sessions: project.sessions
+                  .map((s) => ui.SidebarSession(id: s.id, title: s.title))
+                  .toList(),
+              selectedSessionId: controller.selectedSession?.id,
+              onSessionSelected: (id) {
+                controller.selectSession(id);
+              },
+              onNewWorkspace: () => overlayController.show(AppOverlay.openProject),
+              onEditProject: () => overlayController.show(AppOverlay.editProject),
+              onConnectProvider: () =>
+                  overlayController.show(AppOverlay.selectProvider),
+            )
+          : null,
       contextPanel: ui.ContextPanel(
         activeTab: ui.ContextPanelTab.details,
         onTabChanged: (tab) {},

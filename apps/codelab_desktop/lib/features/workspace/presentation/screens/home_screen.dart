@@ -15,6 +15,7 @@ class HomeScreen extends fluent.StatelessWidget {
     final controller = context.watch<WorkspaceController>();
     final overlayController = context.read<OverlayController>();
     final project = controller.selectedProject;
+    final hasProjects = controller.projects.isNotEmpty;
     final brightness = fluent.FluentTheme.of(context).brightness;
     final colors = brightness == fluent.Brightness.light
         ? AppColors.light
@@ -28,7 +29,7 @@ class HomeScreen extends fluent.StatelessWidget {
         onSearch: () => overlayController.show(AppOverlay.commandPalette),
         onConnections: () => overlayController.show(AppOverlay.selectServer),
         onToggleTerminal: controller.toggleBottomPanel,
-        onNewWorkspace: () => overlayController.show(AppOverlay.settings),
+        onNewWorkspace: () => overlayController.show(AppOverlay.openProject),
         onToggleContextPanel: controller.toggleContextPanel,
         isContextPanelVisible: controller.contextPanelVisible,
         searchPlaceholder: 'Поиск в проекте...',
@@ -44,32 +45,33 @@ class HomeScreen extends fluent.StatelessWidget {
               ),
             )
             .toList(),
-        selectedProjectId: project.id,
+        selectedProjectId: project?.id ?? '',
         onProjectSelected: (id) {
           controller.selectProject(id);
           context.go('/');
         },
-        onAddProject: () => overlayController.show(AppOverlay.settings),
+        onAddProject: () => overlayController.show(AppOverlay.openProject),
         onSettings: () => overlayController.show(AppOverlay.settings),
         onHelp: () => overlayController.show(AppOverlay.help),
       ),
-      sidebar: Sidebar(
-        projectName: project.name,
-        projectPath:
-            '/Users/.../CodeLab/${project.name.toLowerCase().replaceAll(' ', '_')}',
-        branchName: 'master',
-        sessions: project.sessions
-            .map((s) => SidebarSession(id: s.id, title: s.title))
-            .toList(),
-        selectedSessionId: controller.selectedSession?.id,
-        onSessionSelected: (id) {
-          controller.selectSession(id);
-        },
-        onNewWorkspace: () => overlayController.show(AppOverlay.settings),
-        onEditProject: () => overlayController.show(AppOverlay.editProject),
-        onConnectProvider: () =>
-            overlayController.show(AppOverlay.selectProvider),
-      ),
+      sidebar: hasProjects
+          ? Sidebar(
+              projectName: project!.name,
+              projectPath: project.path,
+              branchName: 'master',
+              sessions: project.sessions
+                  .map((s) => SidebarSession(id: s.id, title: s.title))
+                  .toList(),
+              selectedSessionId: controller.selectedSession?.id,
+              onSessionSelected: (id) {
+                controller.selectSession(id);
+              },
+              onNewWorkspace: () => overlayController.show(AppOverlay.openProject),
+              onEditProject: () => overlayController.show(AppOverlay.editProject),
+              onConnectProvider: () =>
+                  overlayController.show(AppOverlay.selectProvider),
+            )
+          : null,
       contextPanel: ContextPanel(
         activeTab: ContextPanelTab.details,
         onTabChanged: (tab) {},
@@ -77,9 +79,62 @@ class HomeScreen extends fluent.StatelessWidget {
         isEmpty: true,
         emptyMessage: 'Выберите сессию для просмотра изменений',
       ),
-      showSidebar: !controller.sidebarCollapsed,
+      showSidebar: !controller.sidebarCollapsed && hasProjects,
       showContextPanel: controller.contextPanelVisible,
-      content: _HomeContent(project: project, colors: colors),
+      content: hasProjects
+          ? _HomeContent(project: project!, colors: colors)
+          : _EmptyWorkspace(onOpenProject: () => overlayController.show(AppOverlay.openProject)),
+    );
+  }
+}
+
+class _EmptyWorkspace extends fluent.StatelessWidget {
+  const _EmptyWorkspace({required this.onOpenProject});
+
+  final fluent.VoidCallback onOpenProject;
+
+  @override
+  fluent.Widget build(fluent.BuildContext context) {
+    final brightness = fluent.FluentTheme.of(context).brightness;
+    final colors = brightness == fluent.Brightness.light
+        ? AppColors.light
+        : AppColors.dark;
+
+    return fluent.Center(
+      child: fluent.Column(
+        mainAxisAlignment: fluent.MainAxisAlignment.center,
+        children: [
+          AppIcon.lg(AppIcons.folder, color: colors.iconMuted),
+          const fluent.SizedBox(height: AppSpacing.xl),
+          AppText.display(
+            'Добро пожаловать в CodeLab',
+            color: colors.textStrong,
+          ),
+          const fluent.SizedBox(height: AppSpacing.md),
+          AppText.subtitle(
+            'Откройте проект, чтобы начать работу',
+            color: colors.textMuted,
+          ),
+          const fluent.SizedBox(height: AppSpacing.xl),
+          fluent.GestureDetector(
+            onTap: onOpenProject,
+            child: fluent.Container(
+              height: 48,
+              padding: const fluent.EdgeInsets.symmetric(horizontal: 28),
+              decoration: fluent.BoxDecoration(
+                color: colors.accentPrimary,
+                borderRadius: AppRadius.lgAll,
+              ),
+              child: const fluent.Center(
+                child: AppText.body(
+                  'Открыть проект',
+                  color: fluent.Colors.white,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -118,7 +173,7 @@ class _HomeContent extends fluent.StatelessWidget {
                   ),
                   const fluent.SizedBox(height: AppSpacing.xl),
                   AppText.subtitle(
-                    '/Users/CodeLab/${project.name.toLowerCase().replaceAll(' ', '_')}',
+                    project.path,
                     color: colors.textMuted,
                   ),
                   const fluent.SizedBox(height: AppSpacing.lg),

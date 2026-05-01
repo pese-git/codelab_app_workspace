@@ -4,32 +4,39 @@ import 'package:codelab_ui_components/src.dart' show ContextPanelTab;
 import 'package:flutter/foundation.dart';
 
 import '../../../app/models/workspace_models.dart';
+import '../../../domain/entities/project_entity.dart';
+import '../../../domain/repositories/project_repository.dart';
+import '../../../domain/services/directory_scanner_service.dart';
 import 'terminal_controller.dart';
 
 class WorkspaceController extends ChangeNotifier {
   WorkspaceController({
-    required WorkspaceData seedWorkspace,
+    required ProjectRepository projectRepository,
+    required DirectoryScannerService directoryScanner,
     TerminalController? terminalController,
-  }) : _workspace = seedWorkspace,
+  }) : _projectRepository = projectRepository,
+       _directoryScanner = directoryScanner,
+       _workspace = WorkspaceData(
+         projects: [],
+         models: [],
+         providers: [],
+         mcps: [],
+         servers: [],
+       ),
        _terminalController = terminalController ?? TerminalController() {
-    _selectedProjectId = seedWorkspace.projects.first.id;
-    _selectedSessionId = seedWorkspace.projects.first.sessions.first.id;
-    _selectedModel = seedWorkspace.models.first;
-    _selectedProvider = seedWorkspace.providers.first;
-    _selectedMcp = seedWorkspace.mcps.first;
-    _selectedServer = seedWorkspace.servers.first;
-    for (final project in seedWorkspace.projects) {
-      for (final node in project.workspaceRoots) {
-        _primeExpanded(node);
-      }
-    }
+    _selectedModel = '';
+    _selectedProvider = '';
+    _selectedMcp = '';
+    _selectedServer = '';
   }
 
-  final WorkspaceData _workspace;
+  final ProjectRepository _projectRepository;
+  final DirectoryScannerService _directoryScanner;
+  WorkspaceData _workspace;
   final TerminalController _terminalController;
   final Set<String> _expandedNodes = <String>{};
   final Set<String> _enabledSettings = <String>{'showProgress'};
-  String _selectedProjectId = '';
+  String? _selectedProjectId;
   String? _selectedSessionId;
   SessionRegionTab _sessionTab = SessionRegionTab.files;
   ContextPanelTab _contextPanelTab = ContextPanelTab.details;
@@ -48,7 +55,7 @@ class WorkspaceController extends ChangeNotifier {
   List<String> get providers => _workspace.providers;
   List<String> get mcps => _workspace.mcps;
   List<String> get servers => _workspace.servers;
-  String get selectedProjectId => _selectedProjectId;
+  String? get selectedProjectId => _selectedProjectId;
   String? get selectedSessionId => _selectedSessionId;
   SessionRegionTab get sessionTab => _sessionTab;
   ContextPanelTab get contextPanelTab => _contextPanelTab;
@@ -61,8 +68,14 @@ class WorkspaceController extends ChangeNotifier {
   String get selectedServer => _selectedServer;
   bool isSettingEnabled(String key) => _enabledSettings.contains(key);
 
-  ProjectModel get selectedProject =>
-      projects.firstWhere((project) => project.id == _selectedProjectId);
+  ProjectModel? get selectedProject {
+    final id = _selectedProjectId;
+    if (id == null || projects.isEmpty) return null;
+    return projects.firstWhere(
+      (project) => project.id == id,
+      orElse: () => projects.first,
+    );
+  }
 
   SessionModel? get selectedSession {
     final id = _selectedSessionId;
@@ -97,12 +110,45 @@ class WorkspaceController extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> openProject(String directoryPath) async {
+    final workspaceRoots = await _directoryScanner.scanDirectory(
+      directoryPath,
+      maxDepth: 3,
+    );
+
+    final entity = ProjectEntity.fromPath(directoryPath);
+    await _projectRepository.addProject(entity);
+
+    final projectModel = entity.toProjectModel(
+      workspaceRoots: workspaceRoots,
+    );
+
+    final updatedProjects = [..._workspace.projects, projectModel];
+
+    _workspace = WorkspaceData(
+      projects: updatedProjects,
+      models: _workspace.models,
+      providers: _workspace.providers,
+      mcps: _workspace.mcps,
+      servers: _workspace.servers,
+    );
+
+    _selectedProjectId = projectModel.id;
+    _selectedSessionId = null;
+
+    for (final node in workspaceRoots) {
+      _primeExpanded(node);
+    }
+
+    notifyListeners();
+  }
+
   void selectProject(String projectId) {
     if (_selectedProjectId == projectId) return;
     _selectedProjectId = projectId;
     final project = selectedProject;
-    _selectedSessionId = project.sessions.isNotEmpty
-        ? project.sessions.first.id
+    _selectedSessionId = project?.sessions.isNotEmpty == true
+        ? project!.sessions.first.id
         : null;
     notifyListeners();
   }
@@ -113,7 +159,7 @@ class WorkspaceController extends ChangeNotifier {
     final project = projects.firstWhere(
       (candidate) =>
           candidate.sessions.any((session) => session.id == sessionId),
-      orElse: () => selectedProject,
+      orElse: () => selectedProject ?? projects.first,
     );
     _selectedProjectId = project.id;
     notifyListeners();
