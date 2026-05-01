@@ -5,7 +5,6 @@ WorkspaceData buildMockWorkspace() {
     models: const ['GPT-5.5', 'GPT-5.4', 'o4-mini'],
     providers: const ['OpenAI', 'Anthropic', 'OpenRouter'],
     mcps: const ['Filesystem', 'Figma', 'Postgres'],
-    servers: const ['Local Agent', 'Remote Team Relay', 'CI Preview'],
     projects: [
       ProjectModel(
         id: 'project-codelab',

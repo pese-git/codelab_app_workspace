@@ -23,14 +23,12 @@ class WorkspaceData {
     required this.models,
     required this.providers,
     required this.mcps,
-    required this.servers,
   });
 
   final List<ProjectModel> projects;
   final List<String> models;
   final List<String> providers;
   final List<String> mcps;
-  final List<String> servers;
 }
 
 class ProjectModel {

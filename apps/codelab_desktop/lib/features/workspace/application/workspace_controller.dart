@@ -21,13 +21,11 @@ class WorkspaceController extends ChangeNotifier {
          models: [],
          providers: [],
          mcps: [],
-         servers: [],
        ),
        _terminalController = terminalController ?? TerminalController() {
     _selectedModel = '';
     _selectedProvider = '';
     _selectedMcp = '';
-    _selectedServer = '';
   }
 
   final ProjectRepository _projectRepository;
@@ -46,7 +44,6 @@ class WorkspaceController extends ChangeNotifier {
   String _selectedModel = '';
   String _selectedProvider = '';
   String _selectedMcp = '';
-  String _selectedServer = '';
 
   WorkspaceData get workspace => _workspace;
   TerminalController get terminalController => _terminalController;
@@ -54,7 +51,6 @@ class WorkspaceController extends ChangeNotifier {
   List<String> get models => _workspace.models;
   List<String> get providers => _workspace.providers;
   List<String> get mcps => _workspace.mcps;
-  List<String> get servers => _workspace.servers;
   String? get selectedProjectId => _selectedProjectId;
   String? get selectedSessionId => _selectedSessionId;
   SessionRegionTab get sessionTab => _sessionTab;
@@ -65,7 +61,6 @@ class WorkspaceController extends ChangeNotifier {
   String get selectedModel => _selectedModel;
   String get selectedProvider => _selectedProvider;
   String get selectedMcp => _selectedMcp;
-  String get selectedServer => _selectedServer;
   bool isSettingEnabled(String key) => _enabledSettings.contains(key);
 
   ProjectModel? get selectedProject {
@@ -130,7 +125,6 @@ class WorkspaceController extends ChangeNotifier {
       models: _workspace.models,
       providers: _workspace.providers,
       mcps: _workspace.mcps,
-      servers: _workspace.servers,
     );
 
     _selectedProjectId = projectModel.id;
@@ -204,11 +198,6 @@ class WorkspaceController extends ChangeNotifier {
 
   void chooseMcp(String value) {
     _selectedMcp = value;
-    notifyListeners();
-  }
-
-  void chooseServer(String value) {
-    _selectedServer = value;
     notifyListeners();
   }
 
