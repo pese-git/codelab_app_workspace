@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:structured_log/structured_log.dart';
 
 import '../../core/error/failures.dart';
+import '../../domain/entities/connection_state.dart';
 import '../../domain/services/transport_service.dart';
 import '../dto/acp_message.dart';
 import '../transport/websocket_transport.dart';
@@ -83,6 +84,36 @@ class AcpTransportService implements TransportService {
 
   @override
   bool isInitialized() => _serverCapabilities != null;
+
+  ConnectionState get connectionState =>
+      _wsTransport?.connectionState ?? ConnectionState.disconnected;
+
+  Stream<ConnectionState> get connectionStateStream =>
+      _wsTransport?.connectionStateStream ??
+      const Stream<ConnectionState>.empty();
+
+  Future<void> reconnect() async {
+    if (_wsTransport == null) {
+      await connect();
+      return;
+    }
+
+    try {
+      await _bgLoop?.stop();
+      await _wsTransport!.reconnect();
+      _bgLoop = BackgroundReceiveLoop(
+        transport: _wsTransport!,
+        router: _router!,
+      );
+      _bgLoop!.start();
+      _log.info('AcpTransportService reconnected');
+    } catch (e) {
+      await _cleanup();
+      throw TransportFailure(
+        message: 'Failed to reconnect: $e',
+      );
+    }
+  }
 
   @override
   Future<void> send(Map<String, dynamic> message) async {

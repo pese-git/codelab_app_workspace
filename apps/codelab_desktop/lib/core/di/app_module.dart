@@ -1,5 +1,15 @@
 import 'package:cherrypick/cherrypick.dart';
 
+import '../../features/session/application/use_cases/initialize_use_case.dart';
+import '../../features/session/application/use_cases/create_session_use_case.dart';
+import '../../features/session/application/use_cases/list_sessions_use_case.dart';
+import '../../features/session/application/use_cases/load_session_use_case.dart';
+import '../../features/session/application/use_cases/cancel_session_use_case.dart';
+import '../../features/session/application/use_cases/set_session_mode_use_case.dart';
+import '../../features/session/application/use_cases/set_config_option_use_case.dart';
+import '../../features/session/application/use_cases/fork_session_use_case.dart';
+import '../../features/session/application/use_cases/resume_session_use_case.dart';
+import '../../features/project/application/use_cases/open_project_use_case.dart';
 import '../../domain/repositories/chat_history_repository.dart';
 import '../../domain/repositories/project_repository.dart';
 import '../../domain/repositories/server_repository.dart';
@@ -14,11 +24,6 @@ import '../../infrastructure/services/acp_transport_service.dart';
 import '../../infrastructure/services/native_directory_scanner.dart';
 import '../../infrastructure/services/permission_handler.dart';
 import '../../infrastructure/transport/websocket_transport.dart';
-import '../../features/session/application/use_cases/initialize_use_case.dart';
-import '../../features/session/application/use_cases/create_session_use_case.dart';
-import '../../features/session/application/use_cases/list_sessions_use_case.dart';
-import '../../features/session/application/use_cases/load_session_use_case.dart';
-import '../../features/project/application/use_cases/open_project_use_case.dart';
 
 class AppModule extends Module {
   @override
@@ -93,6 +98,41 @@ class AppModule extends Module {
           () => LoadSessionUseCase(
             transport: currentScope.resolve<TransportService>(),
             sessionRepo: currentScope.resolve<SessionRepository>(),
+          ),
+        );
+
+    bind<CancelSessionUseCase>()
+        .toProvide(
+          () => CancelSessionUseCase(
+            transport: currentScope.resolve<TransportService>(),
+          ),
+        );
+
+    bind<SetSessionModeUseCase>()
+        .toProvide(
+          () => SetSessionModeUseCase(
+            transport: currentScope.resolve<TransportService>(),
+          ),
+        );
+
+    bind<SetConfigOptionUseCase>()
+        .toProvide(
+          () => SetConfigOptionUseCase(
+            transport: currentScope.resolve<TransportService>(),
+          ),
+        );
+
+    bind<ForkSessionUseCase>()
+        .toProvide(
+          () => ForkSessionUseCase(
+            transport: currentScope.resolve<TransportService>(),
+          ),
+        );
+
+    bind<ResumeSessionUseCase>()
+        .toProvide(
+          () => ResumeSessionUseCase(
+            transport: currentScope.resolve<TransportService>(),
           ),
         );
 

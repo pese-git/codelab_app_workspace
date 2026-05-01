@@ -1,6 +1,11 @@
 import 'package:cherrypick/cherrypick.dart';
 
 import '../../features/session/application/use_cases/send_prompt_use_case.dart';
+import '../../features/session/application/use_cases/cancel_session_use_case.dart';
+import '../../features/session/application/use_cases/set_session_mode_use_case.dart';
+import '../../features/session/application/use_cases/set_config_option_use_case.dart';
+import '../../features/session/application/use_cases/fork_session_use_case.dart';
+import '../../features/session/application/use_cases/resume_session_use_case.dart';
 import '../../infrastructure/handlers/file_system_handler.dart';
 import '../../infrastructure/handlers/terminal_handler.dart';
 import '../../domain/repositories/session_repository.dart';
@@ -41,6 +46,41 @@ class SessionModule extends Module {
             sessionRepo: currentScope.resolve<SessionRepository>(),
             fsService: currentScope.resolve<FileSystemService>(),
             terminalService: currentScope.resolve<TerminalService>(),
+          ),
+        );
+
+    bind<CancelSessionUseCase>()
+        .toProvide(
+          () => CancelSessionUseCase(
+            transport: currentScope.resolve<TransportService>(),
+          ),
+        );
+
+    bind<SetSessionModeUseCase>()
+        .toProvide(
+          () => SetSessionModeUseCase(
+            transport: currentScope.resolve<TransportService>(),
+          ),
+        );
+
+    bind<SetConfigOptionUseCase>()
+        .toProvide(
+          () => SetConfigOptionUseCase(
+            transport: currentScope.resolve<TransportService>(),
+          ),
+        );
+
+    bind<ForkSessionUseCase>()
+        .toProvide(
+          () => ForkSessionUseCase(
+            transport: currentScope.resolve<TransportService>(),
+          ),
+        );
+
+    bind<ResumeSessionUseCase>()
+        .toProvide(
+          () => ResumeSessionUseCase(
+            transport: currentScope.resolve<TransportService>(),
           ),
         );
   }

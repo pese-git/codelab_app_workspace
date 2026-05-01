@@ -2,6 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'plan.dart';
 import 'tool_call.dart';
+import 'usage.dart';
 
 part 'session_update.freezed.dart';
 part 'session_update.g.dart';
@@ -95,6 +96,18 @@ abstract class AvailableCommandsUpdate with _$AvailableCommandsUpdate {
 }
 
 @freezed
+abstract class ConfigOptionUpdate with _$ConfigOptionUpdate {
+  const factory ConfigOptionUpdate({
+    @Default('config_option_update') String sessionUpdate,
+    required String key,
+    required String value,
+  }) = _ConfigOptionUpdate;
+
+  factory ConfigOptionUpdate.fromJson(Map<String, dynamic> json) =>
+      _$ConfigOptionUpdateFromJson(json);
+}
+
+@freezed
 abstract class SessionUpdatePayload with _$SessionUpdatePayload {
   const factory SessionUpdatePayload({
     required String sessionUpdate,
@@ -138,6 +151,8 @@ class SessionUpdateParser {
       'tool_call' => ToolCallCreatedUpdate.fromJson(payload.raw),
       'tool_call_update' => ToolCallStateUpdate.fromJson(payload.raw),
       'plan' => PlanUpdate.fromJson(payload.raw),
+      'usage_update' => UsageUpdate.fromJson(payload.raw),
+      'config_option_update' => ConfigOptionUpdate.fromJson(payload.raw),
       _ => null,
     };
   }

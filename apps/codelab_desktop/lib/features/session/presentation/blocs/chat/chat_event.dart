@@ -10,6 +10,8 @@ sealed class ChatEvent with _$ChatEvent {
   const factory ChatEvent.promptSubmitted({required String text}) =
       ChatPromptSubmitted;
 
+  const factory ChatEvent.promptCancelRequested() = ChatPromptCancelRequested;
+
   const factory ChatEvent.promptCancelled() = ChatPromptCancelled;
 
   const factory ChatEvent.updateReceived({

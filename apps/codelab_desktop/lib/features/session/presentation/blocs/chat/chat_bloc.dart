@@ -2,23 +2,29 @@ import 'package:bloc/bloc.dart';
 import 'package:structured_log/structured_log.dart';
 
 import '../../../application/use_cases/send_prompt_use_case.dart';
+import '../../../application/use_cases/cancel_session_use_case.dart';
 import '../../../application/dto/session_dto.dart';
 import '../../../../../domain/entities/chat_message.dart';
 import '../../../../../domain/entities/tool_call_record.dart';
 import '../../../../../infrastructure/dto/session_update.dart';
 import '../../../../../infrastructure/dto/tool_call.dart';
 import '../../../../../infrastructure/dto/plan.dart';
+import '../../../../../infrastructure/dto/usage.dart';
 import '../../../../../infrastructure/mappers/tool_call_record_mapper.dart';
 import '../../../../../infrastructure/mappers/plan_state_mapper.dart';
 import 'chat_event.dart';
 import 'chat_state.dart';
 
 class ChatBloc extends Bloc<ChatEvent, ChatState> {
-  ChatBloc({required SendPromptUseCase sendPromptUseCase})
-      : _sendPromptUseCase = sendPromptUseCase,
+  ChatBloc({
+    required SendPromptUseCase sendPromptUseCase,
+    required CancelSessionUseCase cancelSessionUseCase,
+  })  : _sendPromptUseCase = sendPromptUseCase,
+        _cancelSessionUseCase = cancelSessionUseCase,
         super(ChatState.initial('')) {
     on<ChatSessionOpened>(_onSessionOpened);
     on<ChatPromptSubmitted>(_onPromptSubmitted);
+    on<ChatPromptCancelRequested>(_onPromptCancelRequested);
     on<ChatUpdateReceived>(_onUpdateReceived);
     on<ChatPromptCancelled>(_onPromptCancelled);
     on<ChatCleared>(_onCleared);
@@ -26,6 +32,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
 
   final _log = getLogger('ChatBloc');
   final SendPromptUseCase _sendPromptUseCase;
+  final CancelSessionUseCase _cancelSessionUseCase;
   final _updateParser = SessionUpdateParser();
 
   void _onSessionOpened(
@@ -81,6 +88,31 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     );
   }
 
+  Future<void> _onPromptCancelRequested(
+    ChatPromptCancelRequested event,
+    Emitter<ChatState> emit,
+  ) async {
+    if (!state.isProcessing) return;
+
+    final result = await _cancelSessionUseCase.execute(
+      CancelSessionRequestDto(sessionId: state.sessionId),
+    );
+
+    result.fold(
+      (failure) {
+        _log.error('Cancel failed: ${failure.message}');
+        emit(state.copyWith(errorMessage: failure.message));
+      },
+      (_) {
+        _log.info('Prompt cancelled successfully');
+        emit(state.copyWith(
+          isProcessing: false,
+          streamingMessageId: null,
+        ));
+      },
+    );
+  }
+
   void _onUpdateReceived(
     ChatUpdateReceived event,
     Emitter<ChatState> emit,
@@ -100,6 +132,16 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         _handleToolCallUpdate(parsed, emit);
       case PlanUpdate():
         _handlePlanUpdate(parsed, emit);
+      case UsageUpdate():
+        _handleUsageUpdate(parsed, emit);
+      case SessionInfoUpdate():
+        _handleSessionInfoUpdate(parsed, emit);
+      case CurrentModeUpdate():
+        _handleCurrentModeUpdate(parsed, emit);
+      case AvailableCommandsUpdate():
+        _handleAvailableCommandsUpdate(parsed, emit);
+      case ConfigOptionUpdate():
+        _handleConfigOptionUpdate(parsed, emit);
       default:
         break;
     }
@@ -161,6 +203,45 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     emit(state.copyWith(
       plan: PlanStateMapper.fromUpdate(state.plan, update),
     ));
+  }
+
+  void _handleUsageUpdate(
+    UsageUpdate update,
+    Emitter<ChatState> emit,
+  ) {
+    emit(state.copyWith(usage: update.usage));
+  }
+
+  void _handleSessionInfoUpdate(
+    SessionInfoUpdate update,
+    Emitter<ChatState> emit,
+  ) {
+    emit(state.copyWith(
+      sessionTitle: update.title,
+    ));
+  }
+
+  void _handleCurrentModeUpdate(
+    CurrentModeUpdate update,
+    Emitter<ChatState> emit,
+  ) {
+    emit(state.copyWith(currentModeId: update.currentModeId));
+  }
+
+  void _handleAvailableCommandsUpdate(
+    AvailableCommandsUpdate update,
+    Emitter<ChatState> emit,
+  ) {
+    emit(state.copyWith(availableCommands: update.availableCommands));
+  }
+
+  void _handleConfigOptionUpdate(
+    ConfigOptionUpdate update,
+    Emitter<ChatState> emit,
+  ) {
+    final newOptions = Map<String, String>.from(state.configOptions);
+    newOptions[update.key] = update.value;
+    emit(state.copyWith(configOptions: newOptions));
   }
 
   void _onPromptCancelled(

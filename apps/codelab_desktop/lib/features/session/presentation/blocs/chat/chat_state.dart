@@ -3,6 +3,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../../../../domain/entities/chat_message.dart';
 import '../../../../../domain/entities/tool_call_record.dart';
 import '../../../../../domain/entities/plan_state.dart';
+import '../../../../../infrastructure/dto/usage.dart';
+import '../../../../../infrastructure/dto/session_update.dart';
 
 part 'chat_state.freezed.dart';
 
@@ -16,6 +18,11 @@ sealed class ChatState with _$ChatState {
     @Default(false) bool isProcessing,
     String? errorMessage,
     String? streamingMessageId,
+    UsageInfo? usage,
+    String? currentModeId,
+    @Default([]) List<AvailableCommand> availableCommands,
+    @Default({}) Map<String, String> configOptions,
+    String? sessionTitle,
   }) = _ChatState;
 
   factory ChatState.initial(String sessionId) =>
@@ -26,4 +33,5 @@ sealed class ChatState with _$ChatState {
   bool get hasMessages => messages.isNotEmpty;
   bool get hasToolCalls => toolCalls.isNotEmpty;
   bool get hasPlan => !plan.isEmpty;
+  bool get hasUsage => usage != null;
 }

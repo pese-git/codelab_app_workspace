@@ -1,3 +1,5 @@
+import '../entities/connection_state.dart';
+
 /// Callback типы для обработки server→client RPC вызовов
 typedef OnUpdateCallback = void Function(Map<String, dynamic> update);
 typedef FsReadCallback = Future<String> Function(String path);
@@ -61,4 +63,10 @@ abstract interface class TransportService {
 
   /// Возвращает capabilities сервера
   Map<String, dynamic> getServerCapabilities();
+
+  /// Текущее состояние соединения
+  ConnectionState get connectionState;
+
+  /// Поток изменений состояния соединения
+  Stream<ConnectionState> get connectionStateStream;
 }

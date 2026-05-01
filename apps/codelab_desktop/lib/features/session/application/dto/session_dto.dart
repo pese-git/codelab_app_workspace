@@ -98,3 +98,80 @@ abstract class SendPromptResponseDto with _$SendPromptResponseDto {
     @Default([]) List<Map<String, dynamic>> updates,
   }) = _SendPromptResponseDto;
 }
+
+@freezed
+abstract class CancelSessionRequestDto with _$CancelSessionRequestDto {
+  const factory CancelSessionRequestDto({
+    required String sessionId,
+  }) = _CancelSessionRequestDto;
+}
+
+@freezed
+abstract class CancelSessionResponseDto with _$CancelSessionResponseDto {
+  const factory CancelSessionResponseDto({
+    required String sessionId,
+  }) = _CancelSessionResponseDto;
+}
+
+@freezed
+abstract class SetSessionModeRequestDto with _$SetSessionModeRequestDto {
+  const factory SetSessionModeRequestDto({
+    required String sessionId,
+    required String modeId,
+  }) = _SetSessionModeRequestDto;
+}
+
+@freezed
+abstract class SetSessionModeResponseDto with _$SetSessionModeResponseDto {
+  const factory SetSessionModeResponseDto({
+    required String sessionId,
+    required String modeId,
+  }) = _SetSessionModeResponseDto;
+}
+
+@freezed
+abstract class SetConfigOptionRequestDto with _$SetConfigOptionRequestDto {
+  const factory SetConfigOptionRequestDto({
+    required String sessionId,
+    required String key,
+    required String value,
+  }) = _SetConfigOptionRequestDto;
+}
+
+@freezed
+abstract class SetConfigOptionResponseDto with _$SetConfigOptionResponseDto {
+  const factory SetConfigOptionResponseDto({
+    required String sessionId,
+  }) = _SetConfigOptionResponseDto;
+}
+
+@freezed
+abstract class ForkSessionRequestDto with _$ForkSessionRequestDto {
+  const factory ForkSessionRequestDto({
+    required String sessionId,
+    String? title,
+  }) = _ForkSessionRequestDto;
+}
+
+@freezed
+abstract class ForkSessionResponseDto with _$ForkSessionResponseDto {
+  const factory ForkSessionResponseDto({
+    required String sessionId,
+    required String forkedSessionId,
+  }) = _ForkSessionResponseDto;
+}
+
+@freezed
+abstract class ResumeSessionRequestDto with _$ResumeSessionRequestDto {
+  const factory ResumeSessionRequestDto({
+    required String sessionId,
+  }) = _ResumeSessionRequestDto;
+}
+
+@freezed
+abstract class ResumeSessionResponseDto with _$ResumeSessionResponseDto {
+  const factory ResumeSessionResponseDto({
+    required String sessionId,
+    @Default([]) List<Map<String, dynamic>> replayUpdates,
+  }) = _ResumeSessionResponseDto;
+}
