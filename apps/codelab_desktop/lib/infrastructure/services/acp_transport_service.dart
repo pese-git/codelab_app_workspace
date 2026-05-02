@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:structured_log/structured_log.dart';
 
@@ -25,6 +26,8 @@ class AcpTransportService implements TransportService {
   })  : _config = config,
         _permissionHandler = permissionHandler;
 
+  static const _payloadPreviewLimit = 200;
+
   final _log = getLogger('AcpTransportService');
   AcpServerConfig _config;
   final PermissionHandler _permissionHandler;
@@ -44,9 +47,15 @@ class AcpTransportService implements TransportService {
   @override
   Future<void> connect() async {
     if (isConnected()) {
-      _log.debug('Already connected');
+      _log.debug('acp_already_connected', context: {
+        'uri': _config.uri.toString(),
+      });
       return;
     }
+
+    _log.info('acp_connect_start', context: {
+      'uri': _config.uri.toString(),
+    });
 
     try {
       _queues = RoutingQueues();
@@ -60,8 +69,15 @@ class AcpTransportService implements TransportService {
       await _wsTransport!.connect();
       _bgLoop!.start();
 
-      _log.info('AcpTransportService connected to ${_config.uri}');
-    } catch (e) {
+      _log.info('acp_connected', context: {
+        'uri': _config.uri.toString(),
+      });
+    } catch (e, st) {
+      _log.error('acp_connect_failed', context: {
+        'uri': _config.uri.toString(),
+        'error': e.toString(),
+        'stack_trace': st.toString(),
+      });
       await _cleanup();
       throw TransportFailure(
         message: 'Failed to connect to ${_config.uri}: $e',
@@ -71,15 +87,27 @@ class AcpTransportService implements TransportService {
 
   @override
   Future<void> disconnect() async {
-    if (!isConnected()) return;
+    if (!isConnected()) {
+      _log.debug('acp_disconnect_not_connected');
+      return;
+    }
+
+    _log.info('acp_disconnect_start', context: {
+      'uri': _config.uri.toString(),
+    });
 
     try {
       await _bgLoop?.stop();
       await _queues?.dispose();
       await _wsTransport?.disconnect();
-      _log.info('AcpTransportService disconnected');
-    } catch (e) {
-      _log.warning('Error during disconnect: $e');
+      _log.info('acp_disconnected', context: {
+        'uri': _config.uri.toString(),
+      });
+    } catch (e, st) {
+      _log.warning('acp_disconnect_error', context: {
+        'error': e.toString(),
+        'stack_trace': st.toString(),
+      });
     } finally {
       await _cleanup();
     }
@@ -99,6 +127,10 @@ class AcpTransportService implements TransportService {
       const Stream<ConnectionState>.empty();
 
   Future<void> reconnect() async {
+    _log.info('acp_reconnect_start', context: {
+      'uri': _config.uri.toString(),
+    });
+
     if (_wsTransport == null) {
       await connect();
       return;
@@ -119,8 +151,15 @@ class AcpTransportService implements TransportService {
 
       await _wsTransport!.connect();
       _bgLoop!.start();
-      _log.info('AcpTransportService reconnected to ${_config.uri}');
-    } catch (e) {
+      _log.info('acp_reconnected', context: {
+        'uri': _config.uri.toString(),
+      });
+    } catch (e, st) {
+      _log.error('acp_reconnect_failed', context: {
+        'uri': _config.uri.toString(),
+        'error': e.toString(),
+        'stack_trace': st.toString(),
+      });
       await _cleanup();
       throw TransportFailure(
         message: 'Failed to reconnect: $e',
@@ -132,8 +171,26 @@ class AcpTransportService implements TransportService {
   Future<void> send(Map<String, dynamic> message) async {
     _assertConnected();
     try {
+      final json = jsonEncode(message);
+      _log.debug('acp_send', context: {
+        'direction': 'send',
+        'method': message['method'],
+        'id': message['id'],
+        'has_params': message.containsKey('params'),
+        'has_result': message.containsKey('result'),
+        'has_error': message.containsKey('error'),
+        'payload_size_bytes': json.length,
+        'payload_preview': _truncatePayload(json),
+      });
       await _wsTransport!.sendMessage(message);
-    } catch (e) {
+    } catch (e, st) {
+      _log.error('acp_send_failed', context: {
+        'direction': 'send',
+        'method': message['method'],
+        'id': message['id'],
+        'error': e.toString(),
+        'stack_trace': st.toString(),
+      });
       throw TransportFailure(message: 'Failed to send message: $e');
     }
   }
@@ -141,12 +198,32 @@ class AcpTransportService implements TransportService {
   @override
   Future<Map<String, dynamic>> receive({required String requestId}) async {
     _assertConnected();
+    _log.debug('acp_receive_waiting', context: {
+      'direction': 'recv',
+      'request_id': requestId,
+    });
     final responseStream = _queues!.getOrCreateResponseStream(requestId);
     try {
-      return await responseStream.first.timeout(
+      final response = await responseStream.first.timeout(
         const Duration(seconds: 300),
-        onTimeout: () => throw const TimeoutFailure(),
+        onTimeout: () {
+          _log.warning('acp_receive_timeout', context: {
+            'direction': 'recv',
+            'request_id': requestId,
+          });
+          throw const TimeoutFailure();
+        },
       );
+      final responseJson = jsonEncode(response);
+      _log.debug('acp_receive_complete', context: {
+        'direction': 'recv',
+        'request_id': requestId,
+        'has_result': response.containsKey('result'),
+        'has_error': response.containsKey('error'),
+        'payload_size_bytes': responseJson.length,
+        'payload_preview': _truncatePayload(responseJson),
+      });
+      return response;
     } finally {
       _queues?.cleanupResponseQueue(requestId);
     }
@@ -173,7 +250,20 @@ class AcpTransportService implements TransportService {
       _ => throw StateError('Expected request message'),
     };
 
-    _log.debug('requestWithCallbacks: $method, id=$requestId');
+    _log.debug('acp_request_with_callbacks_start', context: {
+      'direction': 'send',
+      'method': method,
+      'request_id': requestId,
+      'has_params': params != null,
+      'has_on_update': onUpdate != null,
+      'has_on_fs_read': onFsRead != null,
+      'has_on_fs_write': onFsWrite != null,
+      'has_on_terminal_create': onTerminalCreate != null,
+      'has_on_terminal_output': onTerminalOutput != null,
+      'has_on_terminal_wait': onTerminalWait != null,
+      'has_on_terminal_release': onTerminalRelease != null,
+      'has_on_terminal_kill': onTerminalKill != null,
+    });
 
     final responseStream = _queues!.getOrCreateResponseStream(requestId);
 
@@ -209,12 +299,29 @@ class AcpTransportService implements TransportService {
 
       final responseTimeout = responseStream.first.timeout(
         const Duration(seconds: 300),
-        onTimeout: () => throw const TimeoutFailure(),
+        onTimeout: () {
+          _log.warning('acp_request_with_callbacks_timeout', context: {
+            'direction': 'recv',
+            'method': method,
+            'request_id': requestId,
+          });
+          throw const TimeoutFailure();
+        },
       );
 
       unawaited(
         responseTimeout.then((response) {
           if (!completer.isCompleted) {
+            final responseJson = jsonEncode(response);
+            _log.debug('acp_request_with_callbacks_response', context: {
+              'direction': 'recv',
+              'method': method,
+              'request_id': requestId,
+              'has_result': response.containsKey('result'),
+              'has_error': response.containsKey('error'),
+              'payload_size_bytes': responseJson.length,
+              'payload_preview': _truncatePayload(responseJson),
+            });
             completer.complete(response);
           }
         }).catchError((Object e) {
@@ -267,6 +374,11 @@ class AcpTransportService implements TransportService {
     final rpcId = notification['id'];
 
     if (rpcMethod == 'session/update') {
+      _log.debug('acp_notification_session_update', context: {
+        'direction': 'recv',
+        'rpc_method': rpcMethod,
+        'parent_method': method,
+      });
       onUpdate?.call(notification);
       return;
     }
@@ -274,6 +386,13 @@ class AcpTransportService implements TransportService {
     if (rpcMethod == null || rpcId == null) return;
 
     final params = notification['params'] as Map<String, dynamic>? ?? {};
+
+    _log.debug('acp_notification_rpc', context: {
+      'direction': 'recv',
+      'rpc_method': rpcMethod,
+      'rpc_id': rpcId,
+      'parent_method': method,
+    });
 
     try {
       switch (rpcMethod) {
@@ -299,13 +418,23 @@ class AcpTransportService implements TransportService {
           await _handleTerminalKill(rpcId, params, onTerminalKill);
 
         default:
-          _log.warning('Unknown server→client RPC: $rpcMethod');
+          _log.warning('acp_unknown_server_rpc', context: {
+            'direction': 'recv',
+            'rpc_method': rpcMethod,
+            'rpc_id': rpcId,
+          });
           await send(
             AcpMessage.response(id: rpcId, result: {}).toJson(),
           );
       }
-    } catch (e) {
-      _log.error('Error handling $rpcMethod: $e');
+    } catch (e, st) {
+      _log.error('acp_notification_handler_error', context: {
+        'direction': 'recv',
+        'rpc_method': rpcMethod,
+        'rpc_id': rpcId,
+        'error': e.toString(),
+        'stack_trace': st.toString(),
+      });
       await send(
         AcpMessage.errorResponse(
           id: rpcId,
@@ -323,12 +452,26 @@ class AcpTransportService implements TransportService {
   ) async {
     final path = params['path'] as String?;
     if (path == null || callback == null) {
+      _log.debug('acp_fs_read_send_response', context: {
+        'direction': 'send',
+        'rpc_method': 'fs/read_text_file',
+        'rpc_id': rpcId,
+        'path': path,
+        'has_callback': callback != null,
+      });
       await send(
         AcpMessage.response(id: rpcId, result: {'content': ''}).toJson(),
       );
       return;
     }
     final content = await callback(path);
+    _log.debug('acp_fs_read_send_response', context: {
+      'direction': 'send',
+      'rpc_method': 'fs/read_text_file',
+      'rpc_id': rpcId,
+      'path': path,
+      'content_length': content.length,
+    });
     await send(
       AcpMessage.response(id: rpcId, result: {'content': content}).toJson(),
     );
@@ -344,6 +487,13 @@ class AcpTransportService implements TransportService {
     if (path != null && content != null && callback != null) {
       await callback(path, content);
     }
+    _log.debug('acp_fs_write_send_response', context: {
+      'direction': 'send',
+      'rpc_method': 'fs/write_text_file',
+      'rpc_id': rpcId,
+      'path': path,
+      'content_length': content?.length,
+    });
     await send(
       AcpMessage.response(id: rpcId, result: {}).toJson(),
     );
@@ -356,6 +506,13 @@ class AcpTransportService implements TransportService {
   ) async {
     final command = params['command'] as String?;
     if (command == null || callback == null) {
+      _log.warning('acp_terminal_create_error', context: {
+        'direction': 'send',
+        'rpc_method': 'terminal/create',
+        'rpc_id': rpcId,
+        'has_command': command != null,
+        'has_callback': callback != null,
+      });
       await send(
         AcpMessage.errorResponse(
           id: rpcId,
@@ -366,6 +523,13 @@ class AcpTransportService implements TransportService {
       return;
     }
     final terminalId = await callback(command);
+    _log.debug('acp_terminal_create_send_response', context: {
+      'direction': 'send',
+      'rpc_method': 'terminal/create',
+      'rpc_id': rpcId,
+      'command': command,
+      'terminal_id': terminalId,
+    });
     await send(
       AcpMessage.response(
         id: rpcId,
@@ -381,6 +545,13 @@ class AcpTransportService implements TransportService {
   ) async {
     final terminalId = params['terminalId'] as String?;
     if (terminalId == null || callback == null) {
+      _log.warning('acp_terminal_output_error', context: {
+        'direction': 'send',
+        'rpc_method': 'terminal/output',
+        'rpc_id': rpcId,
+        'has_terminal_id': terminalId != null,
+        'has_callback': callback != null,
+      });
       await send(
         AcpMessage.errorResponse(
           id: rpcId,
@@ -391,6 +562,13 @@ class AcpTransportService implements TransportService {
       return;
     }
     final output = await callback(terminalId);
+    _log.debug('acp_terminal_output_send_response', context: {
+      'direction': 'send',
+      'rpc_method': 'terminal/output',
+      'rpc_id': rpcId,
+      'terminal_id': terminalId,
+      'output_length': output.length,
+    });
     await send(
       AcpMessage.response(id: rpcId, result: output).toJson(),
     );
@@ -403,12 +581,25 @@ class AcpTransportService implements TransportService {
   ) async {
     final terminalId = params['terminalId'] as String?;
     if (terminalId == null || callback == null) {
+      _log.debug('acp_terminal_wait_send_response', context: {
+        'direction': 'send',
+        'rpc_method': 'terminal/wait_for_exit',
+        'rpc_id': rpcId,
+        'has_terminal_id': terminalId != null,
+        'has_callback': callback != null,
+      });
       await send(
         AcpMessage.response(id: rpcId, result: {}).toJson(),
       );
       return;
     }
     final result = await callback(terminalId);
+    _log.debug('acp_terminal_wait_send_response', context: {
+      'direction': 'send',
+      'rpc_method': 'terminal/wait_for_exit',
+      'rpc_id': rpcId,
+      'terminal_id': terminalId,
+    });
     await send(
       AcpMessage.response(id: rpcId, result: result).toJson(),
     );
@@ -423,6 +614,12 @@ class AcpTransportService implements TransportService {
     if (terminalId != null && callback != null) {
       await callback(terminalId);
     }
+    _log.debug('acp_terminal_release_send_response', context: {
+      'direction': 'send',
+      'rpc_method': 'terminal/release',
+      'rpc_id': rpcId,
+      'terminal_id': terminalId,
+    });
     await send(
       AcpMessage.response(id: rpcId, result: {}).toJson(),
     );
@@ -437,6 +634,13 @@ class AcpTransportService implements TransportService {
     final killed = (terminalId != null && callback != null)
         ? await callback(terminalId)
         : false;
+    _log.debug('acp_terminal_kill_send_response', context: {
+      'direction': 'send',
+      'rpc_method': 'terminal/kill',
+      'rpc_id': rpcId,
+      'terminal_id': terminalId,
+      'killed': killed,
+    });
     await send(
       AcpMessage.response(
         id: rpcId,
@@ -449,6 +653,11 @@ class AcpTransportService implements TransportService {
     if (!isConnected()) {
       throw const TransportFailure(message: 'Not connected to server');
     }
+  }
+
+  static String _truncatePayload(String payload) {
+    if (payload.length <= _payloadPreviewLimit) return payload;
+    return '${payload.substring(0, _payloadPreviewLimit)}...';
   }
 
   Future<void> _cleanup() async {
