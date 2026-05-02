@@ -17,7 +17,7 @@ abstract class Server with _$Server {
     required int port,
     @Default(ServerType.websocket) ServerType type,
     @Default(ServerStatus.disconnected) ServerStatus status,
-    String? path,
+    @Default('/acp/ws') String? path,
     @Default(Duration(seconds: 30)) Duration connectTimeout,
     DateTime? createdAt,
   }) = _Server;
@@ -45,7 +45,7 @@ abstract class Server with _$Server {
   }
 
   String get displayUrl {
-    final effectivePath = path ?? '/ws';
+    final effectivePath = path ?? '/acp/ws';
     return '$host:$port$effectivePath';
   }
 
@@ -54,7 +54,7 @@ abstract class Server with _$Server {
     return AcpServerConfig(
       host: host,
       port: port,
-      path: path ?? '/ws',
+      path: path ?? '/acp/ws',
       connectTimeout: connectTimeout,
       autoReconnect: true,
     );

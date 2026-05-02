@@ -68,7 +68,7 @@ class InMemoryServerRepository implements ServerRepository {
     final local = Server.create(
       name: 'Local Agent',
       host: 'localhost',
-      port: 8080,
+      port: 8765,
     );
     _servers[local.id] = local;
     _selectedId = local.id;

@@ -36,7 +36,7 @@ class InitializeUseCase {
             'terminal': true,
           },
           'clientInfo': {
-            'name': 'acp-flutter-client',
+            'name': 'CodeLab Desktop',
             'version': '1.0.0',
           },
         },
