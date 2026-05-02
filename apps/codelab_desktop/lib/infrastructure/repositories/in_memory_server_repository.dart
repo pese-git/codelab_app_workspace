@@ -1,9 +1,13 @@
+import 'dart:async';
+
 import '../../domain/entities/server.dart';
 import '../../domain/repositories/server_repository.dart';
 
 class InMemoryServerRepository implements ServerRepository {
   final Map<String, Server> _servers = {};
   String? _selectedId;
+  final StreamController<Server?> _selectedController =
+      StreamController.broadcast();
 
   InMemoryServerRepository() {
     _seedDefaultServers();
@@ -27,6 +31,9 @@ class InMemoryServerRepository implements ServerRepository {
       throw StateError('Server with id ${server.id} not found');
     }
     _servers[server.id] = server;
+    if (_selectedId == server.id) {
+      _selectedController.add(server);
+    }
     return server;
   }
 
@@ -36,6 +43,7 @@ class InMemoryServerRepository implements ServerRepository {
     if (_selectedId == id) {
       _selectedId = _servers.keys.isNotEmpty ? _servers.keys.first : null;
     }
+    _selectedController.add(getSelected());
   }
 
   @override
@@ -47,6 +55,13 @@ class InMemoryServerRepository implements ServerRepository {
       throw StateError('Server with id $id not found');
     }
     _selectedId = id;
+    _selectedController.add(getSelected());
+  }
+
+  @override
+  Stream<Server?> watchSelected() {
+    _selectedController.add(getSelected());
+    return _selectedController.stream;
   }
 
   void _seedDefaultServers() {
@@ -57,5 +72,9 @@ class InMemoryServerRepository implements ServerRepository {
     );
     _servers[local.id] = local;
     _selectedId = local.id;
+  }
+
+  Future<void> dispose() async {
+    await _selectedController.close();
   }
 }

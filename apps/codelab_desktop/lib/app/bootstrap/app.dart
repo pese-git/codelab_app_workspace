@@ -7,12 +7,10 @@ import 'package:provider/provider.dart';
 import '../../core/di/di_scope_widget.dart';
 import '../../core/di/injection.dart';
 import '../../domain/repositories/server_repository.dart';
-import '../../domain/services/transport_service.dart';
+import '../../features/server/application/server_connection_manager.dart';
 import '../../features/server/presentation/blocs/server/server_bloc.dart';
 import '../../features/server/presentation/blocs/server/server_event.dart';
 import '../../features/session/presentation/blocs/session/session_bloc.dart';
-import '../../features/session/presentation/blocs/session/session_event.dart';
-import '../../infrastructure/transport/websocket_transport.dart';
 import '../keyboard/app_shortcuts.dart';
 import '../navigation/navigation_controller.dart';
 import '../navigation/app_router.dart';
@@ -23,6 +21,7 @@ import '../../features/workspace/application/workspace_controller.dart';
 import '../../domain/repositories/project_repository.dart';
 import '../../domain/services/directory_scanner_service.dart';
 import '../connection/connection_state_manager.dart';
+import '../../domain/services/transport_service.dart';
 
 class CodeLabAppBootstrap extends StatefulWidget {
   const CodeLabAppBootstrap({super.key});
@@ -36,6 +35,7 @@ class _CodeLabAppBootstrapState extends State<CodeLabAppBootstrap> {
   late final OverlayController _overlayController;
   late final NavigationController _navigationController;
   late final ConnectionStateManager _connectionStateManager;
+  late final ServerConnectionManager _serverConnectionManager;
   late final GoRouter _router;
   late final SessionBloc _sessionBloc;
 
@@ -51,6 +51,7 @@ class _CodeLabAppBootstrapState extends State<CodeLabAppBootstrap> {
     _connectionStateManager = ConnectionStateManager(
       transport: rootScope.resolve<TransportService>(),
     );
+    _serverConnectionManager = rootScope.resolve<ServerConnectionManager>();
 
     final tempRouter = GoRouter(
       initialLocation: '/',
@@ -65,20 +66,9 @@ class _CodeLabAppBootstrapState extends State<CodeLabAppBootstrap> {
     _sessionBloc = rootScope.resolve<SessionBloc>();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _initializeAcpConnection();
+      _connectionStateManager.initialize();
+      _serverConnectionManager.initialize();
     });
-  }
-
-  void _initializeAcpConnection() {
-    final config = rootScope.resolve<AcpServerConfig>();
-    _connectionStateManager.initialize();
-
-    _sessionBloc.add(
-      SessionEvent.initialize(
-        serverHost: config.host,
-        serverPort: config.port,
-      ),
-    );
   }
 
   @override
@@ -88,6 +78,7 @@ class _CodeLabAppBootstrapState extends State<CodeLabAppBootstrap> {
     _overlayController.dispose();
     _workspaceController.dispose();
     _connectionStateManager.dispose();
+    _serverConnectionManager.dispose();
     _sessionBloc.close();
     super.dispose();
   }
@@ -96,7 +87,7 @@ class _CodeLabAppBootstrapState extends State<CodeLabAppBootstrap> {
   Widget build(BuildContext context) {
     return DiScope(
       scope: rootScope,
-        child: MultiProvider(
+      child: MultiProvider(
         providers: [
           ChangeNotifierProvider.value(value: _workspaceController),
           ChangeNotifierProvider.value(value: _overlayController),

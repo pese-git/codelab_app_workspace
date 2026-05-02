@@ -10,6 +10,7 @@ import '../../features/session/application/use_cases/set_config_option_use_case.
 import '../../features/session/application/use_cases/fork_session_use_case.dart';
 import '../../features/session/application/use_cases/resume_session_use_case.dart';
 import '../../features/session/presentation/blocs/session/session_bloc.dart';
+import '../../features/server/application/server_connection_manager.dart';
 import '../../features/project/application/use_cases/open_project_use_case.dart';
 import '../../domain/repositories/chat_history_repository.dart';
 import '../../domain/repositories/project_repository.dart';
@@ -153,6 +154,16 @@ class AppModule extends Module {
             loadSessionUseCase: currentScope.resolve<LoadSessionUseCase>(),
             listSessionsUseCase: currentScope.resolve<ListSessionsUseCase>(),
             transport: currentScope.resolve<TransportService>(),
+          ),
+        )
+        .singleton();
+
+    bind<ServerConnectionManager>()
+        .toProvide(
+          () => ServerConnectionManager(
+            serverRepository: currentScope.resolve<ServerRepository>(),
+            transport: currentScope.resolve<TransportService>(),
+            sessionBloc: currentScope.resolve<SessionBloc>(),
           ),
         )
         .singleton();

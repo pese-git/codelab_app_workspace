@@ -1,5 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../infrastructure/transport/websocket_transport.dart';
+
 part 'server.freezed.dart';
 
 enum ServerType { websocket, sse }
@@ -45,6 +47,17 @@ abstract class Server with _$Server {
   String get displayUrl {
     final effectivePath = path ?? '/ws';
     return '$host:$port$effectivePath';
+  }
+
+  /// Преобразует Server в AcpServerConfig для WebSocket транспорта
+  AcpServerConfig toAcpServerConfig() {
+    return AcpServerConfig(
+      host: host,
+      port: port,
+      path: path ?? '/ws',
+      connectTimeout: connectTimeout,
+      autoReconnect: true,
+    );
   }
 
   static String _generateId() {

@@ -8,4 +8,5 @@ abstract interface class ServerRepository {
   Future<void> delete(String id);
   Server? getSelected();
   Future<void> select(String id);
+  Stream<Server?> watchSelected();
 }

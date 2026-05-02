@@ -26,7 +26,7 @@ class AcpTransportService implements TransportService {
         _permissionHandler = permissionHandler;
 
   final _log = getLogger('AcpTransportService');
-  final AcpServerConfig _config;
+  AcpServerConfig _config;
   final PermissionHandler _permissionHandler;
 
   WebSocketTransport? _wsTransport;
@@ -34,6 +34,12 @@ class AcpTransportService implements TransportService {
   MessageRouter? _router;
   BackgroundReceiveLoop? _bgLoop;
   Map<String, dynamic>? _serverCapabilities;
+
+  /// Обновляет конфигурацию сервера (для переключения между серверами)
+  void updateConfig(AcpServerConfig newConfig) {
+    _config = newConfig;
+    _log.debug('Server config updated to ${newConfig.uri}');
+  }
 
   @override
   Future<void> connect() async {
@@ -100,13 +106,20 @@ class AcpTransportService implements TransportService {
 
     try {
       await _bgLoop?.stop();
-      await _wsTransport!.reconnect();
+      await _queues?.dispose();
+      await _wsTransport?.disconnect();
+
+      _queues = RoutingQueues();
+      _wsTransport = WebSocketTransport(config: _config);
+      _router = MessageRouter(_queues!);
       _bgLoop = BackgroundReceiveLoop(
         transport: _wsTransport!,
         router: _router!,
       );
+
+      await _wsTransport!.connect();
       _bgLoop!.start();
-      _log.info('AcpTransportService reconnected');
+      _log.info('AcpTransportService reconnected to ${_config.uri}');
     } catch (e) {
       await _cleanup();
       throw TransportFailure(

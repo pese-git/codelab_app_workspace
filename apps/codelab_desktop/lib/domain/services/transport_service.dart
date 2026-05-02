@@ -1,3 +1,5 @@
+import '../../infrastructure/transport/websocket_transport.dart'
+    show AcpServerConfig;
 import '../entities/connection_state.dart';
 
 /// Callback типы для обработки server→client RPC вызовов
@@ -69,4 +71,7 @@ abstract interface class TransportService {
 
   /// Поток изменений состояния соединения
   Stream<ConnectionState> get connectionStateStream;
+
+  /// Обновляет конфигурацию сервера (для переключения между серверами)
+  void updateConfig(AcpServerConfig config);
 }
